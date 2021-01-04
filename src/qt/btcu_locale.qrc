@@ -1,0 +1,37 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/btcu_bg.qm</file>
+        <file alias="ca">locale/btcu_ca.qm</file>
+        <file alias="cs">locale/btcu_cs.qm</file>
+        <file alias="da">locale/btcu_da.qm</file>
+        <file alias="de">locale/btcu_de.qm</file>
+        <file alias="en">locale/btcu_en.qm</file>
+        <file alias="en_GB">locale/btcu_en_GB.qm</file>
+        <file alias="en_US">locale/btcu_en_US.qm</file>
+        <file alias="eo">locale/btcu_eo.qm</file>
+        <file alias="es">locale/btcu_es.qm</file>
+        <file alias="es_ES">locale/btcu_es_ES.qm</file>
+        <file alias="fi">locale/btcu_fi.qm</file>
+        <file alias="fr_FR">locale/btcu_fr_FR.qm</file>
+        <file alias="hi_IN">locale/btcu_hi_IN.qm</file>
+        <file alias="hr">locale/btcu_hr.qm</file>
+        <file alias="hr_HR">locale/btcu_hr_HR.qm</file>
+        <file alias="it">locale/btcu_it.qm</file>
+        <file alias="ja">locale/btcu_ja.qm</file>
+        <file alias="ko_KR">locale/btcu_ko_KR.qm</file>
+        <file alias="lt_LT">locale/btcu_lt_LT.qm</file>
+        <file alias="nl">locale/btcu_nl.qm</file>
+        <file alias="pl">locale/btcu_pl.qm</file>
+        <file alias="pt">locale/btcu_pt.qm</file>
+        <file alias="pt_BR">locale/btcu_pt_BR.qm</file>
+        <file alias="ro_RO">locale/btcu_ro_RO.qm</file>
+        <file alias="ru">locale/btcu_ru.qm</file>
+        <file alias="sk">locale/btcu_sk.qm</file>
+        <file alias="sv">locale/btcu_sv.qm</file>
+        <file alias="tr">locale/btcu_tr.qm</file>
+        <file alias="uk">locale/btcu_uk.qm</file>
+        <file alias="vi">locale/btcu_vi.qm</file>
+        <file alias="zh_CN">locale/btcu_zh_CN.qm</file>
+        <file alias="zh_TW">locale/btcu_zh_TW.qm</file>
+    </qresource>
+</RCC>

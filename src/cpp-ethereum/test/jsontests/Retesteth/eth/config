@@ -1,0 +1,5 @@
+{
+	"name" : "Ethereum cpp-client",
+	"socketType" : "ipc",
+	"socketAddress" : "local"
+}

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=BTCU Core
+Comment=BTCU P2P Cryptocurrency
+Exec=btcu-qt %u
+Terminal=false
+Type=Application
+Icon=btcu128
+MimeType=x-scheme-handler/btcu;
+Categories=Office;Finance;
+StartupWMClass=Btcu-qt
+Name[en_US]=btcu-qt.desktop

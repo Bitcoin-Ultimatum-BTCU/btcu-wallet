@@ -1,0 +1,3 @@
+usr/local/bin/btcud usr/bin
+usr/local/bin/btcu-cli usr/bin
+debian/examples/btcu.conf etc/btcu

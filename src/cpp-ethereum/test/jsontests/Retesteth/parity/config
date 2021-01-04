@@ -1,0 +1,5 @@
+{
+	"name" : "Parity Client",
+	"socketType" : "ipc",
+	"socketAddress" : "local"
+}

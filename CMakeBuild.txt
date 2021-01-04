@@ -1,0 +1,12 @@
+git clone git@gitlab.com:procps-ng/procps.git
+cd procps
+./autogen.sh
+./configure --without-ncurses
+make
+sudo make install
+sudo apt-get install libgflags-dev libsnappy-dev zlib1g-dev libbz2-dev libzstd-dev
+sudo apt-get install librocksdb-dev
+
+Then build src/libff/CMakeList.txt as project
+
+After installing libs and building libff need to build main src/CMakeList.txt btcud project.

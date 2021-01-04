@@ -1,0 +1,8 @@
+/usr/bin/btcu-cli		--	gen_context(system_u:object_r:btcu_exec_t,s0)
+/usr/sbin/btcud		--	gen_context(system_u:object_r:btcu_exec_t,s0)
+/usr/lib(64)?/btcu/btcud		--	gen_context(system_u:object_r:btcu_exec_t,s0)
+
+/etc/btcu(/.*)?		gen_context(system_u:object_r:btcu_conf_t,s0)
+/var/lib/btcu(/.*)?		gen_context(system_u:object_r:btcu_var_lib_t,s0)
+
+(/var)?/run/btcud(/.*)?   gen_context(system_u:object_r:btcu_var_run_t,s0)

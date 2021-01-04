@@ -1,0 +1,6 @@
+usr/local/bin/btcu-qt usr/bin
+share/pixmaps/btcu32.xpm usr/share/pixmaps
+share/pixmaps/btcu16.xpm usr/share/pixmaps
+share/pixmaps/btcu128.png usr/share/pixmaps
+debian/btcu-qt.desktop usr/share/applications
+debian/btcu-qt.protocol usr/share/kde4/services/
