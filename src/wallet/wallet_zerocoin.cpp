@@ -86,6 +86,7 @@ std::string CWallet::MintZerocoinFromOutPoint(CAmount nValue, CWalletTx& wtxNew,
         return strError;
     }
     std::string strError = MintZerocoin(nValue, wtxNew, vDMints, coinControl);
+    coinControl->SetNull();
     delete coinControl;
     return strError;
 }

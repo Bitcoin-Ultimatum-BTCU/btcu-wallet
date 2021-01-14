@@ -20,7 +20,7 @@
 #include "utiltime.h"
 
 #include <stdarg.h>
-
+#include <regex>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 
@@ -812,4 +812,46 @@ void SetThreadPriority(int nPriority)
     setpriority(PRIO_PROCESS, 0, nPriority);
 #endif // PRIO_THREAD
 #endif // WIN32
+}
+bool CheckPassphraseRestriction(std::string pass)
+{
+    bool upper_case = false; //saves the result if upper-case characters were found.
+    bool lower_case = false; //same for lower-case
+    bool number_case = false; //...
+    bool special_char = false;
+
+
+    std::regex upper_case_expression{ "[A-Z]+" }; //here is the very simple expression for upper_case search
+    std::regex lower_case_expression{ "[a-z]+" }; //for lower-case
+    std::regex number_expression{ "[0-9]+" }; //...
+    std::regex special_char_expression{ "[@!?]+"};
+
+    bool done = false; //let's assume we're not done
+
+    do{ //do ask-for-password as long were not done
+
+        if (pass.length() <= 8){ //too short!
+            return done;
+        }
+        else{
+
+            upper_case = std::regex_search(pass, upper_case_expression); //save the result, if the expression was found.
+            lower_case = std::regex_search(pass, lower_case_expression); //....
+            number_case = std::regex_search(pass, number_expression);
+            special_char = std::regex_search(pass, special_char_expression);
+
+            //like: sum_of_positive_results = 1 + 0 + 1 + 1 (true/false as an integer)
+            int sum_of_positive_results = upper_case + lower_case + number_case + special_char;
+
+            if (sum_of_positive_results < 3){ //not enough booleans were true!
+                return done;
+            }
+            else{ //otherwise it's valid!
+                done = true;
+            }
+        }
+
+    } while (!done);
+
+    return done;
 }

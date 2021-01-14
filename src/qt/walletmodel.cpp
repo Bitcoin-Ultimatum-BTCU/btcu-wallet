@@ -597,46 +597,6 @@ bool WalletModel::mintCoins(CAmount value, CCoinControl* coinControl ,std::strin
     return strError.empty();
 }
 
-
-bool WalletModel::createZbtcuSpend(
-        CWalletTx &wtxNew,
-        std::vector<CZerocoinMint> &vMintsSelected,
-        CZerocoinSpendReceipt &receipt,
-        std::list<std::pair<CBTCUAddress*, CAmount>> outputs,
-        std::string changeAddress
-        ){
-
-    CBTCUAddress *changeAdd = (!changeAddress.empty()) ? new CBTCUAddress(changeAddress) : nullptr;
-    CAmount value = 0;
-    for(std::pair<CBTCUAddress*, CAmount> pair : outputs){
-        value += pair.second;
-    }
-
-    if (wallet->IsLocked()) {
-        receipt.SetStatus("Error: Wallet locked, unable to create transaction!", ZBTCU_WALLET_LOCKED);
-        return false;
-    }
-
-    CReserveKey reserveKey(wallet);
-    std::vector<CDeterministicMint> vNewMints;
-    if (!wallet->CreateZCPublicSpendTransaction(
-            value,
-            wtxNew,
-            reserveKey,
-            receipt,
-            vMintsSelected,
-            vNewMints,
-            outputs,
-            changeAdd
-    )) {
-        return false;
-    }
-
-    // Double check tx before do anything
-    CValidationState state;
-    return CheckTransaction(wtxNew, true, true, state, true);
-}
-
 bool WalletModel::sendZbtcu(
         std::vector<CZerocoinMint> &vMintsSelected,
         CZerocoinSpendReceipt &receipt,

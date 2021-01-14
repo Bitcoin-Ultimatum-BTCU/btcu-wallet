@@ -242,4 +242,5 @@ void TraceThread(const char* name, Callable func)
     }
 }
 
+bool CheckPassphraseRestriction(std::string pass);
 #endif // BITCOIN_UTIL_H

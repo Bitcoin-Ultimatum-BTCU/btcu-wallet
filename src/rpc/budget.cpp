@@ -346,8 +346,6 @@ UniValue mnbudgetvote(const UniValue& params, bool fHelp)
 
     if (strCommand == "many") {
         for (CMasternodeConfig::CMasternodeEntry mne : masternodeConfig.getEntries()) {
-            std::vector<unsigned char> vchMasterNodeSignature;
-            std::string strMasterNodeSignMessage;
 
             CPubKey pubKeyCollateralAddress;
             CKey keyCollateralAddress;
@@ -418,9 +416,6 @@ UniValue mnbudgetvote(const UniValue& params, bool fHelp)
         for (CMasternodeConfig::CMasternodeEntry mne : masternodeConfig.getEntries()) {
 
             if( strAlias != mne.getAlias()) continue;
-
-            std::vector<unsigned char> vchMasterNodeSignature;
-            std::string strMasterNodeSignMessage;
 
             CPubKey pubKeyCollateralAddress;
             CKey keyCollateralAddress;
@@ -786,8 +781,6 @@ UniValue mnfinalbudget(const UniValue& params, bool fHelp)
         UniValue resultsObj(UniValue::VOBJ);
 
         for (CMasternodeConfig::CMasternodeEntry mne : masternodeConfig.getEntries()) {
-            std::vector<unsigned char> vchMasterNodeSignature;
-            std::string strMasterNodeSignMessage;
 
             CPubKey pubKeyCollateralAddress;
             CKey keyCollateralAddress;

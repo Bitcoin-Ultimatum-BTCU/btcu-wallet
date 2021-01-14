@@ -182,6 +182,11 @@ void AskPassphraseDialog::accept()
             break;
         }
         hide();
+        if (!CheckPassphraseRestriction(newpass1.c_str()) || !CheckPassphraseRestriction(newpass1.c_str())) {
+            QMessageBox::critical(this, tr("Wallet encryption failed"),
+                                  tr("Error: passphrase not secure. Passphrase should contain: Upper case, lower case, number, special char and length not less than 8 symbols"));
+            break;
+        }
         bool ret = openStandardDialog(
                 tr("Confirm wallet encryption"),
                 tr("Warning: If you encrypt your wallet and lose your passphrase, you will <b>LOSE ALL OF YOUR BTCU</b>!") + "<br><br>" + tr("Are you sure you wish to encrypt your wallet?"),

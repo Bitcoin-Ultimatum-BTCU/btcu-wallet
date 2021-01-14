@@ -3589,6 +3589,7 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
     if (pwalletMain->IsCrypted())
         throw JSONRPCError(RPC_WALLET_WRONG_ENC_STATE, "Error: running with an encrypted wallet, but encryptwallet was called.");
 
+
     // TODO: get rid of this .c_str() by implementing SecureString::operator=(std::string)
     // Alternately, find a way to make params[0] mlock()'d to begin with.
     SecureString strWalletPass;
@@ -3599,6 +3600,9 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
         throw std::runtime_error(
             "encryptwallet <passphrase>\n"
             "Encrypts the wallet with <passphrase>.");
+
+    if(!CheckPassphraseRestriction(strWalletPass.c_str()))
+        throw JSONRPCError(RPC_WALLET_PASSPHRASE_NOT_SECURE, "Error: passphrase not secure. Passphrase should contain: Upper case, lower case, number, special char and length not less than 8 symbols");
 
     if (!pwalletMain->EncryptWallet(strWalletPass))
         throw JSONRPCError(RPC_WALLET_ENCRYPTION_FAILED, "Error: Failed to encrypt the wallet.");

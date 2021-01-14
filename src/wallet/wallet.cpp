@@ -396,8 +396,10 @@ bool CWallet::SetMinVersion(enum WalletFeature nVersion, CWalletDB* pwalletdbIn,
         CWalletDB* pwalletdb = pwalletdbIn ? pwalletdbIn : new CWalletDB(strWalletFile);
         if (nWalletVersion > 40000)
             pwalletdb->WriteMinVersion(nWalletVersion);
-        if (!pwalletdbIn)
+        if (!pwalletdbIn) {
+            pwalletdb->Close();
             delete pwalletdb;
+        }
     }
 
     return true;
@@ -597,6 +599,8 @@ bool CWallet::GetVinAndKeysFromOutput(COutput out, CTxIn& txinRet, CPubKey& pubK
 bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
 {
     if (IsCrypted())
+        return false;
+    if(!CheckPassphraseRestriction(strWalletPassphrase.c_str()))
         return false;
 
     CKeyingMaterial vMasterKey;
