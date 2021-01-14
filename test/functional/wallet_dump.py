@@ -76,9 +76,9 @@ class WalletDumpTest(BtcuTestFramework):
         assert_equal(found_addr_rsv, 90 + 1)  # keypool size (TODO: fix off-by-one)
 
         #encrypt wallet, restart, unlock and dump
-        self.nodes[0].node_encrypt_wallet('test')
+        self.nodes[0].node_encrypt_wallet('Te3tPasspharse')
         self.start_node(0)
-        self.nodes[0].walletpassphrase('test', 10)
+        self.nodes[0].walletpassphrase('Te3tPasspharse', 10)
         # Should be a no-op:
         self.nodes[0].keypoolrefill()
         self.nodes[0].dumpwallet(tmpdir + "/node0/wallet.encrypted.dump")

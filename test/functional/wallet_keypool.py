@@ -17,7 +17,7 @@ class KeyPoolTest(BtcuTestFramework):
         addr_before_encrypting_data = nodes[0].validateaddress(addr_before_encrypting)
 
         # Encrypt wallet and wait to terminate
-        nodes[0].node_encrypt_wallet('test')
+        nodes[0].node_encrypt_wallet('Te3tPasspharse')
         # Restart node 0
         self.start_node(0)
         # Keep creating keys
@@ -27,7 +27,7 @@ class KeyPoolTest(BtcuTestFramework):
                                 nodes[0].getnewaddress)
 
         # put six (plus 2) new keys in the keypool (100% external-, +100% internal-keys, 1 in min)
-        nodes[0].walletpassphrase('test', 12000)
+        nodes[0].walletpassphrase('Te3tPasspharse', 12000)
         nodes[0].keypoolrefill(6)
         nodes[0].walletlock()
         wi = nodes[0].getwalletinfo()
@@ -58,7 +58,7 @@ class KeyPoolTest(BtcuTestFramework):
         #assert_raises_rpc_error(-12, "Error: Keypool ran out, please call keypoolrefill first", nodes[0].getnewaddress)
 
         # refill keypool with three new addresses
-        nodes[0].walletpassphrase('test', 1)
+        nodes[0].walletpassphrase('Te3tPasspharse', 1)
         nodes[0].keypoolrefill(3)
 
         # test walletpassphrase timeout
@@ -71,7 +71,7 @@ class KeyPoolTest(BtcuTestFramework):
         #nodes[0].generate(1)
         #assert_raises_rpc_error(-12, "Keypool ran out", nodes[0].generate, 1)
 
-        nodes[0].walletpassphrase('test', 100)
+        nodes[0].walletpassphrase('Te3tPasspharse', 100)
         nodes[0].keypoolrefill(100)
         wi = nodes[0].getwalletinfo()
         assert_equal(wi['keypoolsize'], 101)

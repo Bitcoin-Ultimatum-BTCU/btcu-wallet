@@ -20,8 +20,8 @@ class WalletEncryptionTest(BtcuTestFramework):
         self.num_nodes = 1
 
     def run_test(self):
-        passphrase = "WalletPassphrase"
-        passphrase2 = "SecondWalletPassphrase"
+        passphrase = "Te3tPasspharse"
+        passphrase2 = "Te3tPasspharse2"
 
         # Make sure the wallet isn't encrypted first
         address = self.nodes[0].getnewaddress()
