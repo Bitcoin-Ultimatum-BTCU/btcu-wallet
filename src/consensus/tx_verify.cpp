@@ -108,7 +108,6 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
     }
 
     std::set<COutPoint> vInOutPoints;
-    std::set<CBigNum> vZerocoinSpendSerials;
     int nZCSpendCount = 0;
 
     for (const CTxIn& txin : tx.vin) {

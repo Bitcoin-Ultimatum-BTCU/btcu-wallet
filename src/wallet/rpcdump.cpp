@@ -113,7 +113,6 @@ UniValue importprivkey(const UniValue& params, bool fHelp)
     if (!key.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Private key outside allowed range");
 
-    std::vector<CTxOut> txOuts;
     CPubKey pubkey = key.GetPubKey();
     assert(key.VerifyPubKey(pubkey));
     CKeyID vchAddress = pubkey.GetID();
