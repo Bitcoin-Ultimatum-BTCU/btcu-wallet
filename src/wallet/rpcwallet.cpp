@@ -1922,6 +1922,9 @@ UniValue signmessage(const UniValue& params, bool fHelp)
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
+    if (!pwalletMain->IsCrypted()  && !Params().IsRegTestNet())
+        throw JSONRPCError(RPC_WALLET_WRONG_ENC_STATE, "Error: running with an not encrypted wallet. Run encryptwallet first");
+
     EnsureWalletIsUnlocked();
 
     std::string strAddress = params[0].get_str();
@@ -3588,7 +3591,6 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
         return true;
     if (pwalletMain->IsCrypted())
         throw JSONRPCError(RPC_WALLET_WRONG_ENC_STATE, "Error: running with an encrypted wallet, but encryptwallet was called.");
-
 
     // TODO: get rid of this .c_str() by implementing SecureString::operator=(std::string)
     // Alternately, find a way to make params[0] mlock()'d to begin with.

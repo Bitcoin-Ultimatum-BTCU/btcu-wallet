@@ -163,6 +163,11 @@ void SettingsSignMessageWidgets::onSignMessageButtonSMClicked(){
 
     if (!walletModel)
         return;
+    if(walletModel->getEncryptionStatus() == WalletModel::Unencrypted){
+        QMessageBox::critical(this, tr("Sign message failed"),
+                              tr("Error: Wallet not encrypted. Please set up passphrase."));
+        return;
+    }
 
     /* Clear old signature to ensure users don't get confused on error with an old signature displayed */
     ui->signatureOut_SM->clear();
@@ -184,6 +189,8 @@ void SettingsSignMessageWidgets::onSignMessageButtonSMClicked(){
 
     WalletModel::UnlockContext ctx(walletModel->requestUnlock(AskPassphraseDialog::Context::Sign_Message, true));
     if (!ctx.isValid()) {
+        QMessageBox::critical(this, tr("Access error"),
+                              tr("Error: Please unlock wallet."));
         ui->statusLabel_SM->setStyleSheet("QLabel { color: red; }");
         ui->statusLabel_SM->setText(tr("Wallet unlock was cancelled."));
         return;
