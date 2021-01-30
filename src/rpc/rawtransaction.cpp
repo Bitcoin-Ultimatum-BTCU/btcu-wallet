@@ -808,6 +808,8 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
             TxInErrorToJSON(txin, vErrors, ScriptErrorString(serror));
         }
     }
+
+    pwalletMain->Lock();
     bool fComplete = vErrors.empty();
 
     UniValue result(UniValue::VOBJ);

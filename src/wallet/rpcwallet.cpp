@@ -1647,7 +1647,7 @@ UniValue CreateLeasingTransaction(const UniValue& params, CWalletTx& wtxNew, CRe
     if (params.size() > 2 && !params[2].isNull() && !params[2].get_str().empty()) {
         // Address provided
         ownerAddr.SetString(params[2].get_str());
-        if (!ownerAddr.IsValid() || ownerAddr.IsLeasingAddress())
+        if (!ownerAddr.IsValid())
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid BTCU spending address");
         if (!ownerAddr.GetKeyID(ownerKey))
             throw JSONRPCError(RPC_WALLET_ERROR, "Unable to get spend pubkey hash from owneraddress");
@@ -1950,6 +1950,7 @@ UniValue signmessage(const UniValue& params, bool fHelp)
     if (!key.SignCompact(ss.GetHash(), vchSig))
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Sign failed");
 
+    pwalletMain->Lock();
     return EncodeBase64(&vchSig[0], vchSig.size());
 }
 
@@ -4479,9 +4480,6 @@ UniValue mintzerocoin(const UniValue& params, bool fHelp)
             HelpExampleRpc("mintzerocoin", "13, \"[{\\\"txid\\\":\\\"a08e6907dbbd3d809776dbfc5d82e371b764ed838b5655e72f463568df1aadf0\\\",\\\"vout\\\":1}]\""));
 
 
-    if (!Params().IsRegTestNet())
-        throw JSONRPCError(RPC_WALLET_ERROR, "zBTCU minting is DISABLED");
-
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
     if (params.size() == 1)
@@ -4605,7 +4603,6 @@ UniValue spendzerocoin(const UniValue& params, bool fHelp)
     std::vector<CZerocoinMint> vMintsSelected;
     return DoZbtcuSpend(nAmount, vMintsSelected, address_str);
 }
-
 
 UniValue spendzerocoinmints(const UniValue& params, bool fHelp)
 {
