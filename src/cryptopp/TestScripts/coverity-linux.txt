@@ -16,7 +16,7 @@ make distclean &>/dev/null
 # CXXFLAGS="-DNDEBUG -g3 -O2"
 
 # Testing for Issue 302 (http://github.com/weidai11/cryptopp/issues/302)
-CXXFLAGS="-DNDEBUG -g2 -O3 -march=i686 -msse -msse2 -msse3 -mssse3 -mno-aes" cov-build --dir cov-int make -j 2
+CXXFLAGS="-g2 -O3 -march=i686 -msse -msse2 -msse3 -mssse3 -mno-aes" cov-build --dir cov-int make -j 2
 
 tar czvf cryptopp.tgz cov-int
 

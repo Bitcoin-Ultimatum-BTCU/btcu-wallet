@@ -28,9 +28,9 @@ SettingsSignMessageWidgets::SettingsSignMessageWidgets(BTCUGUI* _window, QWidget
 
     this->setStyleSheet(parent->styleSheet());
 
-    // Containers
-    ui->left->setProperty("cssClass", "container");
+    ui->left->setProperty("cssClass", "container-border");
     ui->left->setContentsMargins(10,10,10,10);
+    // Containers
 
     // Title
     ui->labelTitle->setText(tr("Sign/Verify Message"));
@@ -41,8 +41,8 @@ SettingsSignMessageWidgets::SettingsSignMessageWidgets(BTCUGUI* _window, QWidget
 
     // Address
     ui->labelSubtitleAddress->setText(tr("BTCU address or contact label"));
-    ui->labelSubtitleAddress->setProperty("cssClass", "text-title");
-
+    //ui->labelSubtitleAddress->setProperty("cssClass", "text-title");
+   setCssSubtitleScreen(ui->labelSubtitleAddress);
     ui->addressIn_SM->setPlaceholderText(tr("Enter address"));
     ui->addressIn_SM->setProperty("cssClass", "edit-primary-multi-book");
     ui->addressIn_SM->setAttribute(Qt::WA_MacShowFocusRect, 0);
@@ -51,8 +51,8 @@ SettingsSignMessageWidgets::SettingsSignMessageWidgets(BTCUGUI* _window, QWidget
     /* Button Group */
     ui->pushSign->setText(tr("Sign"));
     ui->pushVerify->setText(tr("Verify"));
-    setCssProperty(ui->pushSign, "btn-check-right");
-    setCssProperty(ui->pushVerify, "btn-check-right");
+    setCssProperty(ui->pushSign, "btn-check-left");
+    setCssProperty(ui->pushVerify, "btn-check-left");
     ui->labelSubtitleSwitch->setText(tr("Select mode"));
     setCssProperty(ui->labelSubtitleSwitch, "text-subtitle");
     ui->pushSign->setChecked(true);
@@ -60,8 +60,8 @@ SettingsSignMessageWidgets::SettingsSignMessageWidgets(BTCUGUI* _window, QWidget
 
     // Message
     ui->labelSubtitleMessage->setText(tr("Message"));
-    ui->labelSubtitleMessage->setProperty("cssClass", "text-title");
-
+    //ui->labelSubtitleMessage->setProperty("cssClass", "text-title");
+   setCssSubtitleScreen(ui->labelSubtitleMessage);
 #if QT_VERSION >= 0x050300
     ui->messageIn_SM->setPlaceholderText(tr("Write message"));
 #endif
@@ -70,7 +70,8 @@ SettingsSignMessageWidgets::SettingsSignMessageWidgets(BTCUGUI* _window, QWidget
     ui->messageIn_SM->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
     ui->labelSubtitleSignature->setText(tr("Signature"));
-    ui->labelSubtitleSignature->setProperty("cssClass", "text-title");
+    //ui->labelSubtitleSignature->setProperty("cssClass", "text-title");
+   setCssSubtitleScreen(ui->labelSubtitleSignature);
     ui->signatureOut_SM->setPlaceholderText(tr("Signature"));
     ui->signatureOut_SM->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
@@ -78,7 +79,8 @@ SettingsSignMessageWidgets::SettingsSignMessageWidgets(BTCUGUI* _window, QWidget
     setShadow(ui->signatureOut_SM);
 
     // Buttons
-    btnContact = ui->addressIn_SM->addAction(QIcon("://ic-contact-arrow-down"), QLineEdit::TrailingPosition);
+    QPixmap ic("://ic-contact-arrow-down");
+    btnContact = ui->addressIn_SM->addAction(QIcon(ic), QLineEdit::TrailingPosition);
 
     ui->pushButtonSave->setText(tr("SIGN"));
     ui->pushButtonClear->setText(tr("CLEAR ALL"));
@@ -170,7 +172,9 @@ void SettingsSignMessageWidgets::onSignMessageButtonSMClicked(){
     }
 
     /* Clear old signature to ensure users don't get confused on error with an old signature displayed */
+
     ui->signatureOut_SM->clear();
+
 
     CBTCUAddress addr(ui->addressIn_SM->text().toStdString());
     if (!addr.IsValid()) {
@@ -278,12 +282,13 @@ void SettingsSignMessageWidgets::onVerifyMessage(){
 void SettingsSignMessageWidgets::onAddressesClicked(){
     int addressSize = walletModel->getAddressTableModel()->sizeRecv();
     if(addressSize == 0) {
-        inform(tr("No addresses available, you can go to the receive screen and add some there!"));
+        informError(tr("No addresses available, you can go to the receive screen and add some there!"));
         return;
     }
 
-    int height = (addressSize <= 2) ? ui->addressIn_SM->height() * ( 2 * (addressSize + 1 )) : ui->addressIn_SM->height() * 4;
-    int width = ui->containerAddress->width();
+    //int height = (addressSize <= 2) ? ui->addressIn_SM->height() * ( 2 * (addressSize + 1 )) : ui->addressIn_SM->height() * 4;
+    int height =(addressSize < 4) ? 45 * addressSize + 25 : 45 * 4 + 25;
+    int width = ui->containerAddress->width()-5;
 
     if(!menuContacts){
         menuContacts = new ContactsDropdown(
@@ -291,24 +296,28 @@ void SettingsSignMessageWidgets::onAddressesClicked(){
                 height,
                 this
         );
+       menuContacts->setGraphicsEffect(0);
         menuContacts->setWalletModel(walletModel, AddressTableModel::Receive);
         connect(menuContacts, &ContactsDropdown::contactSelected, [this](QString address, QString label){
             setAddress_SM(address);
+           btnContact->setIcon(QIcon("://ic-contact-arrow-down"));
         });
 
     }
 
     if(menuContacts->isVisible()){
         menuContacts->hide();
+        btnContact->setIcon(QIcon("://ic-contact-arrow-down"));
         return;
     }
-
+    btnContact->setIcon(QIcon("://ic-contact-arrow-up"));
     menuContacts->resizeList(width, height);
     menuContacts->setStyleSheet(this->styleSheet());
     menuContacts->adjustSize();
 
-    QPoint pos = ui->container_sign->mapToParent(ui->containerAddress->rect().bottomLeft());
-    pos.setY(pos.y() + (ui->containerAddress->height() * 1.4) - 10);
+    //QPoint pos = ui->container_sign->mapToParent(ui->containerAddress->rect().bottomLeft());
+   QPoint pos = ui->container_sign->mapToParent(ui->containerAddress->mapToParent(ui->addressIn_SM->rect().bottomLeft()));// rect().bottomLeft());
+    pos.setY(pos.y() + (ui->addressIn_SM->height()  * 0.5)+ 11);
     menuContacts->move(pos);
     menuContacts->show();
 }
@@ -318,8 +327,8 @@ void SettingsSignMessageWidgets::resizeMenu(){
         int width = ui->containerAddress->width();
         menuContacts->resizeList(width, menuContacts->height());
         menuContacts->resize(width, menuContacts->height());
-        QPoint pos = ui->container_sign->mapToParent(ui->containerAddress->rect().bottomLeft());
-        pos.setY(pos.y() + (ui->containerAddress->height() * 1.4) - 10);
+       QPoint pos = ui->container_sign->mapToParent(ui->containerAddress->mapToParent(ui->addressIn_SM->rect().bottomLeft()));// rect().bottomLeft());
+       pos.setY(pos.y() + (ui->addressIn_SM->height()  * 0.5)+ 11);
         menuContacts->move(pos);
     }
 }

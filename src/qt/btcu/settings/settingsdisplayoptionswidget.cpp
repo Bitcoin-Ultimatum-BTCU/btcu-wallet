@@ -14,16 +14,55 @@
 #include "bitcoinunits.h"
 #include "qt/btcu/qtutils.h"
 
+#include <QGraphicsDropShadowEffect>
+
 SettingsDisplayOptionsWidget::SettingsDisplayOptionsWidget(BTCUGUI* _window, QWidget *parent) :
     PWidget(_window,parent),
     ui(new Ui::SettingsDisplayOptionsWidget)
 {
     ui->setupUi(this);
 
-    this->setStyleSheet(parent->styleSheet());
+   QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect();
+   shadowEffect->setColor(QColor(0, 0, 0, 22));
+   shadowEffect->setXOffset(0);
+   shadowEffect->setYOffset(2);
+   shadowEffect->setBlurRadius(6);
 
-    // Containers
-    ui->left->setProperty("cssClass", "container");
+
+    this->setStyleSheet(parent->styleSheet());
+    pw=new QWidget(this);
+    QVBoxLayout* Layout = new QVBoxLayout(pw);
+    lw = new QListView();
+   Layout->addWidget(lw);
+   pw->setGraphicsEffect(0);
+   this->setGraphicsEffect(0);
+   lw->setGraphicsEffect(shadowEffect);
+   lw->setProperty("cssClass", "container-border-light");
+   btnBoxUnit = ui->lineEditBoxUnit->addAction(QIcon("://ic-contact-arrow-down"), QLineEdit::TrailingPosition);
+   btnUpBoxUnit = ui->lineEditBoxUnit->addAction(QIcon("://ic-contact-arrow-up"), QLineEdit::TrailingPosition);
+   ui->lineEditBoxUnit->removeAction(btnUpBoxUnit);
+   pwLanguage =new QWidget(this);
+   QVBoxLayout* LayoutLanguage = new QVBoxLayout(pwLanguage);
+   lwLanguage = new QListView();
+   LayoutLanguage->addWidget(lwLanguage);
+   pwLanguage->setGraphicsEffect(0);
+   lwLanguage->setGraphicsEffect(shadowEffect);
+   lwLanguage->setProperty("cssClass", "container-border-light");
+   btnBoxLanguage = ui->lineEditLanguage->addAction(QIcon("://ic-contact-arrow-down"), QLineEdit::TrailingPosition);
+   btnUpBoxLanguage = ui->lineEditLanguage->addAction(QIcon("://ic-contact-arrow-up"), QLineEdit::TrailingPosition);
+   ui->lineEditLanguage->removeAction(btnUpBoxLanguage);
+   pwDigits=new QWidget(this);
+   QVBoxLayout* LayoutDigits = new QVBoxLayout(pwDigits);
+   lwDigits = new QListView();
+   LayoutDigits->addWidget(lwDigits);
+   pwDigits->setGraphicsEffect(0);
+   lwDigits->setGraphicsEffect(shadowEffect);
+   lwDigits->setProperty("cssClass", "container-border-light");
+   btnBoxDigits = ui->lineEditDigits->addAction(QIcon("://ic-contact-arrow-down"), QLineEdit::TrailingPosition);
+   btnUpBoxDigits = ui->lineEditDigits->addAction(QIcon("://ic-contact-arrow-up"), QLineEdit::TrailingPosition);
+   ui->lineEditDigits->removeAction(btnUpBoxDigits);
+   // Containers
+    ui->left->setProperty("cssClass", "container-border");
     ui->left->setContentsMargins(10,10,10,10);
 
     // Title
@@ -35,16 +74,16 @@ SettingsDisplayOptionsWidget::SettingsDisplayOptionsWidget(BTCUGUI* _window, QWi
     setCssSubtitleScreen(ui->labelSubtitle1);
 
     ui->labelTitleLanguage->setText(tr("Language"));
-    ui->labelTitleLanguage->setProperty("cssClass", "text-main-settings");
+   setCssSubtitleScreen(ui->labelTitleLanguage);//->setProperty("cssClass", "text-main-settings");
 
     ui->labelTitleUnit->setText(tr("Unit to show amount"));
-    ui->labelTitleUnit->setProperty("cssClass", "text-main-settings");
+   setCssSubtitleScreen(ui->labelTitleUnit);//->setProperty("cssClass", "text-main-settings");
 
     ui->labelTitleDigits->setText(tr("Decimal digits"));
-    ui->labelTitleDigits->setProperty("cssClass", "text-main-settings");
+   setCssSubtitleScreen(ui->labelTitleDigits);//->setProperty("cssClass", "text-main-settings");
 
     ui->labelTitleUrl->setText(tr("Third party transactions URLs"));
-    ui->labelTitleUrl->setProperty("cssClass", "text-main-settings");
+   setCssSubtitleScreen(ui->labelTitleUrl);//->setProperty("cssClass", "text-main-settings");
     // TODO: Reconnect this option to an action. Hide it for now
     ui->labelTitleUrl->hide();
 
@@ -54,7 +93,11 @@ SettingsDisplayOptionsWidget::SettingsDisplayOptionsWidget(BTCUGUI* _window, QWi
     ui->pushButtonSwitchBalance->setVisible(false);
 
     // Combobox
+    setCssProperty(ui->lineEditBoxUnit, "edit-primary-multi-book");
+   setCssProperty(ui->lineEditLanguage, "edit-primary-multi-book");
+   setCssProperty(ui->lineEditDigits, "edit-primary-multi-book");
     ui->comboBoxLanguage->setProperty("cssClass", "btn-combo");
+    ui->comboBoxLanguage->setStyleSheet("border: 1px solid rgba(38, 38, 66, 0.07);");
     ui->comboBoxLanguage->setView(new QListView());
     ui->comboBoxLanguage->setEditable(true);
     QLineEdit* LanguageEdit = new QLineEdit(ui->comboBoxLanguage);
@@ -62,11 +105,16 @@ SettingsDisplayOptionsWidget::SettingsDisplayOptionsWidget(BTCUGUI* _window, QWi
     LanguageEdit->setAlignment(Qt::AlignRight);
     ui->comboBoxLanguage->setLineEdit(LanguageEdit);
 
+   ui->comboBoxLanguage->setVisible(false);
+
     ui->comboBoxUnit->setProperty("cssClass", "btn-combo");
+    ui->comboBoxUnit->setStyleSheet("border: 1px solid rgba(38, 38, 66, 0.07);");
     ui->comboBoxUnit->setView(new QListView());
     ui->comboBoxUnit->setModel(new BitcoinUnits(this));
     ui->comboBoxUnit->setModelColumn(Qt::DisplayRole);
     ui->comboBoxUnit->setEditable(true);
+    ui->comboBoxUnit->setVisible(false);
+   lw->setModel(new BitcoinUnits(this));
     QLineEdit* UnitEdit = new QLineEdit(ui->comboBoxUnit);
     UnitEdit->setReadOnly(true);
     UnitEdit->setAlignment(Qt::AlignRight);
@@ -74,19 +122,23 @@ SettingsDisplayOptionsWidget::SettingsDisplayOptionsWidget(BTCUGUI* _window, QWi
 
     ui->comboBoxDigits->setProperty("cssClass", "btn-combo-options");
 
+    ui->comboBoxDigits->setVisible(false);
     ui->comboBoxDigits->setView(new QListView());
     ui->comboBoxDigits->setEditable(true);
     QLineEdit* DigitsEdit = new QLineEdit(ui->comboBoxDigits);
     DigitsEdit->setReadOnly(true);
     DigitsEdit->setAlignment(Qt::AlignRight);
     ui->comboBoxDigits->setLineEdit(DigitsEdit);
+    ui->comboBoxDigits->setStyleSheet("border: 1px solid rgba(38, 38, 66, 0.07);");
 
     /* Number of displayed decimal digits selector */
     QString digits;
     for (int index = 2; index <= 8; index++) {
         digits.setNum(index);
         ui->comboBoxDigits->addItem(digits, digits);
+
     }
+   lwDigits->setModel(ui->comboBoxDigits->model());
 
     // Urls
     ui->lineEditUrl->setPlaceholderText("e.g. https://example.com/tx/%s");
@@ -97,14 +149,26 @@ SettingsDisplayOptionsWidget::SettingsDisplayOptionsWidget(BTCUGUI* _window, QWi
     // Buttons
     ui->pushButtonSave->setText(tr("SAVE"));
     ui->pushButtonReset->setText(tr("Reset to default"));
-    setCssBtnPrimary(ui->pushButtonSave);
-    setCssBtnSecondary(ui->pushButtonReset);
-    setCssBtnSecondary(ui->pushButtonClean);
+   setCssBtnSecondary(ui->pushButtonSave);
+   setCssBtnPrimary(ui->pushButtonReset);
+   setCssBtnPrimary(ui->pushButtonClean);
 
     initLanguages();
     connect(ui->pushButtonSave, SIGNAL(clicked()), parent, SLOT(onSaveOptionsClicked()));
     connect(ui->pushButtonReset, SIGNAL(clicked()), this, SLOT(onResetClicked()));
     connect(ui->pushButtonClean, SIGNAL(clicked()), parent, SLOT(onDiscardChanges()));
+    connect(lw, SIGNAL(clicked(QModelIndex)), this, SLOT(handleClick(QModelIndex)));
+   connect(lwLanguage, SIGNAL(clicked(QModelIndex)), this, SLOT(handleLanguageClick(QModelIndex)));
+   connect(lwDigits, SIGNAL(clicked(QModelIndex)), this, SLOT(handleDigitsClick(QModelIndex)));
+    connect(btnBoxUnit, &QAction::triggered, [this](){ onBoxUnitClicked(); });
+   connect(btnBoxLanguage, &QAction::triggered, [this](){ onBoxLanguageClicked(); });
+   connect(btnBoxDigits, &QAction::triggered, [this](){ onBoxDigitsClicked(); });
+   connect(btnUpBoxUnit, &QAction::triggered, [this](){ onBoxUnitClicked(); });
+   connect(btnUpBoxLanguage, &QAction::triggered, [this](){ onBoxLanguageClicked(); });
+   connect(btnUpBoxDigits, &QAction::triggered, [this](){ onBoxDigitsClicked(); });
+   pw->hide();
+   pwLanguage->hide();
+   pwDigits->hide();
 }
 
 void SettingsDisplayOptionsWidget::initLanguages(){
@@ -125,6 +189,7 @@ void SettingsDisplayOptionsWidget::initLanguages(){
             ui->comboBoxLanguage->addItem(locale.nativeLanguageName() + QString(" (") + langStr + QString(")"), QVariant(langStr));
         }
     }
+   lwLanguage->setModel(ui->comboBoxLanguage->model());
 }
 
 void SettingsDisplayOptionsWidget::onResetClicked() {
@@ -132,7 +197,7 @@ void SettingsDisplayOptionsWidget::onResetClicked() {
         OptionsModel *optionsModel = clientModel->getOptionsModel();
         QSettings settings;
         optionsModel->setDisplayDefaultOptions(settings, true);
-        inform(tr("Options reset succeed"));
+        informWarning(tr("Options reset succeed"));
     }
 }
 
@@ -141,14 +206,139 @@ void SettingsDisplayOptionsWidget::setMapper(QDataWidgetMapper *mapper){
     mapper->addMapping(ui->comboBoxLanguage, OptionsModel::Language);
     mapper->addMapping(ui->comboBoxUnit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->pushButtonSwitchBalance, OptionsModel::HideZeroBalances);
+    /*mapper->addMapping(lw, OptionsModel::DisplayUnit);
+    mapper->addMapping(lwLanguage, OptionsModel::Language);
+    mapper->addMapping(lwDigits, OptionsModel::Digits);*/
 }
 
 void SettingsDisplayOptionsWidget::loadClientModel(){
     if(clientModel) {
         ui->comboBoxUnit->setCurrentIndex(this->clientModel->getOptionsModel()->getDisplayUnit());
+       int index = this->clientModel->getOptionsModel()->getDisplayUnit();
+        ui->lineEditBoxUnit->setText(lw->model()->index(index,0).data(0).toString());
+        ui->lineEditLanguage->setText(this->clientModel->getOptionsModel()->getLanguage());
+        ui->lineEditDigits->setText(this->clientModel->getOptionsModel()->getDigits());
+       /*lw->selectionModel()->setCurrentIndex(lw->model()->index(index,0), QItemSelectionModel::Select);
+       lwLanguage->selectionModel()->setCurrentIndex(lwLanguage->model()->index(ui->comboBoxLanguage->currentIndex(),0), QItemSelectionModel::Select);
+       lwDigits->selectionModel()->setCurrentIndex(lwDigits->model()->index(ui->comboBoxDigits->currentIndex(),0), QItemSelectionModel::Select);*/
+
     }
 }
 
 SettingsDisplayOptionsWidget::~SettingsDisplayOptionsWidget(){
     delete ui;
+}
+
+void SettingsDisplayOptionsWidget::handleClick(const QModelIndex &index)
+{
+   ui->lineEditBoxUnit->setText(index.data(0).toString());
+   ui->comboBoxUnit->setCurrentIndex(index.row());
+   pw->hide();
+   ui->lineEditBoxUnit->addAction(btnBoxUnit, QLineEdit::TrailingPosition);
+   ui->lineEditBoxUnit->removeAction(btnUpBoxUnit);
+}
+
+
+void SettingsDisplayOptionsWidget::handleLanguageClick(const QModelIndex &index)
+{
+   ui->lineEditLanguage->setText(index.data(0).toString());
+   ui->comboBoxLanguage->setCurrentText(index.data(0).toString());
+   pwLanguage->hide();
+   ui->lineEditLanguage->addAction(btnBoxLanguage, QLineEdit::TrailingPosition);
+   ui->lineEditLanguage->removeAction(btnUpBoxLanguage);
+}
+void SettingsDisplayOptionsWidget::handleDigitsClick(const QModelIndex &index)
+{
+   ui->lineEditDigits->setText(index.data(0).toString());
+   ui->comboBoxDigits->setCurrentText(index.data(0).toString());
+   pwDigits->hide();
+   ui->lineEditDigits->addAction(btnBoxDigits, QLineEdit::TrailingPosition);
+   ui->lineEditDigits->removeAction(btnUpBoxDigits);
+}
+
+void SettingsDisplayOptionsWidget::onBoxUnitClicked()
+{
+   if(pwLanguage->isVisible()){
+      pwLanguage->hide();
+      ui->lineEditLanguage->addAction(btnBoxLanguage, QLineEdit::TrailingPosition);
+      ui->lineEditLanguage->removeAction(btnUpBoxLanguage);
+   }
+   if(pwDigits->isVisible()){
+      pwDigits->hide();
+      ui->lineEditDigits->addAction(btnBoxDigits, QLineEdit::TrailingPosition);
+      ui->lineEditDigits->removeAction(btnUpBoxDigits);
+   }
+   if(pw->isVisible()){
+      pw->hide();
+      ui->lineEditBoxUnit->addAction(btnBoxUnit, QLineEdit::TrailingPosition);
+      ui->lineEditBoxUnit->removeAction(btnUpBoxUnit);
+      return;
+   }
+   ui->lineEditBoxUnit->addAction(btnUpBoxUnit, QLineEdit::TrailingPosition);
+   ui->lineEditBoxUnit->removeAction(btnBoxUnit);
+   QPoint pos = ui->lineEditBoxUnit->pos();
+   QPoint point = ui->lineEditBoxUnit->rect().bottomRight();
+   pw->setFixedSize(ui->lineEditBoxUnit->width() + 20,140);
+   pos.setY(pos.y() + point.y() - 7);
+   pos.setX(pos.x() - 10);
+   pw->move(pos);
+   pw->show();
+}
+
+
+void SettingsDisplayOptionsWidget::onBoxLanguageClicked()
+{
+   if(pw->isVisible()){
+      pw->hide();
+      ui->lineEditBoxUnit->addAction(btnBoxUnit, QLineEdit::TrailingPosition);
+      ui->lineEditBoxUnit->removeAction(btnUpBoxUnit);
+   }
+   if(pwDigits->isVisible()){
+      pwDigits->hide();
+      ui->lineEditDigits->addAction(btnBoxDigits, QLineEdit::TrailingPosition);
+      ui->lineEditDigits->removeAction(btnUpBoxDigits);
+   }
+   if(pwLanguage->isVisible()){
+      pwLanguage->hide();
+      ui->lineEditLanguage->addAction(btnBoxLanguage, QLineEdit::TrailingPosition);
+      ui->lineEditLanguage->removeAction(btnUpBoxLanguage);
+
+      return;
+   }
+   ui->lineEditLanguage->addAction(btnUpBoxLanguage, QLineEdit::TrailingPosition);
+   ui->lineEditLanguage->removeAction(btnBoxLanguage);
+   QPoint pos = ui->lineEditLanguage->pos();
+   QPoint point = ui->lineEditLanguage->rect().bottomRight();
+   pwLanguage->setFixedSize(ui->lineEditLanguage->width() + 20,400);
+   pos.setY(pos.y() + point.y() - 7);
+   pos.setX(pos.x() - 10);
+   pwLanguage->move(pos);
+   pwLanguage->show();
+}
+void SettingsDisplayOptionsWidget::onBoxDigitsClicked()
+{
+   if(pw->isVisible()){
+      pw->hide();ui->lineEditBoxUnit->addAction(btnBoxUnit, QLineEdit::TrailingPosition);
+      ui->lineEditBoxUnit->removeAction(btnUpBoxUnit);
+   }
+   if(pwLanguage->isVisible()){
+      pwLanguage->hide();
+      ui->lineEditLanguage->addAction(btnBoxLanguage, QLineEdit::TrailingPosition);
+      ui->lineEditLanguage->removeAction(btnUpBoxLanguage);
+   }
+   if(pwDigits->isVisible()){
+      pwDigits->hide();
+      ui->lineEditDigits->addAction(btnBoxDigits, QLineEdit::TrailingPosition);
+      ui->lineEditDigits->removeAction(btnUpBoxDigits);
+      return;
+   }
+   ui->lineEditDigits->addAction(btnUpBoxDigits, QLineEdit::TrailingPosition);
+   ui->lineEditDigits->removeAction(btnBoxDigits);
+   QPoint pos = ui->lineEditDigits->pos();
+   QPoint point = ui->lineEditDigits->rect().bottomRight();
+   pwDigits->setFixedSize(ui->lineEditDigits->width() + 20,245);
+   pos.setY(pos.y() + point.y() - 7);
+   pos.setX(pos.x() - 10);
+   pwDigits->move(pos);
+   pwDigits->show();
 }

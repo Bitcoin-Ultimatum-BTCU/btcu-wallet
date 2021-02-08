@@ -45,26 +45,26 @@ AskPassphraseDialog::AskPassphraseDialog(Mode mode, QWidget* parent, WalletModel
     ui->btnEsc->setProperty("cssClass", "ic-close");
 
     ui->pushButtonOk->setText("OK");
-    ui->pushButtonOk->setProperty("cssClass", "btn-primary");
+    ui->pushButtonOk->setProperty("cssClass", "btn-secundary");
 
     initCssEditLine(ui->passEdit1);
     initCssEditLine(ui->passEdit2);
     initCssEditLine(ui->passEdit3);
 
     ui->passLabel1->setText("Current passphrase");
-    ui->passLabel1->setProperty("cssClass", "text-title");
+    ui->passLabel1->setProperty("cssClass", "text-subtitle");
 
     ui->passLabel2->setText("New passphrase");
-    ui->passLabel2->setProperty("cssClass", "text-title");
+    ui->passLabel2->setProperty("cssClass", "text-subtitle");
 
     ui->passLabel3->setText("Repeat passphrase");
-    ui->passLabel3->setProperty("cssClass", "text-title");
+    ui->passLabel3->setProperty("cssClass", "text-subtitle");
 
     ui->capsLabel->setVisible(false);
 
-    ui->passEdit1->setMinimumSize(ui->passEdit1->sizeHint());
+    /*ui->passEdit1->setMinimumSize(ui->passEdit1->sizeHint());
     ui->passEdit2->setMinimumSize(ui->passEdit2->sizeHint());
-    ui->passEdit3->setMinimumSize(ui->passEdit3->sizeHint());
+    ui->passEdit3->setMinimumSize(ui->passEdit3->sizeHint());*/
 
     ui->passEdit1->setMaxLength(MAX_PASSPHRASE_SIZE);
     ui->passEdit2->setMaxLength(MAX_PASSPHRASE_SIZE);

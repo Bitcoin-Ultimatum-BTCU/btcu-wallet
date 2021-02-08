@@ -61,7 +61,7 @@ public:
       OpCreate = 2
    };
 
-    
+
     /** Here vector is used as a wrapping object, that can be empty, if transaction doesn't contain CValidatorRegister or CValidatorVote */
     std::vector<CValidatorRegister> validatorRegister;
     std::vector<CValidatorVote> validatorVote;
@@ -157,7 +157,7 @@ public:
     bool CheckColdStake(const CScript& script) const;
     bool HasP2CSOutputs() const;
     bool HasP2LOutputs() const;
-    
+
     friend bool operator==(const CTransaction& a, const CTransaction& b)
     {
         return a.hash == b.hash;

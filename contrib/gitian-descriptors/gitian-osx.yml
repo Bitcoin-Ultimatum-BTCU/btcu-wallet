@@ -29,7 +29,7 @@ packages:
 - "python3-setuptools"
 - "fonts-tuffy"
 remotes:
-- "url": "https://github.com/bitcoin-ultimatum/btcu.git"
+- "url": "https://github.com/bitcoin-ultimatum/orion.git"
   "dir": "btcu"
 files:
 - "MacOSX10.11.sdk.tar.gz"

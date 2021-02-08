@@ -85,6 +85,10 @@ public:
     bool BatchWrite(CCoinsMap& mapCoins, const uint256& hashBlock);
     bool GetStats(CCoinsStats& stats) const;
     std::unique_ptr<CCoinsViewIterator> SeekToFirst() const override;
+    int64_t GetBTCAirdroppedSupply() const;
+
+private:
+   int64_t btcAirdroppedSupply = 0;
 };
 
 /** Access to the block database (blocks/index/) */

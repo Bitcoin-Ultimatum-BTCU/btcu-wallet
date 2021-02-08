@@ -35,13 +35,16 @@
 #include <ws2tcpip.h>
 #else
 #include <arpa/inet.h>
+#include <climits>
 #include <ifaddrs.h>
 #include <limits.h>
 #include <net/if.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <sys/fcntl.h>
 #include <sys/mman.h>
+#include <sys/select.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -51,7 +54,8 @@
 #define MSG_DONTWAIT 0
 #else
 typedef u_int SOCKET;
-#include "errno.h"
+typedef unsigned int SOCKET;
+#include <errno.h>
 #define WSAGetLastError() errno
 #define WSAEINVAL EINVAL
 #define WSAEALREADY EALREADY
@@ -73,7 +77,13 @@ typedef u_int SOCKET;
 #else
 #define MAX_PATH 1024
 #endif
-
+#ifdef _MSC_VER
+#ifdef _WIN64
+#define ssize_t int64_t
+#else
+#define ssize_t int32_t
+#endif
+#endif
 // As Solaris does not have the MSG_NOSIGNAL flag for send(2) syscall, it is defined as 0
 #if !defined(HAVE_MSG_NOSIGNAL) && !defined(MSG_NOSIGNAL)
 #define MSG_NOSIGNAL 0
@@ -91,12 +101,27 @@ typedef u_int SOCKET;
 #endif
 
 #if HAVE_DECL_STRNLEN == 0
-size_t strnlen( const char *start, size_t max_len);
+size_t strnlen(const char *start, size_t max_len);
 #endif // HAVE_DECL_STRNLEN
 
-bool static inline IsSelectableSocket(SOCKET s)
-{
-#ifdef WIN32
+#ifndef WIN32
+typedef void *sockopt_arg_type;
+#else
+typedef char *sockopt_arg_type;
+#endif
+
+// Note these both should work with the current usage of poll, but best to be
+// safe
+// WIN32 poll is broken
+// https://daniel.haxx.se/blog/2012/10/10/wsapoll-is-broken/
+// __APPLE__ poll is broke
+// https://github.com/bitcoin/bitcoin/pull/14336#issuecomment-437384408
+#if defined(__linux__)
+#define USE_POLL
+#endif
+
+static bool inline IsSelectableSocket(const SOCKET &s) {
+#if defined(USE_POLL) || defined(WIN32)
     return true;
 #else
     return (s < FD_SETSIZE);

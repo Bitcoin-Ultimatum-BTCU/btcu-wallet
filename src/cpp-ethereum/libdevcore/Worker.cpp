@@ -64,7 +64,9 @@ void Worker::startWorking()
 				}
 				catch (std::exception const& _e)
 				{
-					cwarn << "Exception thrown in Worker thread: " << _e.what();
+#ifndef WIN32
+                    cwarn << "Exception thrown in Worker thread: " << _e.what();
+#endif
 				}
 
 //				ex = WorkerState::Stopping;

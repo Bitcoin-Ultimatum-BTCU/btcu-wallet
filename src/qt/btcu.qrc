@@ -325,5 +325,26 @@
         <file alias="ic-check-leasing">btcu/res/img/ic-check-leasing.svg</file>
         <file alias="ic-check-leasing-off">btcu/res/img/ic-check-leasing-off.svg</file>
         <file alias="ic-check-leasing-enabled">btcu/res/img/ic-check-leasing-enabled.svg</file>
+        <file alias="img-empty">btcu/res/img/img-empty.svg</file>
+        <file alias="Dashboard">btcu/res/img/Dashboard.svg</file>
+        <file alias="ic-update-red">btcu/res/img/ic-update-red.svg</file>
+        <file alias="ic-copy-red">btcu/res/img/ic-copy-red.svg</file>
+        <file alias="ic-tokens">btcu/res/img/ic-tokens.svg</file>
+        <file alias="ic-drop-down">btcu/res/img/ic-drop-down.svg</file>
+        <file alias="img-tokens">btcu/res/img/img-tokens.jpg</file>
+        <file alias="ic-drop-up">btcu/res/img/ic-drop-up.svg</file>
+        <file alias="ic-combo-drop-down">btcu/res/img/ic-combo-drop-down.svg</file>
+        <file alias="img-tokens-svg">btcu/res/img/img-tokens.svg</file>
+        <file alias="ic-contact-arrow-up">btcu/res/img/ic-contact-arrow-up.svg</file>
+        <file alias="bg-faq">btcu/res/img/bg-faq.svg</file>
+        <file alias="ic-faq-down">btcu/res/img/ic-faq-down.svg</file>
+        <file alias="ic-faq-up">btcu/res/img/ic-faq-up.svg</file>
+        <file alias="ic-faq-exit">btcu/res/img/ic-faq-exit.svg</file>
+        <file alias="ic-faq-con">btcu/res/img/ic-faq-con.svg</file>
+        <file alias="bg-snackbar">btcu/res/img/bg-snackbar.svg</file>
+        <file alias="ic-close-snackbar">btcu/res/img/ic-close-snackbar.svg</file>
+        <file alias="ic-copy-red-hover">btcu/res/img/ic-copy-red-hover.svg</file>
+        <file alias="ic-label-hover">btcu/res/img/ic-label-hover.svg</file>
+        <file alias="ic-update-red-hover">btcu/res/img/ic-update-red-hover.svg</file>
     </qresource>
 </RCC>

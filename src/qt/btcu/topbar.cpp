@@ -21,38 +21,64 @@
 #include "walletmodel.h"
 #include "addresstablemodel.h"
 #include "guiinterface.h"
+#include "qt/btcu/cbtokenrow.h"
+#include "qt/btcu/cbtokenmodel.h"
 
+
+#include "addresstablemodel.h"
+#include <QStandardItem>
 
 TopBar::TopBar(BTCUGUI* _mainWindow, QWidget *parent) :
     PWidget(_mainWindow, parent),
     ui(new Ui::TopBar)
 {
     ui->setupUi(this);
-
+    showBottom();
+    init();
     // Set parent stylesheet
     this->setStyleSheet(_mainWindow->styleSheet());
     /* Containers */
-    ui->containerTop->setContentsMargins(10, 4, 10, 10);
+    this->setContentsMargins(2, 0, 2, 3);
+    //setShadow(this);
 #ifdef Q_OS_MAC
-    ui->containerTop->load("://bg-dashboard-banner");
-    setCssProperty(ui->containerTop,"container-topbar-no-image");
+    //ui->containerTop->load("://bg-dashboard-banner");
+    //setCssProperty(ui->containerTop,"container-topbar-no-image");
 #else
-    ui->containerTop->setProperty("cssClass", "container-top");
+    //ui->containerTop->setProperty("cssClass", "container-border-topbar");
+
+    //this->setProperty("cssClass", "container-border");
+    //ui->containerTop->setVisible(false);
+    ui->top_container_2->setProperty("cssClass", "container-top");
 #endif
 
-    std::initializer_list<QWidget*> lblTitles = {ui->labelTitle1, ui->labelTitle2, ui->labelTitle3, ui->labelTitle4, ui->labelTitle5, ui->labelTitle6};
+    std::initializer_list<QWidget*> lblTitles = {ui->labelTitle1,  ui->labelTitle3, ui->labelTitle4, ui->labelTitle5, ui->labelTitle6,
+                                                 ui->labelPendingPiv, ui->labelLeasing, ui->labelImmaturePiv, ui->labelImmaturezPiv};
     setCssProperty(lblTitles, "text-title-topbar");
     QFont font;
     font.setWeight(QFont::Light);
     Q_FOREACH (QWidget* w, lblTitles) { w->setFont(font); }
 
     // Amount information top
-    ui->widgetTopAmount->setVisible(false);
-    setCssProperty({ui->labelAmountTopPiv, ui->labelAmountTopzPiv}, "amount-small-topbar");
-    setCssProperty({ui->labelAmountPiv, ui->labelAmountzPiv}, "amount-topbar");
-    setCssProperty({ui->labelPendingPiv, ui->labelPendingzPiv, ui->labelImmaturePiv, ui->labelImmaturezPiv}, "amount-small-topbar");
+    //ui->widgetTopAmount->setVisible(false);
+    //setCssProperty({ui->labelAmountTopPiv, ui->labelAmountTopzPiv}, "amount-small-topbar");
+    //setCssProperty({ui->labelAmountPiv/*, ui->labelAmountzPiv*/}, "amount-topbar");
+    setCssProperty({ui->labelAmountPiv}, "amount-small-topbar");
 
-    // Progress Sync
+
+
+
+   //ui->lineEditTocens->setPlaceholderText(tr("My tocens"));
+   ui->lineEditTocens->setGraphicsEffect(nullptr);
+   ui->lineEditTocens->setText(tr("My Tokens"));
+   btnOwnerTocen = ui->lineEditTocens->addAction(QIcon("://ic-contact-arrow-down"), QLineEdit::TrailingPosition);
+   ui->lineEditTocens->installEventFilter(this);
+
+   setCssProperty(ui->lineEditTocens, "edit-primary-multi-book");
+   //ui->lineEditOwnerAddress->setAttribute(Qt::WA_MacShowFocusRect, 0);
+   setShadow(ui->lineEditTocens);
+   connect(btnOwnerTocen, &QAction::triggered, [this](){ onTocensClicked(); });
+   ui->lineEditTocens->setReadOnly(true);
+   // Progress Sync
     progressBar = new QProgressBar(ui->layoutSync);
     progressBar->setRange(1, 10);
     progressBar->setValue(4);
@@ -66,51 +92,55 @@ TopBar::TopBar(BTCUGUI* _mainWindow, QWidget *parent) :
 
     // New button
     ui->pushButtonFAQ->setButtonClassStyle("cssClass", "btn-check-faq");
-    ui->pushButtonFAQ->setButtonText("FAQ");
+    ui->pushButtonFAQ->setButtonText(tr("FAQ"));
 
     ui->pushButtonConnection->setButtonClassStyle("cssClass", "btn-check-connect-inactive");
-    ui->pushButtonConnection->setButtonText("No Connection");
+    ui->pushButtonConnection->setButtonText(tr("No Connection"));
 
     ui->pushButtonStack->setButtonClassStyle("cssClass", "btn-check-stack-inactive");
-    ui->pushButtonStack->setButtonText("Staking Disabled");
+    ui->pushButtonStack->setButtonText(tr("Staking Disabled"));
+    ui->pushButtonStack->setVisible(false);
 
     ui->pushButtonColdStaking->setButtonClassStyle("cssClass", "btn-check-cold-staking-inactive");
-    ui->pushButtonColdStaking->setButtonText("Cold Staking Disabled");
+    ui->pushButtonColdStaking->setButtonText(tr("Cold Staking Disabled"));
+    ui->pushButtonColdStaking->setVisible(false);
 
     ui->pushButtonLeasing->setButtonClassStyle("cssClass", "btn-check-leasing-inactive");
-    ui->pushButtonLeasing->setButtonText("Leasing Disabled");
+    ui->pushButtonLeasing->setButtonText(tr("Leasing Disabled"));
+   ui->pushButtonLeasing->setVisible(false);
 
     ui->pushButtonSync->setButtonClassStyle("cssClass", "btn-check-sync");
-    ui->pushButtonSync->setButtonText(" %54 Synchronizing..");
+    ui->pushButtonSync->setButtonText(tr(" %54 Synchronizing.."));
 
     ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-lock");
 
     if(isLightTheme()){
         ui->pushButtonTheme->setButtonClassStyle("cssClass", "btn-check-theme-light");
-        ui->pushButtonTheme->setButtonText("Light Theme");
+        ui->pushButtonTheme->setButtonText(tr("Light Theme"));
     }else{
         ui->pushButtonTheme->setButtonClassStyle("cssClass", "btn-check-theme-dark");
-        ui->pushButtonTheme->setButtonText("Dark Theme");
+        ui->pushButtonTheme->setButtonText(tr("Dark Theme"));
     }
+   ui->pushButtonTheme->setVisible(false);
 
-    setCssProperty(ui->qrContainer, "container-qr");
-    setCssProperty(ui->pushButtonQR, "btn-qr");
+    //setCssProperty(ui->qrContainer, "container-qr");
+    //setCssProperty(ui->pushButtonQR, "btn-qr");
 
     // QR image
-    QPixmap pixmap("://img-qr-test");
-    ui->btnQr->setIcon(
+    //QPixmap pixmap("://img-qr-test");
+    /*ui->btnQr->setIcon(
                 QIcon(pixmap.scaled(
                          70,
                          70,
                          Qt::KeepAspectRatio))
-                );
+                );*/
 
-    ui->pushButtonLock->setButtonText("Wallet Locked  ");
+    ui->pushButtonLock->setButtonText(tr("Wallet Locked  "));
     ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-lock");
 
 
-    connect(ui->pushButtonQR, SIGNAL(clicked()), this, SLOT(onBtnReceiveClicked()));
-    connect(ui->btnQr, SIGNAL(clicked()), this, SLOT(onBtnReceiveClicked()));
+    //connect(ui->pushButtonQR, SIGNAL(clicked()), this, SLOT(onBtnReceiveClicked()));
+    //connect(ui->btnQr, SIGNAL(clicked()), this, SLOT(onBtnReceiveClicked()));
     connect(ui->pushButtonLock, SIGNAL(Mouse_Pressed()), this, SLOT(onBtnLockClicked()));
     connect(ui->pushButtonTheme, SIGNAL(Mouse_Pressed()), this, SLOT(onThemeClicked()));
     connect(ui->pushButtonFAQ, SIGNAL(Mouse_Pressed()), _mainWindow, SLOT(openFAQ()));
@@ -118,6 +148,8 @@ TopBar::TopBar(BTCUGUI* _mainWindow, QWidget *parent) :
     connect(ui->pushButtonLeasing, SIGNAL(Mouse_Pressed()), this, SLOT(onLeasingClicked()));
     connect(ui->pushButtonSync, &ExpandableButton::Mouse_HoverLeave, this, &TopBar::refreshProgressBarSize);
     connect(ui->pushButtonSync, &ExpandableButton::Mouse_Hover, this, &TopBar::refreshProgressBarSize);
+    //connect(ui->comboBoxTokens, SIGNAL(currentIndexChanged(int)), this, SLOT(ChangedTokens(int)));
+    connect(this, SIGNAL(SaveOptionsTokens()), parent, SLOT(onSaveOptionsClicked()));
 }
 
 void TopBar::onThemeClicked(){
@@ -128,10 +160,10 @@ void TopBar::onThemeClicked(){
 
     if(lightTheme){
         ui->pushButtonTheme->setButtonClassStyle("cssClass", "btn-check-theme-light",  true);
-        ui->pushButtonTheme->setButtonText("Light Theme");
+        ui->pushButtonTheme->setButtonText(tr("Light Theme"));
     }else{
         ui->pushButtonTheme->setButtonClassStyle("cssClass", "btn-check-theme-dark", true);
-        ui->pushButtonTheme->setButtonText("Dark Theme");
+        ui->pushButtonTheme->setButtonText(tr("Dark Theme"));
     }
     updateStyle(ui->pushButtonTheme);
 
@@ -206,7 +238,7 @@ void TopBar::lockDropdownClicked(const StateClicked& state){
                 if (walletModel->getEncryptionStatus() == WalletModel::Locked)
                     break;
                 walletModel->setWalletLocked(true);
-                ui->pushButtonLock->setButtonText("Wallet Locked");
+                ui->pushButtonLock->setButtonText(tr("Wallet Locked"));
                 ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-lock", true);
                 // Directly update the staking status icon when the wallet is manually locked here
                 // so the feedback is instant (no need to wait for the polling timeout)
@@ -222,7 +254,7 @@ void TopBar::lockDropdownClicked(const StateClicked& state){
                 dlg->adjustSize();
                 openDialogWithOpaqueBackgroundY(dlg, window);
                 if (walletModel->getEncryptionStatus() == WalletModel::Unlocked) {
-                    ui->pushButtonLock->setButtonText("Wallet Unlocked");
+                    ui->pushButtonLock->setButtonText(tr("Wallet Unlocked"));
                     ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-unlock", true);
                 }
                 dlg->deleteLater();
@@ -287,18 +319,26 @@ void TopBar::onBtnReceiveClicked(){
 }
 
 void TopBar::showTop(){
-    if(ui->bottom_container->isVisible()){
+    /*if(ui->bottom_container->isVisible()){
         ui->bottom_container->setVisible(false);
         ui->widgetTopAmount->setVisible(true);
         this->setFixedHeight(75);
-    }
+    }*/
+   /*if(ui->bottom_container->isVisible()){
+      //ui->bottom_container->setVisible(false);
+      ui->widgetTopAmount->setVisible(false);
+      this->setFixedHeight(100);
+   }*/
+   //this->setFixedHeight(100);
+   //this->adjustSize();
 }
 
 void TopBar::showBottom(){
-    ui->widgetTopAmount->setVisible(false);
+    ui->widgetTopAmount->setVisible(true);
     ui->bottom_container->setVisible(true);
-    this->setFixedHeight(200);
-    this->adjustSize();
+    //ui->qrContainer->setVisible(false);
+    //this->setFixedHeight(100);
+    //this->adjustSize();
 }
 
 void TopBar::onColdStakingClicked() {
@@ -312,14 +352,14 @@ void TopBar::onColdStakingClicked() {
     QString text;
 
     if (isColdStakingEnabled) {
-        text = "Cold Staking Active";
+        text = tr("Cold Staking Active");
         className = (show) ? "btn-check-cold-staking-checked" : "btn-check-cold-staking-unchecked";
     } else if (show) {
         className = "btn-check-cold-staking";
-        text = "Cold Staking Enabled";
+        text = tr("Cold Staking Enabled");
     } else {
         className = "btn-check-cold-staking-inactive";
-        text = "Cold Staking Disabled";
+        text = tr("Cold Staking Disabled");
     }
 
     ui->pushButtonColdStaking->setButtonClassStyle("cssClass", className, true);
@@ -340,14 +380,14 @@ void TopBar::onLeasingClicked() {
     QString text;
 
     if (isLeasingEnabled) {
-        text = "Leasing Active";
+        text = tr("Leasing Active");
         className = (show) ? "btn-check-leasing-checked" : "btn-check-leasing-unchecked";
     } else if (show) {
         className = "btn-check-leasing";
-        text = "Leasing Enabled";
+        text = tr("Leasing Enabled");
     } else {
         className = "btn-check-leasing-inactive";
-        text = "Leasing Disabled";
+        text = tr("Leasing Disabled");
     }
 
     ui->pushButtonLeasing->setButtonClassStyle("cssClass", className, true);
@@ -413,6 +453,8 @@ void TopBar::setNumConnections(int count) {
 }
 
 void TopBar::setNumBlocks(int count) {
+// TODO: Disabling macOS App Nap on initial sync, disk and reindex operations.
+
     if (!clientModel)
         return;
 
@@ -508,6 +550,9 @@ void TopBar::loadWalletModel(){
             SLOT(updateBalances(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
     connect(walletModel->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
     connect(walletModel, &WalletModel::encryptionStatusChanged, this, &TopBar::refreshStatus);
+
+    leasingModel.reset(new LeasingModel(walletModel->getAddressTableModel(), this));
+
     // update the display unit, to not use the default ("BTCU")
     updateDisplayUnit();
 
@@ -527,19 +572,19 @@ void TopBar::refreshStatus(){
 
     switch (encStatus){
         case WalletModel::EncryptionStatus::Unencrypted:
-            ui->pushButtonLock->setButtonText("Wallet Unencrypted");
+            ui->pushButtonLock->setButtonText(tr("Wallet Unencrypted"));
             ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-unlock", true);
             break;
         case WalletModel::EncryptionStatus::Locked:
-            ui->pushButtonLock->setButtonText("Wallet Locked");
+            ui->pushButtonLock->setButtonText(tr("Wallet Locked"));
             ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-lock", true);
             break;
         case WalletModel::EncryptionStatus::UnlockedForAnonymizationOnly:
-            ui->pushButtonLock->setButtonText("Wallet Unlocked for staking");
+            ui->pushButtonLock->setButtonText(tr("Wallet Unlocked for staking"));
             ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-staking", true);
             break;
         case WalletModel::EncryptionStatus::Unlocked:
-            ui->pushButtonLock->setButtonText("Wallet Unlocked");
+            ui->pushButtonLock->setButtonText(tr("Wallet Unlocked"));
             ui->pushButtonLock->setButtonClassStyle("cssClass", "btn-check-status-unlock", true);
             break;
     }
@@ -552,10 +597,16 @@ void TopBar::updateDisplayUnit()
         int displayUnitPrev = nDisplayUnit;
         nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
         if (displayUnitPrev != nDisplayUnit)
-            updateBalances(walletModel->getBalance(), walletModel->getUnconfirmedBalance(), walletModel->getImmatureBalance(),
-                           walletModel->getZerocoinBalance(), walletModel->getUnconfirmedZerocoinBalance(), walletModel->getImmatureZerocoinBalance(),
-                           walletModel->getWatchBalance(), walletModel->getWatchUnconfirmedBalance(), walletModel->getWatchImmatureBalance(),
-                           walletModel->getDelegatedBalance(), walletModel->getColdStakedBalance());
+        {
+           updateBalances(walletModel->getBalance(), walletModel->getUnconfirmedBalance(),
+                          walletModel->getImmatureBalance(), walletModel->getZerocoinBalance(),
+                          leasingModel->getTotalAmount()/*walletModel->getUnconfirmedZerocoinBalance()*/, walletModel->getImmatureZerocoinBalance(),
+                          walletModel->getWatchBalance(), walletModel->getWatchUnconfirmedBalance(),
+                          walletModel->getWatchImmatureBalance(), walletModel->getDelegatedBalance(),
+                          walletModel->getColdStakedBalance());
+           //ui->comboBoxTokens->setCurrentIndex(nDisplayUnit);
+
+        }
     }
 }
 
@@ -580,15 +631,15 @@ void TopBar::updateBalances(const CAmount& balance, const CAmount& unconfirmedBa
     QString totalPiv = GUIUtil::formatBalance(btcuAvailableBalance, nDisplayUnit);
     QString totalzPiv = GUIUtil::formatBalance(matureZerocoinBalance, nDisplayUnit, true);
     // Top
-    ui->labelAmountTopPiv->setText(totalPiv);
-    ui->labelAmountTopzPiv->setText(totalzPiv);
+    //ui->labelAmountTopPiv->setText(totalPiv);
+    //ui->labelAmountTopzPiv->setText(totalzPiv);
 
     // Expanded
     ui->labelAmountPiv->setText(totalPiv);
-    ui->labelAmountzPiv->setText(totalzPiv);
+    //ui->labelAmountzPiv->setText(totalzPiv);
 
     ui->labelPendingPiv->setText(GUIUtil::formatBalance(unconfirmedBalance, nDisplayUnit));
-    ui->labelPendingzPiv->setText(GUIUtil::formatBalance(unconfirmedZerocoinBalance, nDisplayUnit, true));
+    ui->labelLeasing->setText(GUIUtil::formatBalance(leasingModel->getTotalAmount()/*unconfirmedZerocoinBalance*/, nDisplayUnit, true));
 
     ui->labelImmaturePiv->setText(GUIUtil::formatBalance(immatureBalance, nDisplayUnit));
     ui->labelImmaturezPiv->setText(GUIUtil::formatBalance(immatureZerocoinBalance, nDisplayUnit, true));
@@ -609,4 +660,138 @@ void TopBar::expandSync() {
         progressBar->setFixedWidth(ui->pushButtonSync->width());
         progressBar->setMinimumWidth(ui->pushButtonSync->width() - 2);
     }
+}
+
+void TopBar::init()
+{
+   /*CBTokenRow * cbRow = new CBTokenRow();
+   cbRow->setText("Afiikiticate (AUC)", "0.32313");
+   CBTokenRow * cbRow1 = new CBTokenRow();
+   cbRow1->setText("Afiikiticate1 (AUC)", "0.32313");
+   CBTokenModel *CBModel = new CBTokenModel();
+   CBModel->AddRow(cbRow);
+   CBModel->AddRow(cbRow1);
+   QPoint pos = ui->lineEditTocens->pos();
+   CbTocenDropdown * cbtd = new CbTocenDropdown(310,300, this);
+   cbtd->setTokenModel(CBModel,"");
+   cbtd->move(pos);*/
+
+}
+
+
+void TopBar::onTocensClicked()
+{
+   int height;
+   int width;
+   QPoint pos;
+
+   height = ui->lineEditTocens->height();
+   width = ui->lineEditTocens->width();
+   pos = ui->lineEditTocens->pos();
+   pos.setY(pos.y() + height + 10);
+   pos.setX(pos.x() + ui->lineEditTocens->rect().bottomRight().x() + 110 - width);
+
+
+   if(!menuTocen){
+      menuTocen = new CbTocenDropdown(
+      width,
+      height,
+      window
+      );
+
+      CBTokenRow * cbRow = new CBTokenRow();
+      cbRow->setText("Afiikiticate (AUC)", "0.32313");
+      CBTokenRow * cbRow2 = new CBTokenRow();
+      cbRow2->setText("Afiikiticate2 (AUC)", "0.32313");
+      CBTokenRow * cbRow3 = new CBTokenRow();
+      cbRow3->setText("Afiikiticate3 (AUC)", "0.32313");
+      CBTokenRow * cbRow4 = new CBTokenRow();
+      cbRow4->setText("Afiikiticate4 (AUC)", "0.32313");
+      CBTokenRow * cbRow5 = new CBTokenRow();
+      cbRow5->setText("Afiikiticate5 (AUC)", "0.32313");
+      CBTokenRow * cbRow1 = new CBTokenRow();
+      cbRow1->setText("Afiikiticate1 (AUC)", "0.32313");
+      CBModel = new CBTokenModel();
+      CBModel->AddRow(cbRow);
+      CBModel->AddRow(cbRow1);
+      CBModel->AddRow(cbRow2);
+      /*CBModel->AddRow(cbRow3);
+      CBModel->AddRow(cbRow4);
+      CBModel->AddRow(cbRow5);*/
+      menuTocen->setTokenModel(CBModel,"");
+      connect(menuTocen, &CbTocenDropdown::contactSelected, [this](QString Tocen,  QPixmap pixmap){
+         ui->lineEditTocens->setText(Tocen);
+         btnOwnerTocen->setIcon(QIcon("://ic-contact-arrow-down"));
+         //QPixmap p =pixmap.scaled(13, 13,Qt::KeepAspectRatioByExpanding);
+         if(!icoTocen)
+         {
+            icoTocen = ui->lineEditTocens->addAction(QIcon("://img-tokens-svg"), QLineEdit::LeadingPosition);
+            ui->lineEditTocens->setStyleSheet("padding-left: 0px;");
+         }else
+         {
+            icoTocen->setIcon(QIcon("://img-tokens-svg"));
+         }
+      });
+      connect(menuTocen, &CbTocenDropdown::TimerHide, [this](){
+         hideMenuTocen();
+      });
+   }
+
+   if(menuTocen->isVisible()){
+      menuTocen->hide();
+      btnOwnerTocen->setIcon(QIcon("://ic-contact-arrow-down"));
+      return;
+   }
+   btnOwnerTocen->setIcon(QIcon("://ic-contact-arrow-up"));
+   int Count = CBModel->rowCount();
+   height = Count < 5 ? 25 + (Count * 30) : 25 + 5* 30;
+
+   menuTocen->resizeList(width, height);
+   menuTocen->setStyleSheet(styleSheet());
+   menuTocen->adjustSize();
+   menuTocen->move(pos);
+   menuTocen->show();
+
+}
+
+void TopBar::ChangedTokens(int current)
+{
+   if (walletModel && walletModel->getOptionsModel())
+   {
+      if(current != walletModel->getOptionsModel()->getDisplayUnit())
+      {
+         walletModel->getOptionsModel()->setDisplayUnit(current);
+         SaveOptionsTokens();
+
+      }
+   }
+
+}
+
+bool TopBar::eventFilter(QObject *obj, QEvent *event)
+{
+   QEvent::Type type = event->type();
+   if (obj ==  ui->lineEditTocens) {
+      if  (type == QEvent::HoverLeave) {
+         QTimer::singleShot(100, this, SLOT(hideMenuTocen()));
+      } else if (type == QEvent::HoverEnter)
+      {
+         if(!menuTocen || !menuTocen->isVisible()) onTocensClicked();
+      }
+   }/*else if(menuTocen && menuTocen->isVisible() && obj ==  menuTocen)
+   {
+      if  (type == QEvent::HoverLeave) {
+         QTimer::singleShot(1000, this, SLOT(hideMenuTocen()));
+      }
+   }*/
+
+   return QWidget::eventFilter(obj, event);
+}
+
+void TopBar::hideMenuTocen()
+{
+   if(!menuTocen->underMouse() && !ui->lineEditTocens->underMouse() && menuTocen->isVisible())
+   {
+      onTocensClicked();
+   }
 }

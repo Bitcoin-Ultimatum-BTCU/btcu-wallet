@@ -36,14 +36,14 @@ ReceiveWidget::ReceiveWidget(BTCUGUI* parent) :
                 );
 
     // Containers
-    setCssProperty(ui->left, "container");
+    setCssProperty(ui->left, "container-border");
     ui->left->setContentsMargins(20,20,20,20);
-    setCssProperty(ui->right, "container-right");
+    setCssProperty(ui->right, "container-border");
     ui->right->setContentsMargins(0,9,0,0);
-
+   ui->right->setVisible(false);
     // Title
     ui->labelTitle->setText(tr("Receive"));
-    ui->labelSubtitle1->setText(tr("Scan the QR code or copy the address to receive BTCU."));
+    ui->labelSubtitle1->setText(tr("scan QR code or copy the address to recieve PIV"));
     setCssTitleScreen(ui->labelTitle);
     setCssSubtitleScreen(ui->labelSubtitle1);
 
@@ -52,7 +52,8 @@ ReceiveWidget::ReceiveWidget(BTCUGUI* parent) :
     setCssProperty(ui->labelAddress, "label-address-box");
 
     ui->labelDate->setText("Dec. 19, 2018");
-    setCssSubtitleScreen(ui->labelDate);
+    //setCssSubtitleScreen(ui->labelDate);
+    ui->labelDate->setProperty("cssClass","text-title-date");
     ui->labelLabel->setText("");
     setCssSubtitleScreen(ui->labelLabel);
 
@@ -126,7 +127,7 @@ void ReceiveWidget::refreshView(QString refreshAddress){
             // Check for generation errors
             if (!r.result) {
                 ui->labelQrImg->setText(tr("No available address, try unlocking the wallet"));
-                inform(tr("Error generating address"));
+                informError(tr("Error generating address"));
                 return;
             }
             latestAddress = QString::fromStdString(newAddress.ToString());
@@ -138,7 +139,7 @@ void ReceiveWidget::refreshView(QString refreshAddress){
         updateLabel();
     } catch (const std::runtime_error& error){
         ui->labelQrImg->setText(tr("No available address, try unlocking the wallet"));
-        inform(tr("Error generating address"));
+        informError(tr("Error generating address"));
     }
 }
 
@@ -195,9 +196,9 @@ void ReceiveWidget::onLabelClicked(){
                     ) {
                 // update label status (icon color)
                 updateLabel();
-                inform(tr("Address label saved"));
+                informWarning(tr("Address label saved"));
             } else {
-                inform(tr("Error storing address label"));
+                informError(tr("Error storing address label"));
             }
         }
         isShowingDialog = false;
@@ -219,16 +220,16 @@ void ReceiveWidget::onNewAddressClicked(){
         updateQr(QString::fromStdString(address.ToString()));
         ui->labelAddress->setText(!info->address.isEmpty() ? info->address : tr("No address"));
         updateLabel();
-        inform(tr("New address created"));
+        informWarning(tr("New address created"));
     } catch (const std::runtime_error& error){
         // Error generating address
-        inform("Error generating address");
+        informError("Error generating address");
     }
 }
 
 void ReceiveWidget::onCopyClicked(){
     GUIUtil::setClipboard(info->address);
-    inform(tr("Address copied"));
+    informWarning(tr("Address copied"));
 }
 
 
@@ -246,7 +247,7 @@ void ReceiveWidget::showAddressGenerationDialog() {
         dialog->setRequestType(RequestType::Payment);
         openDialogWithOpaqueBackgroundY(dialog, window, 3.5, 12);
         if (dialog->res == 1){
-            inform(tr("URI copied to clipboard"));
+            informWarning(tr("URI copied to clipboard"));
         } else if (dialog->res == 2){
             inform(tr("Address copied to clipboard"));
         }

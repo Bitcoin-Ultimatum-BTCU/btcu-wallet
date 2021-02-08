@@ -1,36 +1,20 @@
 # ethash: C/C++ implementation of Ethash, the Ethereum Proof of Work algorithm.
 # Copyright 2018 Pawel Bylica.
 # Licensed under the Apache License, Version 2.0. See the LICENSE file.
-
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.14)
 
 if(POLICY CMP0069)
     cmake_policy(SET CMP0069 NEW)  # Allow LTO.
 endif()
 
-target_include_directories(include)
-
-include(cmake/cable/bootstrap.cmake)
-
+include(${CMAKE_SOURCE_DIR}/cmake/cable/bootstrap.cmake)
+include(CableToolchains)
 include(CableBuildType)
 include(CableCompilerSettings)
-include(CableToolchains)
-include(HunterGate)
-
-include(defaults/HunterCacheServers)
-
 cable_configure_toolchain(DEFAULT cxx11)
 
-if(NOT WIN32)
-    # Outside of Windows build only Release packages.
-    set(HUNTER_CONFIGURATION_TYPES Release
-        CACHE STRING "Build type of the Hunter packages")
-endif()
-
-HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.20.35.tar.gz"
-    SHA1 "6e3cb4c333b76803a83c56fcbca3b0bfd9f96f27"
-)
+list(APPEND CMAKE_PREFIX_PATH /usr/local/opt/google-benchmark)
+list(APPEND CMAKE_PREFIX_PATH /usr/local/opt/googletest)
 
 project(ethash)
 set(PROJECT_VERSION 0.4.1)
@@ -64,7 +48,10 @@ endif()
 
 add_subdirectory(lib/ethash)
 
-option(ETHASH_BUILD_TESTS "Build unit tests" ON)
-if(ETHASH_BUILD_TESTS)
-    add_subdirectory(test)
+# Disable tests for Windows
+if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    option(ETHASH_BUILD_TESTS "Build unit tests" ON)
+    if(ETHASH_BUILD_TESTS)
+        add_subdirectory(test)
+    endif()
 endif()

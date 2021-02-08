@@ -7,13 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>660</width>
-    <height>60</height>
+    <height>39</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>60</height>
+    <height>30</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>39</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -22,6 +28,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>5</number>
    </property>
    <property name="topMargin">
     <number>0</number>
@@ -56,10 +65,10 @@
          <number>0</number>
         </property>
         <property name="topMargin">
-         <number>12</number>
+         <number>3</number>
         </property>
         <property name="bottomMargin">
-         <number>12</number>
+         <number>3</number>
         </property>
         <item>
          <widget class="QLabel" name="lblLabel">

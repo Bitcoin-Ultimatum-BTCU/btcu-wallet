@@ -232,9 +232,11 @@ void NodeTable::doDiscover(NodeID _node, unsigned _round, shared_ptr<set<shared_
     {
         if (_ec)
             // we can't use m_logger here, because captured this might be already destroyed
+#ifndef WIN32
             clog(VerbosityDebug, "discov")
                 << "Discovery timer was probably cancelled: " << _ec.value() << " "
                 << _ec.message();
+#endif
 
         if (_ec.value() == boost::asio::error::operation_aborted || m_timers.isStopped())
             return;
@@ -592,9 +594,11 @@ void NodeTable::doDiscovery()
     {
         if (_ec)
             // we can't use m_logger here, because captured this might be already destroyed
+#ifndef WIN32
             clog(VerbosityDebug, "discov")
                 << "Discovery timer was probably cancelled: " << _ec.value() << " "
                 << _ec.message();
+#endif
 
         if (_ec.value() == boost::asio::error::operation_aborted || m_timers.isStopped())
             return;

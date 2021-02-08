@@ -36,7 +36,9 @@ int const c_bufferSize = 1024;
 template <class S> IpcServerBase<S>::IpcServerBase(string const& _path):
     m_path(_path)
 {
+#ifndef WIN32
     clog(VerbosityInfo, "rpc") << "JSON-RPC socket path: " << _path;
+#endif
 }
 
 template <class S> bool IpcServerBase<S>::StartListening()
@@ -86,7 +88,9 @@ template <class S> bool IpcServerBase<S>::SendResponse(string const& _response, 
         else
             fullyWritten = true;
     } while (!fullyWritten && !errorOccured);
+#ifndef WIN32
     clog(VerbosityTrace, "rpc") << _response;
+#endif
     return fullyWritten && !errorOccured;
 }
 
@@ -137,7 +141,9 @@ template <class S> void IpcServerBase<S>::GenerateResponse(S _connection)
                 {
                     std::string r = request.substr(0, i + 1);
                     request.erase(0, i + 1);
+#ifndef WIN32
                     clog(VerbosityTrace, "rpc") << r;
+#endif
                     OnRequest(r, reinterpret_cast<void*>((intptr_t)_connection));
                     i = 0;
                     continue;

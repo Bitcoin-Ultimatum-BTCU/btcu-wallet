@@ -14,6 +14,12 @@ TxRow::TxRow(QWidget *parent) :
     ui(new Ui::TxRow)
 {
     ui->setupUi(this);
+   shadowEffect = new QGraphicsDropShadowEffect();
+   shadowEffect->setColor(QColor(0, 0, 0, 22));
+   shadowEffect->setXOffset(0);
+   shadowEffect->setYOffset(2);
+   shadowEffect->setBlurRadius(6);
+   ui->rowContainer->setProperty("cssClass", "container-border");
 }
 
 void TxRow::init(bool isLightTheme) {
@@ -23,8 +29,10 @@ void TxRow::init(bool isLightTheme) {
 
 void TxRow::setConfirmStatus(bool isConfirm){
     if(isConfirm){
-        setCssProperty(ui->lblAddress, "text-list-body1");
-        setCssProperty(ui->lblDate, "text-list-caption");
+        /*setCssProperty(ui->lblAddress, "text-list-body1");
+        setCssProperty(ui->lblDate, "text-list-caption");*/
+       setCssSubtitleScreen(ui->lblAddress);
+       setCssSubtitleScreen(ui->lblDate);
     }else{
         setCssProperty(ui->lblAddress, "text-list-body-unconfirmed");
         setCssProperty(ui->lblDate,"text-list-caption-unconfirmed");
@@ -33,9 +41,11 @@ void TxRow::setConfirmStatus(bool isConfirm){
 
 void TxRow::updateStatus(bool isLightTheme, bool isHover, bool isSelected){
     if(isLightTheme)
-        ui->lblDivisory->setStyleSheet("background-color:#bababa");
+        ui->lblDivisory->setStyleSheet("background-color:rgba(0, 0, 0, 0)"/*#bababa"*/);
     else
-        ui->lblDivisory->setStyleSheet("background-color:#40ffffff");
+        ui->lblDivisory->setStyleSheet("background-color:rgba(0, 0, 0, 0)"/*#40ffffff"*/);
+   this->setGraphicsEffect(0);
+   ui->rowContainer->setGraphicsEffect(shadowEffect);
 }
 
 void TxRow::setDate(QDateTime date){

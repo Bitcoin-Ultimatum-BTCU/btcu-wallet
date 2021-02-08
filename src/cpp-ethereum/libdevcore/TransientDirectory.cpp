@@ -62,6 +62,8 @@ TransientDirectory::~TransientDirectory()
 	fs::remove_all(m_path, ec);
 	if (!ec)
 	{
-		cwarn << "Failed to delete directory '" << m_path << "': " << ec.message();
+#ifndef WIN32
+        cwarn << "Failed to delete directory '" << m_path << "': " << ec.message();
+#endif
 	}
 }

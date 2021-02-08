@@ -478,7 +478,7 @@ class BtcuTestFramework():
                     # (removed at the end during clean_cache_subdir)
                     open(os.path.join(datadir, ".incomplete"), 'a').close()
                 args = [os.getenv("BITCOIND", "btcud"), "-spendzeroconfchange=1", "-server", "-keypool=1",
-                        "-datadir=" + datadir, "-discover=0"]
+                        "-datadir=" + datadir, "-discover=0", "-sporkkey=932HEevBSujW2ud7RfB1YF91AFygbBRQj3de3LyaCRqNzKKgWXi"]
                 self.nodes.append(
                     TestNode(i, ddir, extra_args=[], rpchost=None, timewait=None, binary=None, stderr=None,
                              mocktime=self.mocktime, coverage_dir=None))
@@ -607,6 +607,10 @@ class BtcuTestFramework():
             self.log.info("Staking 80 blocks...")
             nBlocks = 250
             res = []    # used to save the two txids for change outputs of mints (locked)
+
+            # Disbaling zerocoin maintance mode
+            assert_equal("success", self.deactivate_spork(0, "SPORK_16_ZEROCOIN_MAINTENANCE_MODE"))
+
             for peer in range(4):
                 for j in range(20):
                     # Stake block
@@ -1073,6 +1077,11 @@ class BtcuTestFramework():
     def is_spork_active(self, node_id, sporkName):
         assert_greater_than(len(self.nodes), node_id)
         return self.nodes[node_id].spork("active")[sporkName]
+
+    def advance_mocktime(self, secs):
+        self.mocktime += secs
+        set_node_times(self.nodes, self.mocktime)
+        time.sleep(1)
 
 
 

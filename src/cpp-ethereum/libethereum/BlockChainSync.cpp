@@ -514,8 +514,10 @@ void BlockChainSync::onPeerBlockHeaders(NodeID const& _peerID, RLP const& _r)
             {
                 // Start of the header chain in m_headers doesn't match our known chain,
                 // probably we've downloaded other fork
+#ifndef WIN32
                 clog(VerbosityWarning, "sync")
                     << "Unknown parent of the downloaded headers, restarting sync";
+#endif
                 restartSync();
                 return;
             }
@@ -532,8 +534,10 @@ void BlockChainSync::onPeerBlockHeaders(NodeID const& _peerID, RLP const& _r)
                 if ((prevBlock && prevBlock->hash != info.parentHash()) || (blockNumber == m_lastImportedBlock + 1 && info.parentHash() != m_lastImportedBlockHash))
                 {
                     // mismatching parent id, delete the previous block and don't add this one
+#ifndef WIN32
                     clog(VerbosityWarning, "sync") << "Unknown block header " << blockNumber << " "
                                                    << info.hash() << " (Restart syncing)";
+#endif
                     m_host.capabilityHost().updateRating(_peerID, -1);
                     restartSync();
                     return ;
@@ -710,7 +714,9 @@ void BlockChainSync::collectBlocks()
 
     if (host().bq().unknownFull())
     {
+#ifndef WIN32
         clog(VerbosityWarning, "sync") << "Too many unknown blocks, restarting sync";
+#endif
         restartSync();
         return;
     }

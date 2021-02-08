@@ -65,6 +65,7 @@ public:
     int sizeDell() const;
     int sizeColdSend() const;
     int sizeLeasingSend() const;
+    void refreshAddressTable();
     void notifyChange(const QModelIndex &index);
     QVariant data(const QModelIndex& index, int role) const;
     bool setData(const QModelIndex& index, const QVariant& value, int role);

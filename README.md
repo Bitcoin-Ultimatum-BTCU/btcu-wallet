@@ -1,4 +1,4 @@
-Bitcoin Ultimatum BTCU Core Main Concepts
+Bitcoin Ultimatu BTCU Core Main Concepts
 =====================================
 
 The concept of BTCU is similar to the concept of the second cryptocurrency by capitalization - Ethereum. 
@@ -10,7 +10,7 @@ The main goal is to make a hybrid of LPoS mining algorithm and PoA to make a rea
 
 Setup
 ---------------------
-[BTCU Core](https://github.com/Bitcoin-Ultimatum-BTCU/btcu-wallet) is the original BTCU client and it builds the backbone of the network. However, it downloads and stores the entire history of BTCU transactions; depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once.
+[BTCU Core](https://github.com/bitcoin-ultimatum-btcu/btcu-wallet) is the original BTCU client and it builds the backbone of the network. However, it downloads and stores the entire history of BTCU transactions; depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once.
 
 Running
 ---------------------
@@ -18,25 +18,25 @@ The following are some helpful notes on how to run BTCU Core on your native plat
 
 ### Unix
 
-Download from [Releases](https://github.com/Bitcoin-Ultimatum-BTCU/btcu-wallet/releases) latest version, unpack the files into a directory and run:
+Download from [Releases](https://github.com/bitcoin-ultimatum-btcu/btcu-wallet/releases) latest version, unpack the files into a directory and run:
 
 - `btcu-qt` (GUI) or
 - `btcud` (headless)
 
 ### Windows
 
-Download from [Releases](https://github.com/Bitcoin-Ultimatum-BTCU/btcu-wallet/releases) latest version, unpack the files into a directory and run:
+Download from [Releases](https://github.com/bitcoin-ultimatum-btcu/btcu-wallet/releases) latest version, unpack the files into a directory and run:
 - `btcu-qt.exe` (GUI) or
 - `btcud.exe` (headless)
 
 ### macOS
 
-Download from [Releases](https://github.com/Bitcoin-Ultimatum-BTCU/btcu-wallet/releases) latest version, unpack the files into a directory and run:
+Download from [Releases](https://github.com/bitcoin-ultimatum-btcu/btcu-wallet/releases) latest version, unpack the files into a directory and run:
 - `BTCU-Qt` (GUI)  
 
 ### Need Help?
 
-* See the documentation at the [BTCU Wiki](https://github.com/Bitcoin-Ultimatum-BTCU/btcu-wallet/wiki)
+* See the documentation at the [BTCU Wiki](https://github.com/bitcoin-ultimatum-btcu/btcu-wallet/wiki)
 for help and more information.
 
 Building
@@ -74,4 +74,3 @@ cryptographic software written by Eric Young ([eay@cryptsoft.com](mailto:eay@cry
 
  ### More information at [btcu](http://btcu.app/)
  
-

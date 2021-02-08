@@ -15,7 +15,7 @@ LIBFF_CPPFLAGS_INT += -I$(srcdir)/libff
 LIBFF_CPPFLAGS_INT += $(LIBFF_TARGET_FLAGS)
 
 libff_libff_a_CPPFLAGS = $(AM_CPPFLAGS) $(LIBFF_CPPFLAGS_INT) $(LIBFF_CPPFLAGS) -DCURVE_ALT_BN128 -DNO_PROCPS
-libff_libff_a_CXXFLAGS = $(AM_CXXFLAGS) -DNDEBUG -fPIC -O2 -g2
+libff_libff_a_CXXFLAGS = $(AM_CXXFLAGS) -fPIC -O2 -g2
 
 libff_libff_a_SOURCES=
 libff_libff_a_SOURCES += libff/libff/algebra/curves/alt_bn128/alt_bn128_g1.cpp

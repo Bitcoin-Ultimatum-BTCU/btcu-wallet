@@ -13,6 +13,7 @@
 #include "qt/btcu/tooltipmenu.h"
 #include <QTimer>
 #include <atomic>
+#include <QSpacerItem>
 
 class BTCUGUI;
 
@@ -40,6 +41,9 @@ public:
 
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
+Q_SIGNALS:
+
+   void CreateMasternode();
 
 private Q_SLOTS:
     void onCreateMNClicked();
@@ -51,12 +55,20 @@ private Q_SLOTS:
     void onInfoMNClicked();
     void updateListState();
     void updateModelAndInform(QString informText);
+   void onpbnMenuClicked();
+
+   void onTempADD();
+   void onpbnMasternodeClicked();
+   void onpbnValidatorClicked();
+   void onpbnMyClicked();
+   void onpbnGlobalClicked();
 
 private:
     Ui::MasterNodesWidget *ui;
     FurAbstractListItemDelegate *delegate;
     MNModel *mnModel = nullptr;
     TooltipMenu* menu = nullptr;
+   TooltipMenu* menuMy = nullptr;
     QModelIndex index;
     QTimer *timer = nullptr;
 
@@ -66,6 +78,14 @@ private:
     void startAlias(QString strAlias);
     bool startAll(QString& failedMN, bool onlyMissing);
     bool startMN(CMasternodeConfig::CMasternodeEntry mne, std::string& strError);
+// temp
+   bool bShowHistory = false;
+   bool bShowHistoryMy = false;
+   void showHistory();
+   int n = 0;
+   QSpacerItem* SpacerNode = nullptr;
+   QSpacerItem* SpacerNodeMy = nullptr;
+   //
 };
 
 #endif // MASTERNODESWIDGET_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>493</width>
-    <height>180</height>
+    <width>650</width>
+    <height>194</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -25,23 +25,8 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>20</number>
-   </property>
-   <property name="bottomMargin">
-    <number>5</number>
-   </property>
-   <item alignment="Qt::AlignTop">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
     <widget class="QWidget" name="widget" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
@@ -69,13 +54,13 @@
        <number>8</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>5</number>
       </property>
       <property name="rightMargin">
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>5</number>
       </property>
       <item alignment="Qt::AlignTop">
        <widget class="QStackedWidget" name="stackedAddress">
@@ -130,7 +115,7 @@
            <widget class="QLineEdit" name="lineEditAddress">
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>300</width>
               <height>50</height>
              </size>
             </property>
@@ -168,17 +153,11 @@
         <property name="spacing">
          <number>6</number>
         </property>
-        <item alignment="Qt::AlignTop">
-         <widget class="QLineEdit" name="lineEditAmount">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+        <item>
+         <widget class="QWidget" name="containerBTCU" native="true">
           <property name="minimumSize">
            <size>
-            <width>0</width>
+            <width>200</width>
             <height>50</height>
            </size>
           </property>
@@ -188,12 +167,46 @@
             <height>50</height>
            </size>
           </property>
-          <property name="maxLength">
-           <number>17</number>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLineEdit" name="lineEditBTCU">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelBTCU">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>BTCU</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>

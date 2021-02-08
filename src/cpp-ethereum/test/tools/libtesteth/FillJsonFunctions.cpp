@@ -163,8 +163,9 @@ json_spirit::mObject fillJsonWithStateChange(
              it++)
             log << (*it).second.str();
     }
-
+#ifndef WIN32
     clog(VerbosityInfo, "state") << log.str();
+#endif
     return oState;
 }
 

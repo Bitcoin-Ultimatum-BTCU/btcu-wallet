@@ -3,7 +3,28 @@
 
 #include <libethereum/Transaction.h>
 
-struct __attribute__((may_alias)) VersionVM{
+#        if defined(_MSC_VER)
+/*           __pragma() is specified starting from Visual Studio 2008*/
+#            if (_MSC_VER < 1500)
+#                error "Unsupport Visual C compiler version. Minimum version is Visual Studio 2008."
+#            endif
+#            define ATTRIBUTE_PACKED
+/*           Enable packing and supress warning C4103: Packing was changed after the inclusion of the header, probably missing #pragma pop */
+#            define BEGIN_ATTRIBUTE_PACKED __pragma(pack(push,1)) \
+                                           __pragma(warning(disable : 4103))
+/*           Disable packing and enable warning C4103 back */
+#            define END_ATTRIBUTE_PACKED   __pragma(pack(pop)) \
+                                          __pragma(warning(default : 4103))
+#            define ATTRIBUTE_SECTION_GCC(x)
+#        endif /* defined(_MSC_VER) */
+
+#ifdef _MSC_VER
+BEGIN_ATTRIBUTE_PACKED
+
+struct VersionVM ATTRIBUTE_PACKED {
+#else
+struct __attribute__((may_alias)) VersionVM {
+#endif
     //this should be portable, see https://stackoverflow.com/questions/31726191/is-there-a-portable-alternative-to-c-bitfields
 # if __BYTE_ORDER == __LITTLE_ENDIAN
     uint8_t format : 2;
@@ -40,7 +61,11 @@ struct __attribute__((may_alias)) VersionVM{
         x.vmVersion=0;
         return x;
     }
-}__attribute__((__packed__));
+#ifdef _MSC_VER
+} END_ATTRIBUTE_PACKED;
+#else
+} __attribute__((__packed__));
+#endif
 
 class QtumTransaction : public dev::eth::Transaction{
 

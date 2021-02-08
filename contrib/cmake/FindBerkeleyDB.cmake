@@ -27,7 +27,8 @@ else()
     # Paths for anything other than Windows
     # Cellar/berkeley-db is for macOS from homebrew installation
     list(APPEND _BERKELEYDB_PATHS
-            "/usr/local/Cellar/berkeley-db@4"
+            "/usr/local/opt/berkeley-db"
+            "/usr/local/Cellar/berkeley-db@18"
             "/usr/local/Cellar/berkeley-db"
             "/opt"
             "/opt/local"
@@ -85,6 +86,27 @@ macro(findpackage_berkeleydb_get_lib _BERKELEYDB_OUTPUT_VARNAME _TARGET_BERKELEY
             "lib${_TARGET_BERKELEYDB_LIB}${BerkeleyDB_VERSION_MAJOR}"
             "lib${_TARGET_BERKELEYDB_LIB}-${BerkeleyDB_VERSION_MAJOR}"
             "lib${_TARGET_BERKELEYDB_LIB}_${BerkeleyDB_VERSION_MAJOR}"
+            "${_TARGET_BERKELEYDB_LIB}s"
+            "lib${_TARGET_BERKELEYDB_LIB}s"
+            "lib${_TARGET_BERKELEYDB_LIB}${BerkeleyDB_VERSION_MAJOR}.${BerkeleyDB_VERSION_MINOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}-${BerkeleyDB_VERSION_MAJOR}.${BerkeleyDB_VERSION_MINOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}_${BerkeleyDB_VERSION_MAJOR}.${BerkeleyDB_VERSION_MINOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}${BerkeleyDB_VERSION_MAJOR}${BerkeleyDB_VERSION_MINOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}-${BerkeleyDB_VERSION_MAJOR}${BerkeleyDB_VERSION_MINOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}_${BerkeleyDB_VERSION_MAJOR}${BerkeleyDB_VERSION_MINOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}${BerkeleyDB_VERSION_MAJOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}-${BerkeleyDB_VERSION_MAJOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}_${BerkeleyDB_VERSION_MAJOR}s"
+            "lib${_TARGET_BERKELEYDB_LIB}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}${BerkeleyDB_VERSION_MAJOR}.${BerkeleyDB_VERSION_MINOR}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}-${BerkeleyDB_VERSION_MAJOR}.${BerkeleyDB_VERSION_MINOR}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}_${BerkeleyDB_VERSION_MAJOR}.${BerkeleyDB_VERSION_MINOR}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}${BerkeleyDB_VERSION_MAJOR}${BerkeleyDB_VERSION_MINOR}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}-${BerkeleyDB_VERSION_MAJOR}${BerkeleyDB_VERSION_MINOR}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}_${BerkeleyDB_VERSION_MAJOR}${BerkeleyDB_VERSION_MINOR}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}${BerkeleyDB_VERSION_MAJOR}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}-${BerkeleyDB_VERSION_MAJOR}sd"
+            "lib${_TARGET_BERKELEYDB_LIB}_${BerkeleyDB_VERSION_MAJOR}sd"
             HINTS ${_BERKELEYDB_HINTS}
             PATH_SUFFIXES "lib" "lib64" "libs" "libs64"
             PATHS ${_BERKELEYDB_PATHS}

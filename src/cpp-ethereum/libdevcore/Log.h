@@ -74,6 +74,19 @@ enum Verbosity
     VerbosityTrace = 4,
 };
 
+// TODO: add logger support for windows
+#ifdef WIN32
+#define clog(SEVERITY, CHANNEL) dummyMethod()
+#define cerror dummyMethod()
+#define cwarn dummyMethod()
+#define cnote dummyMethod()
+#define cdebug dummyMethod()
+#define ctrace dummyMethod()
+static void dummyMethod()
+{
+    return;
+}
+#else
 // Simple cout-like stream objects for accessing common log channels.
 // Thread-safe
 BOOST_LOG_INLINE_GLOBAL_LOGGER_CTOR_ARGS(g_errorLogger,
@@ -100,15 +113,16 @@ BOOST_LOG_INLINE_GLOBAL_LOGGER_CTOR_ARGS(g_traceLogger,
     boost::log::sources::severity_channel_logger_mt<>,
     (boost::log::keywords::severity = VerbosityTrace)(boost::log::keywords::channel = "trace"))
 #define ctrace LOG(dev::g_traceLogger::get())
-
+BOOST_LOG_INLINE_GLOBAL_LOGGER_DEFAULT(
+    g_clogLogger, boost::log::sources::severity_channel_logger_mt<>)
 // Simple macro to log to any channel a message without creating a logger object
 // e.g. clog(VerbosityInfo, "channel") << "message";
 // Thread-safe
-BOOST_LOG_INLINE_GLOBAL_LOGGER_DEFAULT(
-    g_clogLogger, boost::log::sources::severity_channel_logger_mt<>)
 #define clog(SEVERITY, CHANNEL)                            \
     BOOST_LOG_STREAM_WITH_PARAMS(dev::g_clogLogger::get(), \
         (boost::log::keywords::severity = SEVERITY)(boost::log::keywords::channel = CHANNEL))
+#endif
+
 
 
 struct LoggingOptions
@@ -606,7 +620,6 @@ enum Verbosity
 
 // Simple macro to log to any channel a message without creating a logger object
 // e.g. clog(VerbosityInfo, "channel") << "message";
-#define clog(SEVERITY, CHANNEL) LOG(Logger(SEVERITY, CHANNEL))
 
 // Simple cout-like stream objects for accessing common log channels.
 extern Logger g_errorLogger;
@@ -615,11 +628,26 @@ extern Logger g_noteLogger;
 extern Logger g_debugLogger;
 extern Logger g_traceLogger;
 
+// TODO: add logger support for windows
+#ifdef WIN32
+#define clog(SEVERITY, CHANNEL) dummyMethod()
+#define cerror dummyMethod()
+#define cwarn dummyMethod()
+#define cnote dummyMethod()
+#define cdebug dummyMethod()
+#define ctrace dummyMethod()
+static void dummyMethod()
+{
+    return;
+}
+#else
+#define clog(SEVERITY, CHANNEL) LOG(Logger(SEVERITY, CHANNEL))
 #define cerror LOG(dev::g_errorLogger)
 #define cwarn LOG(dev::g_warnLogger)
 #define cnote LOG(dev::g_noteLogger)
 #define cdebug LOG(dev::g_debugLogger)
 #define ctrace LOG(dev::g_traceLogger)
+#endif
 
 // Simple non-thread-safe logger with fixed severity and channel for each message
 // For better formatting it is recommended to limit channel name to max 6 characters.

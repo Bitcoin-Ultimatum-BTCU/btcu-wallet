@@ -18,6 +18,8 @@
 #pragma once
 
 #include <evmc/evmc.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * Returns true if the VM instance has a compatible ABI version.

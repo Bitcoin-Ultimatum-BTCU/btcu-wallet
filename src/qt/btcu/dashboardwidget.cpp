@@ -41,22 +41,23 @@ DashboardWidget::DashboardWidget(BTCUGUI* parent) :
     this->setContentsMargins(0,0,0,0);
 
     // Containers
-    setCssProperty({this, ui->left}, "container");
+    setCssProperty({this, ui->left}, "container-border");
     ui->left->setContentsMargins(0,0,0,0);
-    setCssProperty(ui->right, "container-right");
+    setCssProperty(ui->right, "container-border");
     ui->right->setContentsMargins(20,20,20,0);
 
     // Title
     ui->labelTitle2->setText(tr("Staking Rewards"));
     setCssTitleScreen(ui->labelTitle);
     setCssTitleScreen(ui->labelTitle2);
+    ui->lblDivisory->setVisible(false);
 
     /* Subtitle */
     ui->labelSubtitle->setText(tr("You can view your account's history"));
     setCssSubtitleScreen(ui->labelSubtitle);
 
     // Staking Information
-    ui->labelMessage->setText(tr("Amount of BTCU and zBTCU staked."));
+    ui->labelMessage->setText(tr("Amount of BTCU"));
     setCssSubtitleScreen(ui->labelMessage);
     setCssProperty(ui->labelSquarePiv, "square-chart-btcu");
     setCssProperty(ui->labelSquarezPiv, "square-chart-zbtcu");
@@ -73,7 +74,8 @@ DashboardWidget::DashboardWidget(BTCUGUI* parent) :
     ui->labelAmountPiv->setText("0 BTCU");
     setCssProperty(ui->labelAmountPiv, "text-stake-btcu-disable");
     setCssProperty(ui->labelAmountZbtcu, "text-stake-zbtcu-disable");
-
+   ui->labelAmountPiv->setVisible(false);
+   ui->labelAmountZbtcu->setVisible(false);
     setCssProperty({ui->pushButtonAll,  ui->pushButtonMonth, ui->pushButtonYear}, "btn-check-time");
     setCssProperty({ui->comboBoxMonths,  ui->comboBoxYears}, "btn-combo-chart-selected");
 
@@ -89,16 +91,35 @@ DashboardWidget::DashboardWidget(BTCUGUI* parent) :
     connect(ui->comboBoxYears, SIGNAL(currentIndexChanged(const QString&)), this,SLOT(onChartYearChanged(const QString&)));
 
     // Sort Transactions
+   setCssProperty(ui->lineEditBoxSort, "edit-primary-multi-book");
+    btnBoxSort = ui->lineEditBoxSort->addAction(QIcon("://ic-contact-arrow-down"), QLineEdit::TrailingPosition);
+   connect(btnBoxSort, &QAction::triggered, [this](){ onBoxSortClicked(); });
     SortEdit* lineEdit = new SortEdit(ui->comboBoxSort);
     initComboBox(ui->comboBoxSort, lineEdit);
-    connect(lineEdit, &SortEdit::Mouse_Pressed, [this](){ui->comboBoxSort->showPopup();});
+    connect(lineEdit, &SortEdit::Mouse_Pressed, [this](){
+       ui->comboBoxSort->showPopup();});
     ui->comboBoxSort->addItem("Date desc", SortTx::DATE_DESC);
     ui->comboBoxSort->addItem("Date asc", SortTx::DATE_ASC);
     ui->comboBoxSort->addItem("Amount desc", SortTx::AMOUNT_ASC);
     ui->comboBoxSort->addItem("Amount asc", SortTx::AMOUNT_DESC);
     connect(ui->comboBoxSort, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onSortChanged(const QString&)));
+   ui->comboBoxSort->setVisible(false);
+   ui->lineEditBoxSort->setText(ui->comboBoxSort->currentText());
+   widgetBoxSort=new QWidget(this);
+   QVBoxLayout* LayoutBoxSort = new QVBoxLayout(widgetBoxSort);
+   listViewBoxSort = new QListView();
+   LayoutBoxSort->addWidget(listViewBoxSort);
+   widgetBoxSort->setGraphicsEffect(0);
+   //listViewBoxSort->setGraphicsEffect(shadowEffect);
+   listViewBoxSort->setProperty("cssClass", "container-border-light");
+   listViewBoxSort->setModel(ui->comboBoxSort->model());
+   connect(listViewBoxSort, SIGNAL(clicked(QModelIndex)), this, SLOT(BoxSortClick(QModelIndex)));
+   widgetBoxSort->hide();
 
     // Sort type
+   setCssProperty(ui->lineEditBoxSortType, "edit-primary-multi-book");
+    btnBoxSortType = ui->lineEditBoxSortType->addAction(QIcon("://ic-contact-arrow-down"), QLineEdit::TrailingPosition);
+   connect(btnBoxSortType, &QAction::triggered, [this](){ onBoxSortTypeClicked(); });
     SortEdit* lineEditType = new SortEdit(ui->comboBoxSortType);
     initComboBox(ui->comboBoxSortType, lineEditType);
     connect(lineEditType, &SortEdit::Mouse_Pressed, [this](){ui->comboBoxSortType->showPopup();});
@@ -121,6 +142,18 @@ DashboardWidget::DashboardWidget(BTCUGUI* parent) :
     ui->comboBoxSortType->addItem(tr("Unlock leasings"), TransactionFilterProxy::TYPE(TransactionRecord::P2LUnlockLeasing) | TransactionFilterProxy::TYPE(TransactionRecord::P2LUnlockOwnLeasing) | TransactionFilterProxy::TYPE(TransactionRecord::P2LReturnLeasing));
     ui->comboBoxSortType->setCurrentIndex(0);
     connect(ui->comboBoxSortType, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onSortTypeChanged(const QString&)));
+   ui->comboBoxSortType->setVisible(false);
+   ui->lineEditBoxSortType->setText(ui->comboBoxSortType->currentText());
+   widgetBoxSortType=new QWidget(this);
+   QVBoxLayout* LayoutDigits = new QVBoxLayout(widgetBoxSortType);
+   listViewBoxSortType = new QListView();
+   LayoutDigits->addWidget(listViewBoxSortType);
+   widgetBoxSortType->setGraphicsEffect(0);
+   //listViewBoxSort->setGraphicsEffect(shadowEffect);
+   listViewBoxSortType->setProperty("cssClass", "container-border-light");
+   listViewBoxSortType->setModel(ui->comboBoxSortType->model());
+   connect(listViewBoxSortType, SIGNAL(clicked(QModelIndex)), this, SLOT(BoxSortTypeClick(QModelIndex)));
+   widgetBoxSortType->hide();
 
     // Transactions
     setCssProperty(ui->listTransactions, "container");
@@ -135,6 +168,8 @@ DashboardWidget::DashboardWidget(BTCUGUI* parent) :
 
     // Sync Warning
     ui->layoutWarning->setVisible(true);
+   ui->lblWarning->setVisible(false);
+   ui->imgWarning->setVisible(false);
     ui->lblWarning->setText(tr("Please wait until the wallet is fully synced to see your correct balance"));
     setCssProperty(ui->lblWarning, "text-warning");
     setCssProperty(ui->imgWarning, "ic-warning");
@@ -142,18 +177,18 @@ DashboardWidget::DashboardWidget(BTCUGUI* parent) :
     //Empty List
     ui->emptyContainer->setVisible(false);
     setCssProperty(ui->pushImgEmpty, "img-empty-transactions");
-
+   
     ui->labelEmpty->setText(tr("No transactions yet"));
     setCssProperty(ui->labelEmpty, "text-empty");
     setCssProperty(ui->chartContainer, "container-chart");
     setCssProperty(ui->pushImgEmptyChart, "img-empty-staking-on");
 
-    ui->btnHowTo->setText(tr("How to get BTCU or zBTCU"));
+    ui->btnHowTo->setText(tr("How to get BTCU"));
     setCssBtnSecondary(ui->btnHowTo);
 
 
     setCssProperty(ui->labelEmptyChart, "text-empty");
-    ui->labelMessageEmpty->setText(tr("You can verify the staking activity in the status bar at the top right of the wallet.\nIt will start automatically as soon as the wallet has enough confirmations on any unspent balances, and the wallet has synced."));
+    ui->labelMessageEmpty->setText(tr("You can verify the staking acivity in the statusbar at the top right of the wallet."));
     setCssSubtitleScreen(ui->labelMessageEmpty);
 
     // Chart State
@@ -180,6 +215,21 @@ bool hasCharts = false;
     } else {
         ui->labelEmptyChart->setText(tr("No charts library"));
     }
+
+   setCssProperty(ui->qrContainer, "container-qr");
+   setCssProperty(ui->pushButtonQR, "btn-qr");
+
+   // QR image
+   QPixmap pixmap("://img-qr-test");
+   ui->btnQr->setIcon(
+               QIcon(pixmap.scaled(
+                        50,
+                        50,
+                        Qt::KeepAspectRatio))
+               );
+   connect(ui->pushButtonQR, SIGNAL(clicked()), this, SLOT(onBtnReceiveClicked()));
+   connect(ui->btnQr, SIGNAL(clicked()), this, SLOT(onBtnReceiveClicked()));
+
 }
 
 void DashboardWidget::handleTransactionClicked(const QModelIndex &index){
@@ -190,7 +240,9 @@ void DashboardWidget::handleTransactionClicked(const QModelIndex &index){
     window->showHide(true);
     TxDetailDialog *dialog = new TxDetailDialog(window, false);
     dialog->setData(walletModel, rIndex);
+    connect(dialog, SIGNAL(messageInfo(const QString, int)), window, SLOT(messageInfo(const QString, int)));
     openDialogWithOpaqueBackgroundY(dialog, window, 3, 17);
+    disconnect(dialog, SIGNAL(messageInfo(const QString, int)), window, SLOT(messageInfo(const QString, int)));
 
     // Back to regular status
     ui->listTransactions->scrollTo(index);
@@ -656,7 +708,7 @@ void DashboardWidget::onChartRefreshed() {
 
     // Total
     nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
-    if (chartData->totalPiv > 0 || chartData->totalZbtcu > 0) {
+    /*if (chartData->totalPiv > 0 || chartData->totalZbtcu > 0) {
         setCssProperty(ui->labelAmountPiv, "text-stake-btcu");
         setCssProperty(ui->labelAmountZbtcu, "text-stake-zbtcu");
     } else {
@@ -666,7 +718,7 @@ void DashboardWidget::onChartRefreshed() {
     forceUpdateStyle({ui->labelAmountPiv, ui->labelAmountZbtcu});
     ui->labelAmountPiv->setText(GUIUtil::formatBalance(chartData->totalPiv, nDisplayUnit));
     ui->labelAmountZbtcu->setText(GUIUtil::formatBalance(chartData->totalZbtcu, nDisplayUnit, true));
-
+   */
     series->append(set0);
     if(hasZbtcuStakes)
         series->append(set1);
@@ -844,4 +896,93 @@ DashboardWidget::~DashboardWidget(){
     delete chart;
 #endif
     delete ui;
+}
+
+void DashboardWidget::onBtnReceiveClicked()
+{
+   if(!receiveDialog && walletModel) {
+      QString addressStr = walletModel->getAddressTableModel()->getAddressToShow();
+      if (addressStr.isNull()) {
+         window->messageInfo(tr("Error generating address"), CClientUIInterface::MSG_ERROR_SNACK);
+         //inform(tr("Error generating address"));
+         return;
+      }
+      //showHideOp(true);
+      receiveDialog = new ReceiveDialog(window);
+      receiveDialog->updateQr(addressStr);
+      window->showHide(true);
+      if (openDialogWithOpaqueBackground(receiveDialog, window)) {
+         window->messageInfo(tr("Address Copied"), CClientUIInterface::MSG_WARNING_SNACK);
+         //informWarning(tr("Address Copied"));
+      }
+      receiveDialog->deleteLater();
+      receiveDialog = nullptr;
+   }
+}
+
+void DashboardWidget::onBoxSortClicked()
+{
+   if(widgetBoxSortType->isVisible()){
+      widgetBoxSortType->hide();
+      btnBoxSortType->setIcon(QIcon("://ic-contact-arrow-down"));
+   }
+   if(widgetBoxSort->isVisible()){
+      widgetBoxSort->hide();
+      btnBoxSort->setIcon(QIcon("://ic-contact-arrow-down"));
+      return;
+   }
+   btnBoxSort->setIcon(QIcon("://ic-contact-arrow-up"));
+   QPoint pos = ui->lineEditBoxSort->pos();
+
+   QPoint point = ui->lineEditBoxSort->rect().bottomRight();
+   widgetBoxSort->setFixedSize(ui->lineEditBoxSort->width() + 20,160);
+   pos.setY(pos.y() + point.y() + 17);
+   pos.setX(pos.x() +17);
+   widgetBoxSort->move(pos);
+   widgetBoxSort->show();
+}
+void DashboardWidget::onBoxSortTypeClicked()
+{
+   if(widgetBoxSort->isVisible()){
+      widgetBoxSort->hide();
+      btnBoxSort->setIcon(QIcon("://ic-contact-arrow-down"));
+   }
+   if(widgetBoxSortType->isVisible()){
+      widgetBoxSortType->hide();
+      btnBoxSortType->setIcon(QIcon("://ic-contact-arrow-down"));
+      return;
+   }
+   btnBoxSortType->setIcon(QIcon("://ic-contact-arrow-up"));
+   QPoint pos = ui->lineEditBoxSortType->pos();
+   QPoint point = ui->lineEditBoxSortType->rect().bottomRight();
+   widgetBoxSortType->setFixedSize(ui->lineEditBoxSortType->width() + 20,400);
+   pos.setY(pos.y() + point.y() +17);
+   pos.setX(pos.x() +17);
+   widgetBoxSortType->move(pos);
+   widgetBoxSortType->show();
+}
+
+void DashboardWidget::BoxSortClick(const QModelIndex &index)
+{
+   QString value = index.data(0).toString();
+   if(value.length() > 9)
+   {
+      value = value.left(6) + "...";
+   }
+   ui->lineEditBoxSort->setText(value);
+   ui->comboBoxSort->setCurrentIndex(index.row());
+   widgetBoxSort->hide();
+   btnBoxSort->setIcon(QIcon("://ic-contact-arrow-down"));
+}
+void DashboardWidget::BoxSortTypeClick(const QModelIndex &index)
+{
+   QString value = index.data(0).toString();
+   if(value.length() > 22)
+   {
+      value = value.left(19) + "...";
+   }
+   ui->lineEditBoxSortType->setText(value);
+   ui->comboBoxSortType->setCurrentIndex(index.row());
+   widgetBoxSortType->hide();
+   btnBoxSortType->setIcon(QIcon("://ic-contact-arrow-down"));
 }

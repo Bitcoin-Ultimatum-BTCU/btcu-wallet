@@ -56,12 +56,12 @@ endif
 # Base CXXFLAGS used if the user did not specify them
 ifeq ($(SUN_COMPILER),1)
   ifeq ($(SUNCC_512_OR_LATER),1)
-    CXXFLAGS ?= -DNDEBUG -g3 -xO2
+    CXXFLAGS ?= -g3 -xO2
   else
-    CXXFLAGS ?= -DNDEBUG -g -xO2
+    CXXFLAGS ?= -g -xO2
   endif
 else
-  CXXFLAGS ?= -DNDEBUG -g2 -O2
+  CXXFLAGS ?= -g2 -O2
 endif
 
 # Default prefix for make install

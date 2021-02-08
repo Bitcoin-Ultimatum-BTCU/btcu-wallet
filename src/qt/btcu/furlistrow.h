@@ -27,6 +27,10 @@ public:
     virtual inline QColor rectColor(bool isHovered, bool isSelected){
         return QColor();
     }
+
+   virtual inline T getWidget(){
+      return nullptr;
+   }
 };
 
 #endif // FURLISTROW_H

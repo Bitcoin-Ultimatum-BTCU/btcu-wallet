@@ -23,10 +23,19 @@
 #define EVMC_DEPRECATED
 #endif
 
+#include <stdint.h>  /* Definition of int64_t, uint64_t. */
+
+#ifdef _MSC_VER
+#ifdef _WIN64
+#define ssize_t int64_t
+#else
+#define ssize_t int32_t
+#endif
+#else
+#include <stddef.h>  /* Definition of size_t. */
+#endif
 
 #include <stdbool.h> /* Definition of bool, true and false. */
-#include <stddef.h>  /* Definition of size_t. */
-#include <stdint.h>  /* Definition of int64_t, uint64_t. */
 
 #if __cplusplus
 extern "C" {

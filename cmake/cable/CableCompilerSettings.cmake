@@ -52,9 +52,6 @@ macro(cable_configure_compiler)
 
         if(CABLE_COMPILER_GNULIKE)
 
-            # Enable basing warnings set and treat them as errors.
-            add_compile_options(-pedantic -Werror -Wall -Wextra)
-
             if(NOT cable_NO_CONVERSION_WARNINGS)
                 # Enable conversion warnings if not explicitly disabled.
                 add_compile_options(-Wconversion -Wsign-conversion)
@@ -64,10 +61,7 @@ macro(cable_configure_compiler)
             add_compile_options(-Wno-unknown-pragmas)
 
         elseif(MSVC)
-
-            # Enable basing warnings set and treat them as errors.
-            add_compile_options(/W4 /WX)
-
+        
             # Allow unknown pragmas, we don't want to wrap them with #ifdefs.
             add_compile_options(/wd4068)
 

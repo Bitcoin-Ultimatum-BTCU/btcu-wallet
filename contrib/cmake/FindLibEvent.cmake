@@ -1,46 +1,90 @@
-# - Find LibEvent (a cross event library)
-# This module defines
-# LIBEVENT_INCLUDE_DIR, where to find LibEvent headers
-# LIBEVENT_LIB, LibEvent libraries
-# LibEvent_FOUND, If false, do not try to use libevent
+# Copyright (c) 2017-2020 The Bitcoin developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-if($ENV{target} MATCHES "Windows")
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/depends/$ENV{triple}")
-        set(LIBEVENT_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/depends/$ENV{triple}/include")
-        set(LIBEVENT_LIB "${CMAKE_CURRENT_SOURCE_DIR}/depends/$ENV{triple}/lib/libevent.a")
-        set(LIBEVENT_PTHREAD_LIB "${CMAKE_CURRENT_SOURCE_DIR}/depends/$ENV{triple}/lib/libevent.a")
-    endif()
-else()
-    set(LibEvent_EXTRA_PREFIXES /usr/local /opt/local "$ENV{HOME}")
-    foreach(prefix ${LibEvent_EXTRA_PREFIXES})
-        list(APPEND LibEvent_INCLUDE_PATHS  "${prefix}/include")
-        list(APPEND LibEvent_LIB_PATHS "${prefix}/lib")
-    endforeach()
+#.rst
+# FindEvent
+# -------------
+#
+# Find the Event library. The following components are available::
+#
+#   event
+#   pthreads
+#
+# This will define the following variables::
+#
+#   Event_FOUND - system has Event lib
+#   LibEvent_INCLUDE_DIRS - the Event include directories
+#   LibEvent_LIBRARIES - Libraries needed to use Event
+#   LibEvent_VERSION - The library version MAJOR.MINOR.PATCH
+#
+# And the following imported target::
+#
+#   LibEvent::event
+#   LibEvent::pthreads
 
-    find_path(LIBEVENT_INCLUDE_DIR event.h PATHS ${LibEvent_INCLUDE_PATHS})
-    find_library(LIBEVENT_LIB NAMES event PATHS ${LibEvent_LIB_PATHS})
-    find_library(LIBEVENT_PTHREAD_LIB NAMES event_pthreads PATHS ${LibEvent_LIB_PATHS})
+find_package(PkgConfig)
+pkg_check_modules(PC_Event QUIET libevent)
+
+include(BrewHelper)
+find_brew_prefix(_Event_BREW_HINT libevent)
+
+find_path(LibEvent_INCLUDE_DIR
+	NAMES event.h
+	PATHS ${PC_LibEvent_INCLUDE_DIRS}
+	HINTS ${_Event_BREW_HINT}
+	PATH_SUFFIXES include
+)
+
+set(LibEvent_INCLUDE_DIRS ${LibEvent_INCLUDE_DIR})
+mark_as_advanced(LibEvent_INCLUDE_DIR)
+
+if(LibEvent_INCLUDE_DIR)
+	include(ExternalLibraryHelper)
+
+	if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+		find_component(LibEvent event
+			NAMES event
+			HINTS "${_Event_BREW_HINT}"
+			INCLUDE_DIRS ${LibEvent_INCLUDE_DIRS}
+			PATHS ${PC_LibEvent_LIBRARY_DIRS}
+			INTERFACE_LINK_LIBRARIES "ws2_32;shell32;advapi32;iphlpapi"
+		)
+	else()
+		find_component(LibEvent event
+			NAMES event
+			HINTS "${_Event_BREW_HINT}"
+			INCLUDE_DIRS ${LibEvent_INCLUDE_DIRS}
+			PATHS ${PC_LibEvent_LIBRARY_DIRS}
+		)
+	endif()
+
+	pkg_check_modules(PC_LibEvent_pthreads QUIET event_pthreads libevent_pthreads)
+	find_component(LibEvent pthreads
+		NAMES event_pthreads
+		INCLUDE_DIRS ${LibEvent_INCLUDE_DIRS}
+		PATHS ${PC_LibEvent_pthreads_LIBRARY_DIRS}
+	)
+
+	if(NOT LibEvent_VERSION)
+		# If pkgconfig found a version number, use it.
+		if(PC_LibEvent_VERSION AND (LibEvent_INCLUDE_DIR STREQUAL PC_Event_INCLUDEDIR))
+			set(_LibEvent_VERSION ${PC_LibEvent_VERSION})
+		else()
+			# There is no way to determine the version.
+			# Let's assume the user read the doc.
+			set(_LibEvent_VERSION 99.99.99)
+		endif()
+
+		set(LibEvent_VERSION ${_LibEvent_VERSION}
+			CACHE INTERNAL "LibEvent library full version"
+		)
+	endif()
 endif()
 
-if (LIBEVENT_LIB AND LIBEVENT_INCLUDE_DIR AND LIBEVENT_PTHREAD_LIB)
-    set(LibEvent_FOUND TRUE)
-    set(LIBEVENT_LIB ${LIBEVENT_LIB} ${LIBEVENT_PTHREAD_LIB})
-else ()
-    set(LibEvent_FOUND FALSE)
-endif ()
-
-if (LibEvent_FOUND)
-    if (NOT LibEvent_FIND_QUIETLY)
-        message(STATUS "Found libevent: ${LIBEVENT_LIB}")
-    endif ()
-else ()
-    if (LibEvent_FIND_REQUIRED)
-        message(FATAL_ERROR "Could NOT find libevent and libevent_pthread.")
-    endif ()
-    message(STATUS "libevent and libevent_pthread NOT found.")
-endif ()
-
-mark_as_advanced(
-        LIBEVENT_LIB
-        LIBEVENT_INCLUDE_DIR
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(LibEvent
+	REQUIRED_VARS LibEvent_INCLUDE_DIR
+	VERSION_VAR LibEvent_VERSION
+	HANDLE_COMPONENTS
 )

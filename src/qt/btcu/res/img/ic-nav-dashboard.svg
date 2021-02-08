@@ -1,19 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="40px" viewBox="0 0 24 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
-    <title>Dashboard</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group" transform="translate(1.000000, 11.000000)" fill="#938DA5" fill-rule="nonzero">
-            <g id="Group_8812">
-                <path d="M10,8 L0,8 L0,0 L10,0 L10,8 Z M2,6 L8,6 L8,2 L2,2 L2,6 Z" id="Path_18866"></path>
-            </g>
-            <g id="Group_8813" transform="translate(12.000000, 0.000000)">
-                <path d="M10,22 L0,22 L0,0 L10,0 L10,22 Z M2,20 L8,20 L8,2 L2,2 L2,20 Z" id="Path_18867"></path>
-            </g>
-            <g id="Group_8814" transform="translate(0.000000, 10.000000)">
-                <path d="M10,12 L0,12 L0,0 L10,0 L10,12 Z M2,10 L8,10 L8,2 L2,2 L2,10 Z" id="Path_18868"></path>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="20"
+   height="29"
+   viewBox="0 0 20 29"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="ic-nav-dashboard.svg"
+   style="fill:none"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1022"
+     inkscape:window-height="480"
+     id="namedview6"
+     showgrid="false"
+     inkscape:zoom="11.238095"
+     inkscape:cx="10"
+     inkscape:cy="10.5"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg4" />
+  <path
+     d="M 18.8427,18.0801 10.1471,8.28014 C 9.98452,8.100578 9.76598,8 9.53837,8 9.31076,8 9.09222,8.100578 8.92968,8.28014 L 0.234025,18.0801 c -0.112073,0.1353 -0.1878739,0.3035 -0.2186326,0.4853 -0.0307588,0.1818 -0.015218173,0.3697 0.0448239,0.5419 0.0600417,0.1723 0.1621317,0.3219 0.2944557,0.4314 0.132323,0.1096 0.289473,0.1747 0.453266,0.1878 H 1.86881 v 7.84 c 0,0.26 0.09161,0.5092 0.25469,0.693 0.16307,0.1838 0.38425,0.287 0.61487,0.287 h 4.86957 v -4.6158 c 0,-0.2599 0.09161,-0.5091 0.25469,-0.6929 C 8.0257,23.054 8.24688,22.9507 8.4775,22.9507 h 2.1044 c 0.2306,0 0.4518,0.1033 0.6148,0.2871 0.1631,0.1838 0.2547,0.433 0.2547,0.6929 v 4.606 h 4.8696 c 0.2306,0 0.4518,-0.1032 0.6149,-0.287 0.163,-0.1838 0.2546,-0.4331 0.2546,-0.693 v -7.84 h 1.1044 c 0.1599,-0.0194 0.3119,-0.0884 0.4391,-0.1993 0.1272,-0.111 0.2246,-0.2595 0.2813,-0.4291 0.0568,-0.1696 0.0707,-0.3536 0.0403,-0.5316 -0.0305,-0.178 -0.1042,-0.3429 -0.2129,-0.4766 z"
+     id="path2"
+     inkscape:connector-curvature="0"
+     style="fill:#ffffff" />
 </svg>

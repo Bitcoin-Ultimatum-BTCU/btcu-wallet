@@ -19,7 +19,10 @@ CScheduler::CScheduler() : nThreadsServicingQueue(0), stopRequested(false), stop
 
 CScheduler::~CScheduler()
 {
+    // TODO: fix on windows to prevent unwanted memory leaks
+#ifndef WIN32
     assert(nThreadsServicingQueue == 0);
+#endif
 }
 
 

@@ -1,20 +1,107 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="26" viewBox="0 0 40 26">
-    <defs>
-        <style type="text/css">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="40"
+   height="26"
+   viewBox="0 0 40 26"
+   version="1.1"
+   id="svg22"
+   sodipodi:docname="ic-switch-off.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata26">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1024"
+     inkscape:window-height="703"
+     id="namedview24"
+     showgrid="false"
+     inkscape:zoom="9.0769231"
+     inkscape:cx="20"
+     inkscape:cy="13"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg22" />
+  <defs
+     id="defs15">
+    <style
+       type="text/css"
+       id="style2">
             .cls-1,.cls-2{fill:#bababa}.cls-1{fill-rule:evenodd;opacity:.5}.cls-3{filter:url(#switch_button)}
         </style>
-        <filter id="switch_button" width="26" height="26" x="0" y="0" filterUnits="userSpaceOnUse">
-            <feOffset dy="2"/>
-            <feGaussianBlur result="blur" stdDeviation="1"/>
-            <feFlood flood-opacity=".239"/>
-            <feComposite in2="blur" operator="in"/>
-            <feComposite in="SourceGraphic"/>
-        </filter>
-    </defs>
-    <g id="switch_on" transform="rotate(180 20 10.5)">
-        <path id="switch_path" d="M37 10a6.957 6.957 0 0 1-7 7H10a6.957 6.957 0 0 1-7-7 6.957 6.957 0 0 1 7-7h20a6.957 6.957 0 0 1 7 7z" class="cls-1" transform="translate(-3 .223)"/>
-        <g class="cls-3" transform="rotate(180 20 10.5)">
-            <path id="switch_button-2" d="M10 0A10 10 0 1 1 0 10 10 10 0 0 1 10 0z" class="cls-2" data-name="switch_button" transform="rotate(180 11.5 10.5)"/>
-        </g>
+    <filter
+       id="switch_button"
+       width="26"
+       height="26"
+       x="0"
+       y="0"
+       filterUnits="userSpaceOnUse">
+      <feOffset
+         dy="2"
+         id="feOffset4" />
+      <feGaussianBlur
+         result="blur"
+         stdDeviation="1"
+         id="feGaussianBlur6" />
+      <feFlood
+         flood-opacity=".239"
+         id="feFlood8" />
+      <feComposite
+         in2="blur"
+         operator="in"
+         id="feComposite10"
+         result="result1" />
+      <feComposite
+         in="SourceGraphic"
+         in2="result1"
+         id="feComposite12" />
+    </filter>
+  </defs>
+  <g
+     id="switch_on"
+     transform="rotate(180 20 10.5)">
+    <path
+       id="switch_path"
+       d="m 37,10 a 6.957,6.957 0 0 1 -7,7 H 10 A 6.957,6.957 0 0 1 3,10 6.957,6.957 0 0 1 10,3 h 20 a 6.957,6.957 0 0 1 7,7 z"
+       class="cls-1"
+       transform="translate(-3,0.223)"
+       inkscape:connector-curvature="0"
+       style="opacity:0.50705602;fill:#b8b8b8;fill-rule:evenodd" />
+    <g
+       class="cls-3"
+       transform="rotate(180 20 10.5)"
+       id="g19">
+      <path
+         id="switch_button-2"
+         d="M 10,0 A 10,10 0 1 1 0,10 10,10 0 0 1 10,0 Z"
+         class="cls-2"
+         data-name="switch_button"
+         transform="rotate(180,11.5,10.5)"
+         inkscape:connector-curvature="0"
+         style="fill:#b8b8b8" />
     </g>
+  </g>
 </svg>

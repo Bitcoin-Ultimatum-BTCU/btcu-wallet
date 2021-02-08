@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
+    <width>844</width>
     <height>434</height>
    </rect>
   </property>
@@ -98,6 +98,9 @@
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
           <item>
            <widget class="QLabel" name="labelTitleLanguage">
             <property name="text">
@@ -117,6 +120,25 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEditLanguage">
+            <property name="minimumSize">
+             <size>
+              <width>380</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QComboBox" name="comboBoxLanguage">
@@ -154,6 +176,9 @@
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalPercentagezPiv">
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
           <item>
            <widget class="QLabel" name="labelTitleUnit">
             <property name="text">
@@ -175,16 +200,35 @@
            </spacer>
           </item>
           <item>
+           <widget class="QLineEdit" name="lineEditBoxUnit">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QValueComboBox" name="comboBoxUnit" native="true">
             <property name="minimumSize">
              <size>
-              <width>180</width>
+              <width>1</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>180</width>
+              <width>1</width>
               <height>16777215</height>
              </size>
             </property>
@@ -210,6 +254,9 @@
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalDenomzPiv">
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
           <item>
            <widget class="QLabel" name="labelTitleDigits">
             <property name="text">
@@ -231,16 +278,35 @@
            </spacer>
           </item>
           <item>
+           <widget class="QLineEdit" name="lineEditDigits">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QComboBox" name="comboBoxDigits">
             <property name="minimumSize">
              <size>
-              <width>180</width>
+              <width>1</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>180</width>
+              <width>1</width>
               <height>16777215</height>
              </size>
             </property>
@@ -304,6 +370,9 @@
           <property name="spacing">
            <number>0</number>
           </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
           <item>
            <widget class="QLabel" name="labelTitleUrl">
             <property name="text">
@@ -347,17 +416,20 @@
           <property name="spacing">
            <number>12</number>
           </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
           <item>
            <widget class="QPushButton" name="pushButtonReset">
             <property name="minimumSize">
              <size>
-              <width>160</width>
+              <width>240</width>
               <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>50</width>
+              <width>240</width>
               <height>16777215</height>
              </size>
             </property>
@@ -373,7 +445,7 @@
            <widget class="QPushButton" name="pushButtonClean">
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>200</width>
               <height>50</height>
              </size>
             </property>
@@ -405,13 +477,13 @@
            <widget class="QPushButton" name="pushButtonSave">
             <property name="minimumSize">
              <size>
-              <width>200</width>
+              <width>150</width>
               <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>200</width>
+              <width>150</width>
               <height>50</height>
              </size>
             </property>

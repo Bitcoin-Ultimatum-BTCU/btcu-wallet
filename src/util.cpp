@@ -88,7 +88,7 @@
 
 // BTCU only features
 // Masternode
-bool fMasterNode = false;
+std::atomic<bool> fMasterNode{false};
 std::string strMasterNodePrivKey = "";
 std::string strMasterNodeAddr = "";
 bool fLiteMode = false;
@@ -226,6 +226,7 @@ bool LogAcceptCategory(const char* category)
                 ptrCategory->insert(std::string("zero"));
                 ptrCategory->insert(std::string("mnbudget"));
                 ptrCategory->insert(std::string("staking"));
+                ptrCategory->insert(std::string("leasing"));
             }
         }
         const std::set<std::string>& setCategories = *ptrCategory.get();

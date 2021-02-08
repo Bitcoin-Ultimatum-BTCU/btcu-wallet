@@ -1,3 +1,17 @@
 /build
 /cmake-build-*
 /.idea
+/CmakeFiles
+*.txt
+*.marks
+*.check_cache
+*.make
+*.bin
+cmake_install.cmake
+CMakeFiles/**/*
+/**/*/CMakeFiles/**/*
+!CMakeLists.txt
+!*.cmake.in
+ethash-bench
+kiss99-tester
+ethash-test

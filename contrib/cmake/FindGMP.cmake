@@ -1,33 +1,93 @@
-# - Find GMP
-# This module defines
-# GMP_INCLUDE_DIR, where to find GMP headers
-# GMP_LIBRARY, LibEvent libraries
-# GMP_FOUND, If false, do not try to use GMP
+# Copyright (c) 2017-2020 The Bitcoin developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-set(GMP_PREFIX "" CACHE PATH "path ")
+#.rst
+# FindGMP
+# -------------
+#
+# Find the GNU Multiple Precision Arithmetic library. The following components
+# are available::
+#   gmp
+#
+# This will define the following variables::
+#
+#   GMP_FOUND - system has GMP lib
+#   GMP_INCLUDE_DIRS - the GMP include directories
+#   GMP_LIBRARIES - Library needed to use GMP
+#   GMP_VERSION - The library version MAJOR.MINOR.PATCH
+#   GMP_VERSION_MAJOR - The library MAJOR version number
+#   GMP_VERSION_MINOR - The library MINOR version number
+#   GMP_VERSION_PATCH - The library PATCH version number
+#
+# And the following imported target::
+#
+#   GMP::gmp
 
-find_path(GMP_INCLUDE_DIR gmp.h gmpxx.h
-        PATHS ${GMP_PREFIX}/include /usr/include /usr/local/include )
+find_brew_prefix(_GMP_BREW_HINT gmp)
 
-find_library(GMP_LIBRARY NAMES gmp libgmp
-        PATHS ${GMP_PREFIX}/lib /usr/lib /usr/local/lib)
+	find_path(GMP_INCLUDE_DIR
+		NAMES gmp.h
+		HINTS ${_GMP_BREW_HINT}
+		PATH_SUFFIXES include
+	)
 
-if(GMP_INCLUDE_DIR AND GMP_LIBRARY)
-    get_filename_component(GMP_LIBRARY_DIR ${GMP_LIBRARY} PATH)
-    set(GMP_FOUND TRUE)
+set(GMP_INCLUDE_DIRS "${GMP_INCLUDE_DIR}")
+mark_as_advanced(GMP_INCLUDE_DIR)
+
+if(GMP_INCLUDE_DIR)
+	# Extract version information from the gmp.h header.
+	if(NOT DEFINED GMP_VERSION)
+		# Read the version from file gmp.h into a variable.
+		file(READ "${GMP_INCLUDE_DIR}/gmp.h" _GMP_HEADER)
+
+		# Parse the version into variables.
+		string(REGEX REPLACE
+			".*__GNU_MP_VERSION[ \t]+([0-9]+).*" "\\1"
+			GMP_VERSION_MAJOR
+			"${_GMP_HEADER}"
+		)
+		string(REGEX REPLACE
+			".*__GNU_MP_VERSION_MINOR[ \t]+([0-9]+).*" "\\1"
+			GMP_VERSION_MINOR
+			"${_GMP_HEADER}"
+		)
+		string(REGEX REPLACE
+			".*__GNU_MP_VERSION_PATCHLEVEL[ \t]+([0-9]+).*" "\\1"
+			GMP_VERSION_PATCH
+			"${_GMP_HEADER}"
+		)
+
+		# Cache the result.
+		set(GMP_VERSION_MAJOR ${GMP_VERSION_MAJOR}
+			CACHE INTERNAL "GMP major version number"
+		)
+		set(GMP_VERSION_MINOR ${GMP_VERSION_MINOR}
+			CACHE INTERNAL "GMP minor version number"
+		)
+		set(GMP_VERSION_PATCH ${GMP_VERSION_PATCH}
+			CACHE INTERNAL "GMP patch version number"
+		)
+		# The actual returned/output version variable (the others can be used if
+		# needed).
+		set(GMP_VERSION
+			"${GMP_VERSION_MAJOR}.${GMP_VERSION_MINOR}.${GMP_VERSION_PATCH}"
+			CACHE INTERNAL "GMP full version"
+		)
+	endif()
+
+	include(ExternalLibraryHelper)
+    
+	find_component(GMP gmp
+		NAMES gmp gmpd
+		HINTS "${_GMP_BREW_HINT}"
+		INCLUDE_DIRS ${GMP_INCLUDE_DIRS}
+		PATHS ${GMP_LIBRARY}
+	)
 endif()
-
-if(GMP_FOUND)
-    if(NOT GMP_FIND_QUIETLY)
-        MESSAGE(STATUS "Found GMP: ${GMP_LIBRARY}")
-    endif()
-elseif(GMP_FOUND)
-    if(GMP_FIND_REQUIRED)
-        message(FATAL_ERROR "Could not find GMP")
-    endif()
-endif()
-
-mark_as_advanced(
-        GMP_LIB
-        GMP_INCLUDE_DIR
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(GMP
+	REQUIRED_VARS GMP_INCLUDE_DIR
+	VERSION_VAR GMP_VERSION
+	HANDLE_COMPONENTS
 )

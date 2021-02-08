@@ -1,37 +1,56 @@
-# - Find Qrcode
-# This module defines
-# QRCODE_INCLUDE_DIR, where to find libqrencode headers
-# QRCODE_LIB, libqrencode libraries
-# QRCODE_FOUND, If false, do not try to use libqrencode
+# Copyright (c) 2019-2020 The Bitcoin developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-set(QRCODE_EXTRA_PREFIXES /usr/local /opt/local "$ENV{HOME}")
-foreach(prefix ${ZMQ_EXTRA_PREFIXES})
-    list(APPEND QRCODE_INCLUDE_PATHS "${prefix}/include")
-    list(APPEND QRCODE_LIB_PATHS "${prefix}/lib")
-endforeach()
+#.rst
+# FindQrcode
+# -------------
+#
+# Find the Qrcode library. The following
+# components are available::
+#   qrencode
+#
+# This will define the following variables::
+#
+#   Qrcode_FOUND - system has Qrcode lib
+#   Qrcode_INCLUDE_DIRS - the Qrcode include directories
+#   Qrcode_LIBRARIES - Libraries needed to use Qrcode
+#
+# And the following imported target::
+#
+#   Qrcode::qrencode
 
-find_path(QRCODE_INCLUDE_DIR qrencode.h PATHS ${QRCODE_INCLUDE_PATHS})
-find_library(QRCODE_LIB NAMES qrencode PATHS ${QRCODE_LIB_PATHS})
+find_brew_prefix(_Qrcode_BREW_HINT qrencode)
 
-if (QRCODE_LIB AND QRCODE_INCLUDE_DIR)
-    set(QRCODE_FOUND TRUE)
-else ()
-    set(QRCODE_FOUND FALSE)
-endif ()
+find_package(PkgConfig)
+pkg_check_modules(PC_Qrcode QUIET libqrencode)
 
-if (QRCODE_FOUND)
-    if (NOT QRCODE_FIND_QUIETLY)
-        message(STATUS "Found libqrencode: ${QRCODE_LIB}")
-        include_directories(${QRCODE_INCLUDE_DIR})
-    endif ()
-else ()
-    if (QRCODE_FIND_REQUIRED)
-        message(FATAL_ERROR "Could NOT find libqrencode.")
-    endif ()
-    message(STATUS "libqrencode NOT found.")
-endif ()
+find_path(Qrcode_INCLUDE_DIR
+	NAMES qrencode.h
+	HINTS ${_Qrcode_BREW_HINT}
+	PATHS ${PC_Qrcode_INCLUDE_DIRS}
+	PATH_SUFFIXES include
+)
 
-mark_as_advanced(
-        QRCODE_LIB
-        QRCODE_INCLUDE_DIR
+set(Qrcode_INCLUDE_DIRS "${Qrcode_INCLUDE_DIR}")
+mark_as_advanced(Qrcode_INCLUDE_DIR)
+
+# TODO: extract a version number.
+# For now qrencode does not provide an easy way to extract a version number.
+
+if(Qrcode_INCLUDE_DIR)
+	include(ExternalLibraryHelper)
+	find_component(Qrcode qrencode
+		NAMES qrencode qrencoded
+		HINTS ${_Qrcode_BREW_HINT}
+		PATHS ${PC_Qrcode_LIBRARY_DIRS}
+		INCLUDE_DIRS ${Qrcode_INCLUDE_DIRS}
+	)
+endif()
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Qrcode
+	REQUIRED_VARS
+		Qrcode_INCLUDE_DIR
+	HANDLE_COMPONENTS
 )

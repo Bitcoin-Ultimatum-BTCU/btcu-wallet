@@ -1,8 +1,8 @@
-BTCU Core version *3.3.0* is now available from:  <https://github.com/bitcoin-ultimatum/btcu/releases>
+BTCU Core version *3.3.0* is now available from:  <https://github.com/bitcoin-ultimatum/orion/releases>
 
 This is a new major version release, including various bug fixes and performance improvements, as well as updated translations.
 
-Please report bugs using the issue tracker at github: <https://github.com/bitcoin-ultimatum/btcu/issues>
+Please report bugs using the issue tracker at github: <https://github.com/bitcoin-ultimatum/orion/issues>
 
 
 Mandatory Update
@@ -65,7 +65,7 @@ Notice text has been added to the privacy tab indicating that zBTCU minting is d
 
 The `masternode` and `mnbudget` RPC commands, which were marked as deprecated in BTCU Core v2.3.1 (September 19, 2017), have now been completely removed from BTCU Core.
 
-Several new commands were added in v2.3.1 to replace the two aforementioned commands, reference the [v2.3.1 Release Notes](https://github.com/bitcoin-ultimatum/btcu/blob/master/doc/release-notes/release-notes-2.3.1.md#rpc-changes) for further details.
+Several new commands were added in v2.3.1 to replace the two aforementioned commands, reference the [v2.3.1 Release Notes](https://github.com/bitcoin-ultimatum/orion/blob/master/doc/release-notes/release-notes-2.3.1.md#rpc-changes) for further details.
 
 ### New `getblockindexstats` Command
 

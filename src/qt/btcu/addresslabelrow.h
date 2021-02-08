@@ -7,6 +7,8 @@
 #define ADDRESSLABELROW_H
 
 #include <QWidget>
+#include <QGraphicsDropShadowEffect>
+#include <QtCore/QModelIndex>
 
 namespace Ui {
 class AddressLabelRow;
@@ -24,12 +26,22 @@ public:
 
     void updateState(bool isLightTheme, bool isHovered, bool isSelected);
     void updateView(QString address, QString label);
+    void setIndex(QModelIndex pIndex);
+    QModelIndex getIndex();
+    bool getButonActive();
 protected:
     virtual void enterEvent(QEvent *);
     virtual void leaveEvent(QEvent *);
+    bool eventFilter(QObject *obj, QEvent *event);
+
+Q_SIGNALS:
+   void onMenuClicked();
 
 private:
     Ui::AddressLabelRow *ui;
+   QGraphicsDropShadowEffect* shadowEffect =nullptr;
+   bool btn = false;
+   QModelIndex index;
 };
 
 #endif // ADDRESSLABELROW_H

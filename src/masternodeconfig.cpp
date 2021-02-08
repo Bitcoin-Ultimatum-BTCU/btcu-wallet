@@ -14,12 +14,15 @@ CMasternodeConfig masternodeConfig;
 
 CMasternodeConfig::CMasternodeEntry* CMasternodeConfig::add(std::string alias, std::string ip, std::string privKey, std::string txHash, std::string outputIndex)
 {
+    LOCK(cs_entries);
     CMasternodeEntry cme(alias, ip, privKey, txHash, outputIndex);
     entries.push_back(cme);
     return &(entries[entries.size()-1]);
 }
 
 void CMasternodeConfig::remove(std::string alias) {
+    LOCK(cs_entries);
+
     int pos = -1;
     for (int i = 0; i < ((int) entries.size()); ++i) {
         CMasternodeEntry e = entries[i];
@@ -31,8 +34,14 @@ void CMasternodeConfig::remove(std::string alias) {
     entries.erase(entries.begin() + pos);
 }
 
+void CMasternodeConfig::clear() {
+    LOCK(cs_entries);
+    entries.clear();
+}
+
 bool CMasternodeConfig::read(std::string& strErr)
 {
+    LOCK(cs_entries);
     int linenumber = 1;
     boost::filesystem::path pathMasternodeConfigFile = GetMasternodeConfigFile();
     boost::filesystem::ifstream streamConfig(pathMasternodeConfigFile);

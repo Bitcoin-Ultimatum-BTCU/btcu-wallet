@@ -4,7 +4,7 @@
 
 # This example shows how to use evmc INTERFACE library from evmc CMake package.
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.14)
 
 project(use_evmc_in_cmake)
 

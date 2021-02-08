@@ -1,4 +1,4 @@
-CXXFLAGS ?= -DNDEBUG -g2 -Os -fPIC -pipe
+CXXFLAGS ?= -g2 -Os -fPIC -pipe
 
 # The following options reduce code size, but breaks link or makes link very slow on some systems
 # CXXFLAGS += -ffunction-sections -fdata-sections

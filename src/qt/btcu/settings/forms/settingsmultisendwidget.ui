@@ -101,7 +101,7 @@
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <property name="spacing">
-               <number>0</number>
+               <number>27</number>
               </property>
               <property name="leftMargin">
                <number>0</number>
@@ -119,13 +119,13 @@
                <widget class="QPushButton" name="pushLeft">
                 <property name="minimumSize">
                  <size>
-                  <width>120</width>
+                  <width>133</width>
                   <height>30</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>120</width>
+                  <width>133</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -147,13 +147,13 @@
                <widget class="QPushButton" name="pushRight">
                 <property name="minimumSize">
                  <size>
-                  <width>120</width>
+                  <width>133</width>
                   <height>30</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>120</width>
+                  <width>133</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -359,6 +359,9 @@
           </item>
           <item>
            <widget class="QCheckBox" name="checkBoxStake">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
             <property name="text">
              <string>CheckBox</string>
             </property>
@@ -388,6 +391,9 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
             <property name="text">
              <string>CheckBox</string>
             </property>
@@ -406,7 +412,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>12</height>
+            <height>22</height>
            </size>
           </property>
          </spacer>

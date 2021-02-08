@@ -54,9 +54,9 @@ TEST_EXIT_SKIPPED = 77
 
 BASE_SCRIPTS= [
     # Scripts that are run by the travis build process.
-    'btcu_createcontract.py',
-    'btcu_callcontract.py',
-    'btcu_sendtocontract.py',
+    'evm_createcontract.py',
+    'evm_callcontract.py',
+    'evm_sendtocontract.py',
     # Longest test should go first, to favor running tests in parallel
     'wallet_basic.py',                          # ~ 1155 sec
     'wallet_backup.py',                         # ~ 459 sec
@@ -503,7 +503,7 @@ def check_script_prefixes():
     # convention don't immediately cause the tests to fail.
     LEEWAY = 10
 
-    good_prefixes_re = re.compile("(example|feature|interface|mempool|mining|p2p|rpc|wallet|zerocoin)_")
+    good_prefixes_re = re.compile("(example|feature|interface|mempool|mining|p2p|rpc|wallet|zerocoin|evm)_")
     bad_script_names = [script for script in ALL_SCRIPTS if good_prefixes_re.match(script) is None]
 
     if len(bad_script_names) > 0:

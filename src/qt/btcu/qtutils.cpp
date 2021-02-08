@@ -35,6 +35,20 @@ bool openDialog(QDialog *widget, QWidget *gui){
     widget->raise();
     return widget->exec();
 }
+bool openDialogDropRight(QDialog *widget, QWidget *gui)
+{
+   widget->setWindowFlags(Qt::CustomizeWindowHint);
+   widget->setAttribute(Qt::WA_TranslucentBackground, true);
+   QPropertyAnimation* animation = new QPropertyAnimation(widget, "pos");
+   animation->setDuration(300);
+   animation->setStartValue(QPoint(gui->width(), widget->height()+15));
+   animation->setEndValue(QPoint(gui->width() - widget->width() - 10, widget->height()+15));
+   animation->setEasingCurve(QEasingCurve::OutQuad);
+   animation->start(QAbstractAnimation::DeleteWhenStopped);
+   widget->activateWindow();
+   widget->raise();
+   return widget->exec();
+}
 
 void closeDialog(QDialog *widget, BTCUGUI *gui){
     widget->setWindowFlags(Qt::CustomizeWindowHint);
@@ -45,6 +59,18 @@ void closeDialog(QDialog *widget, BTCUGUI *gui){
     animation->setEndValue(QPoint(0, gui->height() + 100));
     animation->setEasingCurve(QEasingCurve::OutQuad);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void closeDialogDropRight(QDialog *widget, BTCUGUI *gui)
+{
+   widget->setWindowFlags(Qt::CustomizeWindowHint);
+   widget->setAttribute(Qt::WA_TranslucentBackground, true);
+   QPropertyAnimation* animation = new QPropertyAnimation(widget, "pos");
+   animation->setDuration(300);
+   animation->setStartValue(widget->pos());
+   animation->setEndValue(QPoint(gui->width(), widget->pos().y()));
+   animation->setEasingCurve(QEasingCurve::OutQuad);
+   animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void openDialogFullScreen(QWidget *parent, QWidget * dialog){
@@ -73,6 +99,23 @@ bool openDialogWithOpaqueBackgroundY(QDialog *widget, BTCUGUI *gui, double posX,
 
 bool openDialogWithOpaqueBackground(QDialog *widget, BTCUGUI *gui, double posX){
     return openDialogWithOpaqueBackgroundY(widget, gui, posX, 5);
+}
+
+bool openDialogWithOpaqueBackground(QDialog *widget, BTCUGUI *gui)
+{
+   widget->setWindowFlags(Qt::CustomizeWindowHint);
+   widget->setAttribute(Qt::WA_TranslucentBackground, true);
+   QPropertyAnimation* animation = new QPropertyAnimation(widget, "pos");
+   animation->setDuration(300);
+   int xPos = (gui->width()/2) - (widget->width()/2) ;
+   animation->setStartValue(QPoint(xPos, gui->height()));
+   animation->setEndValue(QPoint(xPos, (gui->height() / 2)- (widget->height()/2)));
+   animation->setEasingCurve(QEasingCurve::OutQuad);
+   animation->start(QAbstractAnimation::DeleteWhenStopped);
+   widget->activateWindow();
+   bool res = widget->exec();
+   gui->showHide(false);
+   return res;
 }
 
 bool openDialogWithOpaqueBackgroundFullScreen(QDialog *widget, BTCUGUI *gui){
@@ -164,7 +207,7 @@ void updateStyle(QWidget* widget){
 QColor getRowColor(bool isLightTheme, bool isHovered, bool isSelected){
     if(isLightTheme){
         if (isSelected) {
-            return QColor("#25b088ff");
+            return QColor("#EDF0F8ff");
         }else if(isHovered){
             return QColor("#25bababa");
         } else{
@@ -201,20 +244,35 @@ void initCssEditLine(QLineEdit *edit, bool isDialog){
 }
 
 void setCssEditLine(QLineEdit *edit, bool isValid, bool forceUpdate){
-    setCssProperty(edit, isValid ? "edit-primary" : "edit-primary-error", forceUpdate);
+       setCssProperty(edit, isValid ? "edit-primary" : "edit-primary-error", forceUpdate);
 }
 
 void setCssEditLineDialog(QLineEdit *edit, bool isValid, bool forceUpdate){
     setCssProperty(edit, isValid ? "edit-primary-dialog" : "edit-primary-dialog-error", forceUpdate);
 }
 
+void initCssEditLine(QWidget *edit, bool isDialog){
+   if (isDialog) setCssEditLineDialog(edit, true, false);
+   else setCssEditLine(edit, true, false);
+   setShadow(edit);
+   edit->setAttribute(Qt::WA_MacShowFocusRect, 0);
+}
+
+void setCssEditLine(QWidget *edit, bool isValid, bool forceUpdate){
+   setCssProperty(edit, isValid ? "edit-primary" : "edit-primary-error", false);
+}
+
+void setCssEditLineDialog(QWidget *edit, bool isValid, bool forceUpdate){
+   setCssProperty(edit, isValid ? "edit-primary-dialog" : "edit-primary-dialog-error", false);
+}
+
 void setShadow(QWidget *edit){
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect();
     shadowEffect->setColor(QColor(0, 0, 0, 22));
     shadowEffect->setXOffset(0);
-    shadowEffect->setYOffset(3);
+    shadowEffect->setYOffset(2);
     shadowEffect->setBlurRadius(6);
-    edit->setGraphicsEffect(shadowEffect);
+    //edit->setGraphicsEffect(shadowEffect);
 }
 
 void setCssBtnPrimary(QPushButton *btn, bool forceUpdate){

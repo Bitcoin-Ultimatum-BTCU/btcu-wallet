@@ -83,7 +83,9 @@ void go(unsigned _depth, Executive& _e, OnOpFunc const& _onOp)
 
     if (_depth == c_offloadPoint)
     {
+#ifndef WIN32
         cnote << "Stack offloading (depth: " << c_offloadPoint << ")";
+#endif
         goOnOffloadedStack(_e, _onOp);
     }
     else

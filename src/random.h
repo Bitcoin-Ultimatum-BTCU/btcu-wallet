@@ -14,6 +14,14 @@
 
 #include <stdint.h>
 
+#ifdef _MSC_VER
+#ifdef _WIN64
+#define ssize_t int64_t
+#else // _WIN64
+#define ssize_t int32_t
+#endif // _WIN64
+#endif // _MSC_VER
+
 /* Seed OpenSSL PRNG with additional entropy data */
 void RandAddSeed();
 

@@ -1,13 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-    <defs>
-        <style type="text/css">
-            .cls-1{fill:#5C4B7D}.cls-2{fill:none}
-        </style>
-    </defs>
-    <g id="ic_arrow_drop_up" transform="rotate(180 12 12)">
-        <g id="Group_8822" data-name="Group 8822">
-            <path id="Path_18879" d="M12 16.365L4.319 9.233l1.362-1.466L12 13.635l6.319-5.868 1.361 1.466z" class="cls-1" data-name="Path 18879"/>
-        </g>
-        <path id="Rectangle_4407" d="M0 0h24v24H0z" class="cls-2" data-name="Rectangle 4407"/>
-    </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg60"
+   sodipodi:docname="ic-arrow-drop-up-purple.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   style="fill:none">
+  <metadata
+     id="metadata66">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs64" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1024"
+     inkscape:window-height="703"
+     id="namedview62"
+     showgrid="false"
+     inkscape:zoom="12.275"
+     inkscape:cx="5.6877293"
+     inkscape:cy="4.3062249"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg60" />
+  <path
+     d="M 8.1649847,12.823549 11.455365,8.7776001 c 0.31213,-0.37013 0.79333,-0.37013 1.09245,0 L 15.83819,12.823549 C 16.15032,13.206446 15.994255,13.5 15.513054,13.5 H 8.490125 c -0.4942103,0 -0.6372703,-0.293554 -0.3251403,-0.676451 z"
+     id="path58"
+     inkscape:connector-curvature="0"
+     style="fill:#1e1e39" />
 </svg>

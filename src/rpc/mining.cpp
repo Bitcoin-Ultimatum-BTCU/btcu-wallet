@@ -208,6 +208,35 @@ UniValue generate(const UniValue& params, bool fHelp)
     return blockHashes;
 }
 
+UniValue reprocess(const UniValue& params, bool fHelp)
+{
+    if (fHelp || params.size() < 1 || params.size() > 1)
+        throw std::runtime_error(
+            "reprocess numblocks\n"
+            "\nReprocess blocks immediately (before the RPC call returns)\n"
+            "\nNote: this function can only be used on the regtest network\n"
+
+            "\nArguments:\n"
+            "1. numblocks    (numeric, required) How many blocks to reprocess.\n"
+
+            "\nExamples:\n"
+            "\nReprocess 11 blocks\n"
+            + HelpExampleCli("reprocess", "11")
+        );
+
+    const int nBlocks = params[0].get_int();
+
+    if (nBlocks <= 0)
+        throw JSONRPCError(RPC_INVALID_REQUEST, "Number of blocks should be more than 0");
+
+    if (nBlocks > chainActive.Height())
+        throw JSONRPCError(RPC_INVALID_REQUEST, "Chain hasn't enough blocks");
+
+    ReprocessBlocks(nBlocks);
+
+    return NullUniValue;
+}
+
 UniValue setgenerate(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)

@@ -3,8 +3,11 @@ set(CTEST_OUTPUT_ON_FAILURE TRUE)
 
 include(GoogleTest)
 
-hunter_add_package(GTest)
-find_package(GTest CONFIG REQUIRED)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    find_package(GTest REQUIRED)
+else()
+    find_package(GTest CONFIG REQUIRED)
+endif()
 
 set(unittest_sources
     unittests/libdevcore/CommonJS.cpp
@@ -38,8 +41,20 @@ add_executable(cpp-ethereum-unittests ${unittest_sources})
 target_include_directories(cpp-ethereum-unittests PRIVATE ${UTILS_INCLUDE_DIR})
 target_link_libraries(cpp-ethereum-unittests PRIVATE
     web3jsonrpc ethashseal devcrypto devcore
-    GTest::gtest GTest::main
 )
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    target_link_libraries(cpp-ethereum-unittests
+        PRIVATE 
+            GTest::GTest 
+            GTest::Main
+            )
+else()
+    target_link_libraries(cpp-ethereum-unittests
+        PRIVATE 
+            GTest::gtest 
+            GTest::gtest_main
+            )
+endif()
 gtest_add_tests(TARGET cpp-ethereum-unittests TEST_PREFIX unittests/ TEST_LIST unittests)
 set_tests_properties(${unittests} PROPERTIES TIMEOUT ${timeout})
 
@@ -101,12 +116,11 @@ foreach(file ${sources})
     endforeach(test_raw)
 endforeach(file)
 
-hunter_add_package(yaml-cpp)
 find_package(yaml-cpp CONFIG REQUIRED)
 
 add_executable(testeth ${sources})
 target_include_directories(testeth PRIVATE ${UTILS_INCLUDE_DIR})
-target_link_libraries(testeth PRIVATE ethereum ethashseal web3jsonrpc devcrypto devcore cpp-ethereum-buildinfo cryptopp-static yaml-cpp::yaml-cpp binaryen::binaryen libjson-rpc-cpp::client)
+target_link_libraries(testeth PRIVATE ethereum ethashseal web3jsonrpc devcrypto devcore cpp-ethereum-buildinfo cryptopp yaml-cpp::yaml-cpp binaryen::binaryen libjson-rpc-cpp::client)
 install(TARGETS testeth DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 set_property(SOURCE tools/libtesteth/TestHelper.cpp PROPERTY COMPILE_DEFINITIONS BINARYEN_VERSION=${BINARYEN_VERSION})

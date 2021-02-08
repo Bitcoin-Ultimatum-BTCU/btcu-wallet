@@ -19,8 +19,6 @@ except IOError:
 
 flags = [
 '-Wall',
-'-Werror',
-'-pedantic',
 '-std=c++11',
 '-x',
 'c++',

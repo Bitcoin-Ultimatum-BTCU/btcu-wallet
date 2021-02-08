@@ -4,7 +4,7 @@
 #   please set up a Ubuntu 12.04 LTS system. Then, manually install Cmake 2.8.5
 #   from http://cmake.org/Wiki/CMake_Released_Versions.
 
-cmake_minimum_required(VERSION 2.8.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14)
 
 project(cryptopp)
 
@@ -31,9 +31,15 @@ include(CheckCXXCompilerFlag)
 # Settable options
 #============================================================================
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	option(BUILD_SHARED "Build shared library" OFF)
+	option(BUILD_TESTING "Build library tests" OFF)
+else()
+	option(BUILD_SHARED "Build shared library" ON)
+	option(BUILD_TESTING "Build library tests" ON)
+endif()
+
 option(BUILD_STATIC "Build static library" ON)
-option(BUILD_SHARED "Build shared library" ON)
-option(BUILD_TESTING "Build library tests" ON)
 option(BUILD_DOCUMENTATION "Use Doxygen to create the HTML based API documentation" OFF)
 
 option(DISABLE_ASM "Disable ASM" OFF)
@@ -63,7 +69,7 @@ if (NOT CMAKE_VERSION VERSION_LESS 2.8.12)
   set(CMAKE_MACOSX_RPATH 0)
 endif()
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "Intel")
+if (NOT MSVC AND CMAKE_CXX_COMPILER_ID MATCHES "Intel")
 	add_definitions(-wd68 -wd186 -wd279 -wd327 -wd161 -wd3180)
 endif()
 
@@ -246,7 +252,7 @@ if (BUILD_STATIC)
 	endif()
 
 	if (NOT CMAKE_VERSION VERSION_LESS 2.8.12)
-		target_include_directories(cryptopp-static PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}> $<INSTALL_INTERFACE:include/cryptopp>)
+		target_include_directories(cryptopp-static PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 	endif()
 endif()
 
@@ -258,7 +264,7 @@ if (BUILD_SHARED)
 	endif()
 
 	if (NOT CMAKE_VERSION VERSION_LESS 2.8.12)
-		target_include_directories(cryptopp-shared PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}> $<INSTALL_INTERFACE:include/cryptopp>)
+		target_include_directories(cryptopp-shared PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 	endif()
 endif()
 
@@ -393,7 +399,7 @@ endif()
 if (BUILD_STATIC)
 	install(TARGETS cryptopp-static EXPORT ${export_name} DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif()
-install(FILES ${cryptopp_HEADERS} DESTINATION include/cryptopp)
+install(FILES ${cryptopp_HEADERS} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 # CMake Package
 if(NOT CMAKE_VERSION VERSION_LESS 2.8.8)	# CMakePackageConfigHelpers is supported from 2.8.8

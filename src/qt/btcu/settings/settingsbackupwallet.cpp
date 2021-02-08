@@ -20,7 +20,7 @@ SettingsBackupWallet::SettingsBackupWallet(BTCUGUI* _window, QWidget *parent) :
     this->setStyleSheet(parent->styleSheet());
 
     /* Containers */
-    ui->left->setProperty("cssClass", "container");
+    ui->left->setProperty("cssClass", "container-border");
     ui->left->setContentsMargins(10,10,10,10);
 
     // Title
@@ -40,21 +40,25 @@ SettingsBackupWallet::SettingsBackupWallet(BTCUGUI* _window, QWidget *parent) :
 
     // Location
     ui->labelSubtitleLocation->setText(tr("Where"));
-    ui->labelSubtitleLocation->setProperty("cssClass", "text-title");
+    setCssSubtitleScreen(ui->labelSubtitleLocation);//->setProperty("cssClass", "text-title");
 
     ui->pushButtonDocuments->setText(tr("Select folder..."));
     ui->pushButtonDocuments->setProperty("cssClass", "btn-edit-primary-folder");
     setShadow(ui->pushButtonDocuments);
+   ui->pushButtonDocuments->setVisible(false);
 
     // Buttons
-    ui->pushButtonSave->setText(tr("Backup"));
-    setCssBtnPrimary(ui->pushButtonSave);
+    ui->pushButtonSave->setText(tr("select folder"));
+    //setCssBtnPrimary(ui->pushButtonSave);
+   ui->pushButtonSave->setProperty("cssClass","btn-secundary");
 
     ui->pushButtonSave_2->setText(tr("Change Passphrase"));
-    setCssBtnPrimary(ui->pushButtonSave_2);
+    //setCssBtnPrimary(ui->pushButtonSave_2);
+   ui->pushButtonSave_2->setProperty("cssClass","btn-secundary");
 
-    connect(ui->pushButtonSave, SIGNAL(clicked()), this, SLOT(backupWallet()));
-    connect(ui->pushButtonDocuments, SIGNAL(clicked()), this, SLOT(selectFileOutput()));
+   /*connect(ui->pushButtonSave, SIGNAL(clicked()), this, SLOT(backupWallet()));
+   connect(ui->pushButtonDocuments, SIGNAL(clicked()), this, SLOT(selectFileOutput()));*/
+   connect(ui->pushButtonSave, SIGNAL(clicked()), this, SLOT(selectFileOutput()));
     connect(ui->pushButtonSave_2, SIGNAL(clicked()), this, SLOT(changePassphrase()));
 }
 
@@ -67,6 +71,7 @@ void SettingsBackupWallet::selectFileOutput()
     if (!filenameRet.isEmpty()) {
         filename = filenameRet;
         ui->pushButtonDocuments->setText(filename);
+       Q_EMIT backupWallet();
     }
 }
 

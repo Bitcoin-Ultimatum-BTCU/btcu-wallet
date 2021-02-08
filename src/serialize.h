@@ -24,6 +24,10 @@
 #include "libzerocoin/SpendType.h"
 #include "sporkid.h"
 
+#ifdef WIN32
+#include <sstream>
+#endif
+
 class CScript;
 class CSizeComputer;
 static const unsigned int MAX_SIZE = 0x02000000;
@@ -333,9 +337,9 @@ inline unsigned int GetSizeOfCompactSize(uint64_t nSize)
 {
     if (nSize < 253)
         return sizeof(unsigned char);
-    else if (nSize <= std::numeric_limits<unsigned short>::max())
+    else if (nSize <= (std::numeric_limits<unsigned short>::max)())
         return sizeof(unsigned char) + sizeof(unsigned short);
-    else if (nSize <= std::numeric_limits<unsigned int>::max())
+    else if (nSize <= (std::numeric_limits<unsigned int>::max)())
         return sizeof(unsigned char) + sizeof(unsigned int);
     else
         return sizeof(unsigned char) + sizeof(uint64_t);
@@ -347,12 +351,12 @@ void WriteCompactSize(Stream& os, uint64_t nSize)
     if (nSize < 253) {
         unsigned char chSize = nSize;
         WRITEDATA(os, chSize);
-    } else if (nSize <= std::numeric_limits<unsigned short>::max()) {
+    } else if (nSize <= (std::numeric_limits<unsigned short>::max)()) {
         unsigned char chSize = 253;
         unsigned short xSize = nSize;
         WRITEDATA(os, chSize);
         WRITEDATA(os, xSize);
-    } else if (nSize <= std::numeric_limits<unsigned int>::max()) {
+    } else if (nSize <= (std::numeric_limits<unsigned int>::max)()) {
         unsigned char chSize = 254;
         unsigned int xSize = nSize;
         WRITEDATA(os, chSize);
@@ -774,7 +778,7 @@ void Unserialize_impl(Stream& is, std::vector<T, A>& v, int nType, int nVersion,
     unsigned int nSize = ReadCompactSize(is);
     unsigned int i = 0;
     while (i < nSize) {
-        unsigned int blk = std::min(nSize - i, (unsigned int)(1 + 4999999 / sizeof(T)));
+        unsigned int blk = (std::min)(nSize - i, (unsigned int)(1 + 4999999 / sizeof(T)));
         v.resize(i + blk);
         is.read((char*)&v[i], blk * sizeof(T));
         i += blk;

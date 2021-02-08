@@ -1,13 +1,13 @@
 BTCU Core version 3.0.6 is now available from:
 
-  <https://github.com/bitcoin-ultimatum/btcu/releases>
+  <https://github.com/bitcoin-ultimatum/orion/releases>
 
 This is a new minor-revision version release, including various bug fixes and
 performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/bitcoin-ultimatum/btcu/issues>
+  <https://github.com/bitcoin-ultimatum/orion/issues>
 
 
 How to Upgrade

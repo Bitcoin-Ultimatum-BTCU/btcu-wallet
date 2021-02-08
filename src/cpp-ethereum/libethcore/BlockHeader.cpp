@@ -251,18 +251,24 @@ void BlockHeader::verify(Strictness _s, BlockHeader const& _parent, bytesConstRe
                 transactionsTrie.insert(&k.out(), txList[i].data());
 
                 txs.push_back(txList[i].data());
+#ifndef WIN32
                 cdebug << toHex(k.out()) << toHex(txList[i].data());
+#endif
             }
+#ifndef WIN32
             cdebug << "trieRootOver" << expectedRoot;
             cdebug << "orderedTrieRoot" << orderedTrieRoot(txs);
             cdebug << "TrieDB" << transactionsTrie.root();
             cdebug << "Contents:";
-            for (auto const& t: txs)
+            for (auto const& t : txs)
                 cdebug << toHex(t);
+#endif
 
             BOOST_THROW_EXCEPTION(InvalidTransactionsRoot() << Hash256RequirementError(expectedRoot, m_transactionsRoot));
         }
+#ifndef WIN32
         LOG(m_logger) << "Expected uncle hash: " << toString(sha3(root[2].data()));
+#endif
         if (m_sha3Uncles != sha3(root[2].data()))
             BOOST_THROW_EXCEPTION(InvalidUnclesHash() << Hash256RequirementError(sha3(root[2].data()), m_sha3Uncles));
     }

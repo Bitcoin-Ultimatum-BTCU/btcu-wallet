@@ -32,11 +32,11 @@ SendWidget::SendWidget(BTCUGUI* parent) :
     this->setStyleSheet(parent->styleSheet());
 
     /* Containers */
-    setCssProperty(ui->left, "container");
+    setCssProperty(ui->left, "container-border");
     ui->left->setContentsMargins(0,20,0,20);
-    setCssProperty(ui->right, "container-right");
+    setCssProperty(ui->right, "container-border");
     ui->right->setContentsMargins(20,10,20,20);
-
+   ui->right->setVisible(false);
     /* Light Font */
     QFont fontLight;
     fontLight.setWeight(QFont::Light);
@@ -53,19 +53,26 @@ SendWidget::SendWidget(BTCUGUI* parent) :
     ui->pushRight->setText("zBTCU");
     setCssProperty(ui->pushRight, "btn-check-right");
 
+   ui->pushLeft->setVisible(false);
+   ui->pushRight->setVisible(false);
+   ui->stackedWidget->setVisible(false);
+   ui->pushButtonFee->setVisible(false);
+   ui->pushButtonAddRecipient->setVisible(false);
     /* Subtitle */
-    ui->labelSubtitle1->setText(tr("You can transfer public coins (BTCU) or private coins (zBTCU)"));
+    ui->labelSubtitle1->setText(tr("send public coins"));
     setCssProperty(ui->labelSubtitle1, "text-subtitle");
 
     ui->labelSubtitle2->setText(tr("Select coin type to spend"));
     setCssProperty(ui->labelSubtitle2, "text-subtitle");
-
+   ui->labelSubtitle2->setVisible(false);
     /* Address */
+   ui->labelSubtitleAddress->setVisible(false);
     ui->labelSubtitleAddress->setText(tr("BTCU address or contact label"));
     setCssProperty(ui->labelSubtitleAddress, "text-title");
 
 
     /* Amount */
+   ui->labelSubtitleAmount->setVisible(false);
     ui->labelSubtitleAmount->setText(tr("Amount"));
     setCssProperty(ui->labelSubtitleAmount, "text-title");
 
@@ -73,13 +80,16 @@ SendWidget::SendWidget(BTCUGUI* parent) :
     ui->pushButtonFee->setText(tr("Customize fee"));
     setCssBtnSecondary(ui->pushButtonFee);
 
-    ui->pushButtonClear->setText(tr("Clear all"));
-    setCssProperty(ui->pushButtonClear, "btn-secundary-clear");
+    ui->pushButtonClear->setText(tr("Reset"));
+    ui->pushButtonClear->setProperty("cssClass","btn-primary");
+    //setCssProperty(ui->pushButtonClear, "btn-secundary-clear");
+    
 
     ui->pushButtonAddRecipient->setText(tr("Add recipient"));
     setCssProperty(ui->pushButtonAddRecipient, "btn-secundary-add");
 
-    setCssBtnPrimary(ui->pushButtonSave);
+    //setCssBtnPrimary(ui->pushButtonSave);
+    ui->pushButtonSave->setProperty("cssClass","btn-secundary");
     ui->pushButtonReset->setText(tr("Reset to default"));
     setCssBtnSecondary(ui->pushButtonReset);
 
@@ -144,15 +154,16 @@ SendWidget::SendWidget(BTCUGUI* parent) :
 }
 
 void SendWidget::refreshView(){
-    QString btnText;
+    /*QString btnText;
     if(ui->pushLeft->isChecked()){
         btnText = tr("Send BTCU");
         ui->pushButtonAddRecipient->setVisible(true);
     }else{
         btnText = tr("Send zBTCU");
         ui->pushButtonAddRecipient->setVisible(false);
-    }
-    ui->pushButtonSave->setText(btnText);
+    }*/
+    //ui->pushButtonSave->setText(btnText);
+   ui->pushButtonSave->setText(tr("Send"));
 
     refreshAmounts();
 }
@@ -284,7 +295,8 @@ void SendWidget::onAddEntryClicked(){
     // Check prev valid entries before add a new one.
     for (SendMultiRow* entry : entries){
         if(!entry || !entry->validate()) {
-            inform(tr("Invalid entry, previous entries must be valid before add a new one"));
+            //inform(tr("Invalid entry, previous entries must be valid before add a new one"));
+            informError(tr("Invalid entry, previous entries must be valid before add a new one"));
             return;
         }
     }
@@ -310,7 +322,7 @@ void SendWidget::onSendClicked(){
         if(entry && entry->validate()) {
             recipients.append(entry->getValue());
         }else{
-            inform(tr("Invalid entry"));
+            informError(tr("Invalid entry"));
             return;
         }
     }
@@ -355,7 +367,7 @@ bool SendWidget::send(QList<SendCoinsRecipient> recipients){
     );
 
     if (prepareStatus.status != WalletModel::OK) {
-        inform(tr("Cannot create transaction."));
+        informError(tr("Cannot create transaction."));
         return false;
     }
 
@@ -382,7 +394,7 @@ bool SendWidget::send(QList<SendCoinsRecipient> recipients){
 
         if (sendStatus.status == WalletModel::OK) {
             clearAll();
-            inform(tr("Transaction sent"));
+            informWarning(tr("Transaction sent"));
             dialog->deleteLater();
             return true;
         }
@@ -526,7 +538,7 @@ void SendWidget::onChangeAddressClicked(){
                 CoinControlDialog::coinControl->destChange = CBTCUAddress(ret.toStdString()).Get();
                 ui->btnChangeAddress->setActive(true);
             }else{
-                inform(tr("Invalid change address"));
+                informError(tr("Invalid change address"));
                 ui->btnChangeAddress->setActive(false);
             }
         }
@@ -541,11 +553,11 @@ void SendWidget::onOpenUriClicked(){
 
         SendCoinsRecipient rcp;
         if (!GUIUtil::parseBitcoinURI(dlg->getURI(), &rcp)) {
-            inform(tr("Invalid URI"));
+            informError(tr("Invalid URI"));
             return;
         }
         if (!walletModel->validateAddress(rcp.address)) {
-            inform(tr("Invalid address in URI"));
+            informError(tr("Invalid address in URI"));
             return;
         }
 
@@ -633,12 +645,16 @@ void SendWidget::onContactsClicked(SendMultiRow* entry){
 
     int contactsSize = walletModel->getAddressTableModel()->sizeSend();
     if(contactsSize == 0) {
-        inform(tr("No contacts available, you can go to the contacts screen and add some there!"));
+        informError(tr("No contacts available, you can go to the contacts screen and add some there!"));
+        entry->updateAction();
         return;
     }
 
-    int height = (contactsSize <= 2) ? entry->getEditHeight() * ( 2 * (contactsSize + 1 )) : entry->getEditHeight() * 4;
-    int width = entry->getEditWidth();
+    //int height = (contactsSize <= 2) ? entry->getEditHeight() * ( 2 * (contactsSize + 1 )) : entry->getEditHeight() * 4;
+   int height = 45;
+   height = (contactsSize < 4) ? height * contactsSize + 25 : height * 4 + 25;
+
+   int width = entry->getEditWidth();
 
     if(!menuContacts){
         menuContacts = new ContactsDropdown(
@@ -646,6 +662,7 @@ void SendWidget::onContactsClicked(SendMultiRow* entry){
                     height,
                     this
         );
+       menuContacts->setGraphicsEffect(0);
         menuContacts->setWalletModel(walletModel, AddressTableModel::Send);
         connect(menuContacts, &ContactsDropdown::contactSelected, [this](QString address, QString label){
             if(focusedEntry){
@@ -658,6 +675,7 @@ void SendWidget::onContactsClicked(SendMultiRow* entry){
 
     if(menuContacts->isVisible()){
         menuContacts->hide();
+       focusedEntry->updateAction();
         return;
     }
 
@@ -673,7 +691,8 @@ void SendWidget::onContactsClicked(SendMultiRow* entry){
         pos = focusedEntry->getEditLineRect().bottomLeft();
         pos.setY((pos.y() + (focusedEntry->getEditHeight() - 12) * 3));
     }
-    pos.setX(pos.x() + 20);
+    pos.setX(pos.x() + 30);
+    pos.setY(pos.y() + 13);
     menuContacts->move(pos);
     menuContacts->show();
 }
@@ -706,16 +725,16 @@ void SendWidget::onContactMultiClicked(){
     if(focusedEntry) {
         QString address = focusedEntry->getAddress();
         if (address.isEmpty()) {
-            inform(tr("Address field is empty"));
+            informError(tr("Address field is empty"));
             return;
         }
         if (!walletModel->validateAddress(address)) {
-            inform(tr("Invalid address"));
+            informError(tr("Invalid address"));
             return;
         }
         CBTCUAddress btcuAdd = CBTCUAddress(address.toStdString());
         if (walletModel->isMine(btcuAdd)) {
-            inform(tr("Cannot store your own address as contact"));
+            informError(tr("Cannot store your own address as contact"));
             return;
         }
 
@@ -736,9 +755,9 @@ void SendWidget::onContactMultiClicked(){
             }
             if (walletModel->updateAddressBookLabels(btcuAdd.Get(), dialog->getLabel().toStdString(),
                     AddressBook::AddressBookPurpose::SEND)) {
-                inform(tr("New Contact Stored"));
+                informWarning(tr("New Contact Stored"));
             } else {
-                inform(tr("Error Storing Contact"));
+                informError(tr("Error Storing Contact"));
             }
         }
         dialog->deleteLater();

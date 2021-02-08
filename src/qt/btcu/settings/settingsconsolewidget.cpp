@@ -248,7 +248,7 @@ SettingsConsoleWidget::SettingsConsoleWidget(BTCUGUI* _window, QWidget *parent) 
     this->setStyleSheet(parent->styleSheet());
 
     // Containers
-    setCssProperty({ui->left, ui->messagesWidget}, "container");
+    setCssProperty({ui->left, ui->messagesWidget}, "container-border");
     ui->left->setContentsMargins(10,10,10,10);
 
     // Title
@@ -256,7 +256,7 @@ SettingsConsoleWidget::SettingsConsoleWidget(BTCUGUI* _window, QWidget *parent) 
     setCssTitleScreen(ui->labelTitle);
 
     // Console container
-    setCssProperty(ui->consoleWidget, "container-square");
+    setCssProperty(ui->consoleWidget, "container");
     setShadow(ui->consoleWidget);
 
     // Edit
@@ -267,12 +267,15 @@ SettingsConsoleWidget::SettingsConsoleWidget(BTCUGUI* _window, QWidget *parent) 
     ui->pushButton->setProperty("cssClass", "ic-arrow");
     ui->pushButtonCommandOptions->setText(tr("Command Line Options "));
     ui->pushButtonOpenDebug->setText(tr("Open Debug File"));
-    setCssBtnSecondary(ui->pushButtonOpenDebug);
-    setCssBtnSecondary(ui->pushButtonCommandOptions);
+    //setCssBtnSecondary(ui->pushButtonOpenDebug);
+    //setCssBtnSecondary(ui->pushButtonCommandOptions);
+   ui->pushButtonOpenDebug->setProperty("cssClass", "btn-secundary-small");
+   ui->pushButtonCommandOptions->setProperty("cssClass", "btn-secundary-small");
 
-    connect(ui->pushButtonOpenDebug, &QPushButton::clicked, [this](){
+
+   connect(ui->pushButtonOpenDebug, &QPushButton::clicked, [this](){
         if(!GUIUtil::openDebugLogfile()){
-            inform(tr("Cannot open debug file.\nVerify that you have installed a predetermined text editor."));
+            informError(tr("Cannot open debug file.\nVerify that you have installed a predetermined text editor."));
         }
     });
     connect(ui->pushButtonCommandOptions, SIGNAL(clicked()), this, SLOT(onCommandsClicked()));

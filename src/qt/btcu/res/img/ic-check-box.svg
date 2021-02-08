@@ -1,11 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-    <defs>
-        <style type="text/css">
-            .cls-1{fill:#bababa;fill-rule:evenodd;opacity:.997}.cls-2{fill:none}
-        </style>
-    </defs>
-    <g id="check_box" transform="translate(-420 -576)">
-        <path id="checkbox" d="M22.556 5.444v17.112H5.444V5.444zm0-2.444H5.444A2.452 2.452 0 0 0 3 5.444v17.112A2.452 2.452 0 0 0 5.444 25h17.112A2.452 2.452 0 0 0 25 22.556V5.444A2.452 2.452 0 0 0 22.556 3z" class="cls-1" transform="translate(418 574)"/>
-        <path id="Rectangle_4539" d="M0 0h24v24H0z" class="cls-2" data-name="Rectangle 4539" transform="translate(420 576)"/>
-    </g>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.5 8C15.5 9.98912 14.7098 11.8968 13.3033 13.3033C11.8968 14.7098 9.98912 15.5 8 15.5C6.01088 15.5 4.10322 14.7098 2.6967 13.3033C1.29018 11.8968 0.5 9.98912 0.5 8C0.5 6.01088 1.29018 4.10322 2.6967 2.6967C4.10322 1.29018 6.01088 0.5 8 0.5C9.98912 0.5 11.8968 1.29018 13.3033 2.6967C14.7098 4.10322 15.5 6.01088 15.5 8Z" stroke="#BDBDC7"/>
 </svg>

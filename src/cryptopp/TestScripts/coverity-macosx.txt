@@ -13,7 +13,7 @@ reset
 make distclean &>/dev/null
 
 # Usually we test with these flags
-CXXFLAGS="-DNDEBUG -g3 -O2" cov-build --dir cov-int make -j 2
+CXXFLAGS="-g3 -O2" cov-build --dir cov-int make -j 2
 
 # Sometimes we need these flags (add COVERITY_UNSUPPORTED)
 # COVERITY_UNSUPPORTED=1 CXXFLAGS="-DNDEBUG -g3 -O2" cov-build --dir cov-int make -j 2

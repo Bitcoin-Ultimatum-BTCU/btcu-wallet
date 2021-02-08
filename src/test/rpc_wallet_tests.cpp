@@ -27,7 +27,7 @@ BOOST_FIXTURE_TEST_SUITE(rpc_wallet_tests, TestingSetup)
 BOOST_AUTO_TEST_CASE(rpc_addmultisig)
 {
     LOCK(pwalletMain->cs_wallet);
-
+    SelectParams(CBaseChainParams::REGTEST);
     rpcfn_type addmultisig = tableRPC["addmultisigaddress"]->actor;
 
     // old, 65-byte-long:
@@ -67,6 +67,8 @@ BOOST_AUTO_TEST_CASE(rpc_wallet)
 {
     // Test RPC calls for various wallet statistics
     UniValue r;
+
+    SelectParams(CBaseChainParams::REGTEST);
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
@@ -166,6 +168,7 @@ BOOST_AUTO_TEST_CASE(rpc_wallet)
     /* Should throw error because this address is not loaded in the wallet */
     BOOST_CHECK_THROW(CallRPC("signmessage 1EmoXtVCCaJVm2msqSw1zPBbPJjRQhNqFFR mymessage"), std::runtime_error);
 
+    SelectParams(CBaseChainParams::REGTEST);
     /* missing arguments */
     BOOST_CHECK_THROW(CallRPC("verifymessage " + demoAddress.ToString()), std::runtime_error);
     BOOST_CHECK_THROW(CallRPC("verifymessage " + demoAddress.ToString() + " " + retValue.get_str()), std::runtime_error);

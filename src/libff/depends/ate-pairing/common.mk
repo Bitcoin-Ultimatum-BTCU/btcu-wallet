@@ -9,7 +9,7 @@ CP = cp -f
 AR = ar r
 MKDIR=mkdir -p
 RM=rm -f
-CFLAGS = -fPIC -O3 -fomit-frame-pointer -DNDEBUG -msse2 -mfpmath=sse -march=native
+CFLAGS = -fPIC -O3 -fomit-frame-pointer -msse2 -mfpmath=sse -march=native
 CFLAGS_WARN=-Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith #-Wswitch-enum -Wstrict-aliasing=2
 CFLAGS_ALWAYS = -D_FILE_OFFSET_BITS=64 -DMIE_ATE_USE_GMP
 LDFLAGS = -lm -lzm $(LIB_DIR) -lgmp -lgmpxx
@@ -40,7 +40,7 @@ AR=x86_64-w64-mingw32-ar r
 endif
 
 ifeq ($(DBG),on)
-CFLAGS += -O0 -g3 -UNDEBUG
+CFLAGS += -O0 -g3
 LDFLAGS += -g3
 endif
 

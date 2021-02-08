@@ -383,8 +383,9 @@ bool CDB::Rewrite(const std::string& strFile, const char* pszSkip)
                                 break;
                             }
                             if (pszSkip &&
-                                strncmp(&ssKey[0], pszSkip, std::min(ssKey.size(), strlen(pszSkip))) == 0)
+                                strncmp(&ssKey[0], pszSkip, std::min(ssKey.size(), strlen(pszSkip))) == 0) {
                                 continue;
+                            }
                             if (strncmp(&ssKey[0], "\x07version", 8) == 0) {
                                 // Update version:
                                 ssValue.clear();

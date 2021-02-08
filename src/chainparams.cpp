@@ -213,9 +213,13 @@ public:
         nBlockV7StartHeight = nBlockTimeProtocolV2;
 
         // Leasing
-        nLeasingRewardMaturity = 30; // 30 blocks
-        nLeasingRewardPeriod = 7 * 24 * 60; // 1 weak
-        nMaxLeasingRewards = 100;
+        //nLeasingRewardMaturity = 30; // 30 blocks
+        //nLeasingRewardPeriod = 7 * 24 * 60; // 1 weak
+        //nMaxLeasingRewards = 100;
+       // Leasing
+       nLeasingRewardMaturity = 3; // 3 blocks
+       nLeasingRewardPeriod = 10; // 10 minutes
+       nMaxLeasingRewards = 10;
 
         // Fake Serial Attack
         nFakeSerialBlockheightEnd = 0;
@@ -270,16 +274,22 @@ public:
         genesis.nVersion = 8;
         genesis.nTime = 1583491266;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 4860171;
-        genesis.hashChainstate = uint256("0x12ecf5df211cbae201ceafcfc46392b39539409b0e6a89a3f7498af0e6ebd320");
+        genesis.nNonce = 5492953;
+        genesis.hashChainstate = uint256("0x91ea77397a8e48f8a69377a505add5bff9a8e23c47e4e4e4b747edfeba9b6a79");
         genesis.hashStateRoot = uint256(h256Touint(dev::h256("e965ffd002cd6ad0e2dc402b8044de833e06b23127ea8c3d80aec91410771495"))); // qtum
         genesis.hashUTXORoot = uint256(h256Touint(dev::sha3(dev::rlp("")))); // qtum
 
         hashGenesisBlock = genesis.GetHash();
 
-        assert(hashGenesisBlock == uint256("0x000004ea22f3e20f9ee1b90d2a684fbad997fa19d852ab74c39634b74f49f91f"));
+        assert(hashGenesisBlock == uint256("0x000000786809183e51a8a112ee0b082be2a46df19f05d6b4a7525c0c027fc04a"));
         assert(genesis.hashMerkleRoot == uint256("0x858d38eb69842a10816427748c0cd8f60211113a5f62f669891aae88b0c85884"));
-        
+
+        vSeeds.push_back(CDNSSeedData("btcu.orion.v1", "135.125.7.216"));
+        vSeeds.push_back(CDNSSeedData("btcu.orion.v2", "51.68.119.204"));
+        vSeeds.push_back(CDNSSeedData("btcu.orion.v3", "51.178.74.114"));
+        vSeeds.push_back(CDNSSeedData("btcu.orion.v4", "51.210.0.82"));
+        vSeeds.push_back(CDNSSeedData("btcu.orion.v5", "51.210.154.220"));
+
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
@@ -326,6 +336,9 @@ public:
 
         //////////qtum
         nMPoSRewardRecipients = 10;
+        
+        vExcludedAddresses = {"1P8pv9WdDiy9LSyU9Z2DzuEEz74LwRxsqs"};
+        rechargedAddress = "1P8pv9WdDiy9LSyU9Z2DzuEEz74LwRxsqs";
     }
 
     const Checkpoints::CCheckpointData& Checkpoints() const
@@ -400,16 +413,16 @@ public:
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1583491266;
-        genesis.nNonce = 3293335;
+        genesis.nNonce = 7611948;
 
         //! Modify genesis testnet validators pubkeys
         CMutableTransaction txNew = genesis.vtx[0];
         txNew.validatorRegister.clear();
 
         std::vector<std::string> validatorsPubkeys = {
-        "020077312c8d4f517cf7ad93f2ad2e79c89c3b49a96a43d792d5b64156decb2f73",
-        "03fad77a35592c335b077351570e26540e90935f39b54c98df9bdb135a43f24b57",
-        "037eae6f15d3494148b521fa19a66c55e959d176465ee0f5543f380d1f15bc6247"
+        "029b5a66fdd5f0e37c42e0fd5fba64b5688635724c4d6ec8f51ca8875491bbdbe3",
+        "03d176c15d7e634eef71091c7c552fbed35a990bd524160837b6802b549033ce7c",
+        "02796b6e1dee823a1ec48a05eaad873eabd11deda696bc0350b5d23f8d0ca4b8f3"
         };
 
         for(int i = 0; i < validatorsPubkeys.size(); i++)
@@ -425,7 +438,7 @@ public:
         genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x000008ad321726fc2c3780ef0f4f25c5bcd569a106d6f27a49e1148dd7bdbbb1"));
+        assert(hashGenesisBlock == uint256("0x000003183e92427181593aecf30167f8a8ada4678001e4557cd29f2346b4e526"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -486,22 +499,22 @@ public:
         nMinerThreads = 1;
         bnProofOfWorkLimit = ~uint256(0) >> 1;
         nLastPOWBlock = 250;
-        nMaturity = 10;
+        nMaturity = 100;
         nStakeMinAge = 0;
-        nStakeMinDepth = 10;
+        nStakeMinDepth = 0;
         nMasternodeCountDrift = 4;
         nModifierUpdateBlock = 0;
-        nZerocoinStartHeight = 1;
+        nZerocoinStartHeight = 300;
         nBlockZerocoinV2 = 300;
         nZerocoinStartTime = 1501776000;
         nBlockEnforceSerialRange = 1;               // Enforce serial range starting this block
-        nBlockRecalculateAccumulators = 1;          // Trigger a recalculation of accumulators
+        nBlockRecalculateAccumulators = 999999999;  // Trigger a recalculation of accumulators
         nBlockFirstFraudulent = 999999999;          // First block that bad serials emerged
         nBlockLastGoodCheckpoint = 999999999;       // Last valid accumulator checkpoint
         nBlockStakeModifierlV2 = nLastPOWBlock + 1; // start with modifier V2 on regtest
         nBlockTimeProtocolV2 = 999999999;
 
-        nMintRequiredConfirmations = 1;
+        nMintRequiredConfirmations = 10;
         nZerocoinRequiredStakeDepth = nMintRequiredConfirmations;
 
         // Public coin spend enforcement
@@ -519,7 +532,7 @@ public:
         
         //! Modify the regtest genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1583491266;
-        genesis.nNonce = 2507949;
+        genesis.nNonce = 3055395;
 
         //! Modify genesis regtest validators pubkeys
         CMutableTransaction txNew = genesis.vtx[0];
@@ -542,7 +555,7 @@ public:
         genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x00000e1654727693d67050f2ef94fdf32f00126fedf76af89b5a89739c21a34b"));
+        assert(hashGenesisBlock == uint256("0x00000e203c36e781e6cc4f08508c2256cd7f5dd02693fad1bea1f2e9eea51dcc"));
         
         vFixedSeeds.clear(); //! Testnet mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Testnet mode doesn't have any DNS seeds.

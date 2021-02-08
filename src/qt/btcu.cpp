@@ -57,9 +57,6 @@
 
 #if defined(QT_STATICPLUGIN)
 #include <QtPlugin>
-#if QT_VERSION < 0x050400
-Q_IMPORT_PLUGIN(AccessibleFactory)
-#endif
 #if defined(QT_QPA_PLATFORM_XCB)
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin);
 #elif defined(QT_QPA_PLATFORM_WINDOWS)
@@ -67,8 +64,6 @@ Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 #elif defined(QT_QPA_PLATFORM_COCOA)
 Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin);
 #endif
-Q_IMPORT_PLUGIN(QSvgPlugin);
-Q_IMPORT_PLUGIN(QSvgIconPlugin);
 #endif
 
 // Declare meta types used for QMetaObject::invokeMethod
@@ -97,7 +92,11 @@ static QString GetLangTerritory()
     // 2) Language from QSettings
     QString lang_territory_qsettings = settings.value("language", "").toString();
     if (!lang_territory_qsettings.isEmpty())
-        lang_territory = lang_territory_qsettings;
+    {
+       lang_territory = lang_territory_qsettings;
+       lang_territory = lang_territory.mid(lang_territory.lastIndexOf('(')+1);
+       lang_territory.truncate(lang_territory.lastIndexOf(')'));
+    }
     // 3) -lang command line argument
     lang_territory = QString::fromStdString(GetArg("-lang", lang_territory.toStdString()));
     return lang_territory;
@@ -126,19 +125,25 @@ static void initTranslations(QTranslator& qtTranslatorBase, QTranslator& qtTrans
 
     // Load e.g. qt_de.qm
     if (qtTranslatorBase.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
-        QApplication::installTranslator(&qtTranslatorBase);
+    {
+       QApplication::installTranslator(&qtTranslatorBase);
+    }
 
     // Load e.g. qt_de_DE.qm
     if (qtTranslator.load("qt_" + lang_territory, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
-        QApplication::installTranslator(&qtTranslator);
-
+    {
+       QApplication::installTranslator(&qtTranslator);
+    }
     // Load e.g. bitcoin_de.qm (shortcut "de" needs to be defined in btcu.qrc)
     if (translatorBase.load(lang, ":/translations/"))
-        QApplication::installTranslator(&translatorBase);
-
+    {
+       QApplication::installTranslator(&translatorBase);
+    }
     // Load e.g. bitcoin_de_DE.qm (shortcut "de_DE" needs to be defined in btcu.qrc)
     if (translator.load(lang_territory, ":/translations/"))
-        QApplication::installTranslator(&translator);
+    {
+       QApplication::installTranslator(&translator);
+    }
 }
 
 /* qDebug() message handler --> debug.log */

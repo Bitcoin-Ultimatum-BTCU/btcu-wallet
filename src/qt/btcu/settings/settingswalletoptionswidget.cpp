@@ -17,11 +17,10 @@ SettingsWalletOptionsWidget::SettingsWalletOptionsWidget(BTCUGUI* _window, QWidg
     ui->setupUi(this);
 
     this->setStyleSheet(parent->styleSheet());
-
     // Containers
-    ui->left->setProperty("cssClass", "container");
+    ui->left->setProperty("cssClass", "container-border");
     ui->left->setContentsMargins(10,10,10,10);
-    ui->labelDivider->setProperty("cssClass", "container-divider");
+    ui->labelDivider->setProperty("cssClass", "container-border");
 
     // Title
     ui->labelTitle->setText(tr("Wallet"));
@@ -31,7 +30,7 @@ SettingsWalletOptionsWidget::SettingsWalletOptionsWidget(BTCUGUI* _window, QWidg
 
     // Combobox
     ui->labelTitleStake->setText(tr("Stake split threshold:"));
-    ui->labelTitleStake->setProperty("cssClass", "text-main-settings");
+   setCssSubtitleScreen(ui->labelTitleStake);//->setProperty("cssClass", "text-main-settings");
 
     ui->spinBoxStakeSplitThreshold->setProperty("cssClass", "btn-spin-box");
     ui->spinBoxStakeSplitThreshold->setAttribute(Qt::WA_MacShowFocusRect, 0);
@@ -48,14 +47,14 @@ SettingsWalletOptionsWidget::SettingsWalletOptionsWidget(BTCUGUI* _window, QWidg
 
     // Proxy
     ui->labelSubtitleProxy->setText(tr("Proxy IP:"));
-    ui->labelSubtitleProxy->setProperty("cssClass", "text-main-settings");
+   setCssSubtitleScreen(ui->labelSubtitleProxy);//->setProperty("cssClass", "text-main-settings");
 
     ui->lineEditProxy->setPlaceholderText(tr("Enter proxy IP"));
     initCssEditLine(ui->lineEditProxy);
 
     // Port
     ui->labelSubtitlePort->setText(tr("Port:"));
-    ui->labelSubtitlePort->setProperty("cssClass", "text-main-settings");
+   setCssSubtitleScreen(ui->labelSubtitlePort);//->setProperty("cssClass", "text-main-settings");
 
     ui->lineEditPort->setPlaceholderText("Enter port");
     initCssEditLine(ui->lineEditPort);
@@ -68,9 +67,9 @@ SettingsWalletOptionsWidget::SettingsWalletOptionsWidget(BTCUGUI* _window, QWidg
     // Buttons
     ui->pushButtonSave->setText(tr("SAVE"));
     ui->pushButtonReset->setText(tr("Reset to default"));
-    setCssBtnPrimary(ui->pushButtonSave);
-    setCssBtnSecondary(ui->pushButtonReset);
-    setCssBtnSecondary(ui->pushButtonClean);
+   setCssBtnSecondary(ui->pushButtonSave);
+   setCssBtnPrimary(ui->pushButtonReset);
+   setCssBtnPrimary(ui->pushButtonClean);
 
     connect(ui->pushButtonSave, SIGNAL(clicked()), parent, SLOT(onSaveOptionsClicked()));
     connect(ui->pushButtonReset, SIGNAL(clicked()), this, SLOT(onResetClicked()));
@@ -83,7 +82,7 @@ void SettingsWalletOptionsWidget::onResetClicked(){
         QSettings settings;
         optionsModel->setWalletDefaultOptions(settings, true);
         optionsModel->setNetworkDefaultOptions(settings, true);
-        inform(tr("Options reset succeed"));
+        informWarning(tr("Options reset succeed"));
     }
 }
 

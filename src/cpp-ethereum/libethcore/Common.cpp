@@ -135,7 +135,9 @@ static void badBlockInfo(BlockHeader const& _bi, string const& _err)
 	ss << c_border + ("                     Bad Block #" + string(max<int>(0, 8 - bin.size()), '0') + bin + "." + _bi.hash().abridged() + "                    ") + c_border << "\n";
 	ss << c_space << "\n";
 	ss << c_line;
-	cwarn << "\n" + ss.str();
+#ifndef WIN32
+    cwarn << "\n" + ss.str();
+#endif
 }
 
 void badBlock(bytesConstRef _block, string const& _err)

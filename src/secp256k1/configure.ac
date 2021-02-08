@@ -7,6 +7,11 @@ AH_TOP([#ifndef LIBSECP256K1_CONFIG_H])
 AH_TOP([#define LIBSECP256K1_CONFIG_H])
 AH_BOTTOM([#endif /*LIBSECP256K1_CONFIG_H*/])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
+
+# Set -g if CFLAGS are not already set, which matches the default autoconf
+# behavior (see PROG_CC in the Autoconf manual) with the exception that we don't
+# set -O2 here because we set it in any case (see further down).
+: ${CFLAGS="-g"}
 LT_INIT
 
 dnl make the compilation flags quiet unless V=1 is used
@@ -18,10 +23,6 @@ AC_PATH_TOOL(AR, ar)
 AC_PATH_TOOL(RANLIB, ranlib)
 AC_PATH_TOOL(STRIP, strip)
 AX_PROG_CC_FOR_BUILD
-
-if test "x$CFLAGS" = "x"; then
-  CFLAGS="-g"
-fi
 
 AM_PROG_CC_C_O
 
@@ -42,13 +43,19 @@ case $host_os in
 
          openssl_prefix=`$BREW --prefix openssl 2>/dev/null`
          gmp_prefix=`$BREW --prefix gmp 2>/dev/null`
+         jsoncpp_prefix=`$BREW --prefix jsoncpp 2>/dev/null`
          if test x$openssl_prefix != x; then
            PKG_CONFIG_PATH="$openssl_prefix/lib/pkgconfig:$PKG_CONFIG_PATH"
            export PKG_CONFIG_PATH
+           CRYPTO_CPPFLAGS="-I$openssl_prefix/include"
          fi
          if test x$gmp_prefix != x; then
            GMP_CPPFLAGS="-I$gmp_prefix/include"
            GMP_LIBS="-L$gmp_prefix/lib"
+         fi
+         if test x$jsoncpp_prefix != x; then
+           PKG_CONFIG_PATH="$jsoncpp_prefix/lib/pkgconfig:$PKG_CONFIG_PATH"
+           export PKG_CONFIG_PATH
          fi
        else
          AC_PATH_PROG([PORT],port,)
@@ -63,11 +70,13 @@ case $host_os in
    ;;
 esac
 
-CFLAGS="$CFLAGS -W"
+CFLAGS="-W -fno-stack-check -fPIC $CFLAGS"
+CXXFLAGS="-fPIC $CXXFLAGS"
+LDFLAGS="$LDFLAGS"
 
-warn_CFLAGS="-std=c89 -pedantic -Wall -Wextra -Wcast-align -Wnested-externs -Wshadow -Wstrict-prototypes -Wno-unused-function -Wno-long-long -Wno-overlength-strings"
+warn_CFLAGS="-std=c89 -pedantic -Wall -Wextra -Wcast-align -Wnested-externs -Wshadow -Wstrict-prototypes -Wundef -Wno-unused-function -Wno-long-long -Wno-overlength-strings"
 saved_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS $warn_CFLAGS"
+CFLAGS="$warn_CFLAGS $CFLAGS"
 AC_MSG_CHECKING([if ${CC} supports ${warn_CFLAGS}])
 AC_COMPILE_IFELSE([AC_LANG_SOURCE([[char foo;]])],
     [ AC_MSG_RESULT([yes]) ],
@@ -76,7 +85,7 @@ AC_COMPILE_IFELSE([AC_LANG_SOURCE([[char foo;]])],
     ])
 
 saved_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -fvisibility=hidden"
+CFLAGS="-fvisibility=hidden $CFLAGS"
 AC_MSG_CHECKING([if ${CC} supports -fvisibility=hidden])
 AC_COMPILE_IFELSE([AC_LANG_SOURCE([[char foo;]])],
     [ AC_MSG_RESULT([yes]) ],
@@ -159,12 +168,18 @@ AC_COMPILE_IFELSE([AC_LANG_SOURCE([[void myfunc() {__builtin_expect(0,0);}]])],
     [ AC_MSG_RESULT([no])
     ])
 
+AC_MSG_CHECKING([for __builtin_popcount])
+AC_COMPILE_IFELSE([AC_LANG_SOURCE([[void myfunc() {__builtin_popcount(0);}]])],
+    [ AC_MSG_RESULT([yes]);AC_DEFINE(HAVE_BUILTIN_POPCOUNT,1,[Define this symbol if __builtin_popcount is available]) ],
+    [ AC_MSG_RESULT([no])
+    ])
+
 if test x"$enable_coverage" = x"yes"; then
     AC_DEFINE(COVERAGE, 1, [Define this symbol to compile out all VERIFY code])
-    CFLAGS="$CFLAGS -O0 --coverage"
-    LDFLAGS="--coverage"
+    CFLAGS="-O0 --coverage $CFLAGS"
+    LDFLAGS="--coverage $LDFLAGS"
 else
-    CFLAGS="$CFLAGS -O3"
+    CFLAGS="-O2 $CFLAGS"
 fi
 
 if test x"$use_ecmult_static_precomputation" != x"no"; then
@@ -172,6 +187,9 @@ if test x"$use_ecmult_static_precomputation" != x"no"; then
   cross_compiling=no
   TEMP_CC="$CC"
   CC="$CC_FOR_BUILD"
+  warn_CFLAGS_FOR_BUILD="-Wall -Wextra -Wno-unused-function -W -fno-stack-check"
+
+  CFLAGS="$warn_CFLAGS_FOR_BUILD $CFLAGS"
   AC_MSG_CHECKING([native compiler: ${CC_FOR_BUILD}])
   AC_RUN_IFELSE(
     [AC_LANG_PROGRAM([], [return 0])],
@@ -371,7 +389,7 @@ if test x"$use_tests" = x"yes"; then
   if test x"$has_openssl_ec" = x"yes"; then
     if test x"$enable_openssl_tests" != x"no"; then
       AC_DEFINE(ENABLE_OPENSSL_TESTS, 1, [Define this symbol if OpenSSL EC functions are available])
-      SECP_TEST_INCLUDES="$SSL_CFLAGS $CRYPTO_CFLAGS"
+      SECP_TEST_INCLUDES="$SSL_CFLAGS $CRYPTO_CFLAGS $CRYPTO_CPPFLAGS"
       SECP_TEST_LIBS="$CRYPTO_LIBS"
 
       case $host in

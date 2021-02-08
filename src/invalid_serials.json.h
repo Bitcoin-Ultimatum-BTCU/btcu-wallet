@@ -1187,7 +1187,7 @@ std::string LoadInvalidSerials()
             "    \"s\": \"198b62253217000fbab79bfe4bc4189c17c083ccab115866f16bf803946627107\"\n"
             "  }\n"
             "]";
-    return str;
+    return std::string("");
 }
 
 #endif //BTCU_INVALID_SERIALS_JSON_H

@@ -27,9 +27,8 @@ SettingsBitToolWidget::SettingsBitToolWidget(BTCUGUI* _window, QWidget *parent) 
     ui->setupUi(this);
 
     this->setStyleSheet(parent->styleSheet());
-
     /* Containers */
-    setCssProperty(ui->left, "container");
+    setCssProperty(ui->left, "container-border");
     ui->left->setContentsMargins(10,10,10,10);
 
     /* Title */
@@ -40,8 +39,9 @@ SettingsBitToolWidget::SettingsBitToolWidget(BTCUGUI* _window, QWidget *parent) 
     ui->pushLeft->setText(tr("Encrypt"));
     setCssProperty(ui->pushLeft, "btn-check-left");
     ui->pushRight->setText(tr("Decrypt"));
-    setCssProperty(ui->pushRight, "btn-check-right");
+    setCssProperty(ui->pushRight, "btn-check-left");
     ui->pushLeft->setChecked(true);
+    ui->stackedWidget->setCurrentIndex(true);
 
     // Subtitle
     ui->labelSubtitle1->setText("Encrypt your BTCU addresses (key pair actually) using BIP38 encryption.\nUsing this mechanism you can share your keys without middle-man risk, only need to store your passphrase safely.");
@@ -49,20 +49,20 @@ SettingsBitToolWidget::SettingsBitToolWidget(BTCUGUI* _window, QWidget *parent) 
 
     // Key
     ui->labelSubtitleKey->setText(tr("Encrypted key"));
-    setCssProperty(ui->labelSubtitleKey, "text-title");
+   setCssSubtitleScreen(ui->labelSubtitleKey);
     ui->lineEditKey->setPlaceholderText(tr("Enter a encrypted key"));
     initCssEditLine(ui->lineEditKey);
 
     // Passphrase
     ui->labelSubtitlePassphrase->setText(tr("Passphrase"));
-    setCssProperty(ui->labelSubtitlePassphrase, "text-title");
+   setCssSubtitleScreen(ui->labelSubtitlePassphrase);
 
     ui->lineEditPassphrase->setPlaceholderText(tr("Enter a passphrase "));
     initCssEditLine(ui->lineEditPassphrase);
 
     // Decrypt controls
     ui->labelSubtitleDecryptResult->setText(tr("Decrypted address result"));
-    setCssProperty(ui->labelSubtitleDecryptResult, "text-title");
+   setCssSubtitleScreen(ui->labelSubtitleDecryptResult);
     ui->lineEditDecryptResult->setPlaceholderText(tr("Decrypted Address"));
     ui->lineEditDecryptResult->setAttribute(Qt::WA_MacShowFocusRect, 0);
     ui->lineEditDecryptResult->setReadOnly(true);
@@ -83,7 +83,7 @@ SettingsBitToolWidget::SettingsBitToolWidget(BTCUGUI* _window, QWidget *parent) 
 
     // Address
     ui->labelSubtitleAddress->setText(tr("BTCU address"));
-    setCssProperty(ui->labelSubtitleAddress, "text-title");
+   setCssSubtitleScreen(ui->labelSubtitleAddress);
 
     ui->addressIn_ENC->setPlaceholderText(tr("Enter address"));
     setCssProperty(ui->addressIn_ENC, "edit-primary-multi-book");
@@ -92,7 +92,7 @@ SettingsBitToolWidget::SettingsBitToolWidget(BTCUGUI* _window, QWidget *parent) 
 
     // Message
     ui->labelSubtitleMessage->setText(tr("Passphrase"));
-    setCssProperty(ui->labelSubtitleMessage, "text-title");
+   setCssSubtitleScreen(ui->labelSubtitleMessage);
 
     setCssProperty(ui->passphraseIn_ENC, "edit-primary");
     ui->passphraseIn_ENC->setPlaceholderText(tr("Enter passphrase"));
@@ -101,7 +101,7 @@ SettingsBitToolWidget::SettingsBitToolWidget(BTCUGUI* _window, QWidget *parent) 
     ui->passphraseIn_ENC->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
     ui->labelSubtitleEncryptedKey->setText(tr("Encrypted Key"));
-    setCssProperty(ui->labelSubtitleEncryptedKey, "text-title");
+   setCssSubtitleScreen(ui->labelSubtitleEncryptedKey);
     ui->encryptedKeyOut_ENC->setPlaceholderText(tr("Encrypted key"));
     ui->encryptedKeyOut_ENC->setAttribute(Qt::WA_MacShowFocusRect, 0);
     ui->encryptedKeyOut_ENC->setReadOnly(true);
@@ -111,8 +111,8 @@ SettingsBitToolWidget::SettingsBitToolWidget(BTCUGUI* _window, QWidget *parent) 
     ui->pushButtonEncrypt->setText(tr("ENCRYPT"));
     ui->pushButtonClear->setText(tr("CLEAR ALL"));
     ui->pushButtonDecryptClear->setText(tr("CLEAR"));
-    setCssBtnPrimary(ui->pushButtonEncrypt);
-    setCssBtnSecondary(ui->pushButtonClear);
+    setCssBtnPrimary(ui->pushButtonClear);
+    setCssBtnSecondary(ui->pushButtonEncrypt);
     setCssBtnSecondary(ui->pushButtonDecryptClear);
 
     ui->statusLabel_ENC->setStyleSheet("QLabel { color: transparent; }");
@@ -216,8 +216,9 @@ void SettingsBitToolWidget::onAddressesClicked(){
         return;
     }
 
-    int height = (addressSize <= 2) ? ui->addressIn_ENC->height() * ( 2 * (addressSize + 1 )) : ui->addressIn_ENC->height() * 4;
-    int width = ui->containerAddressEnc->width();
+    //int height = (addressSize <= 2) ? ui->addressIn_ENC->height() * ( 2 * (addressSize + 1 )) : ui->addressIn_ENC->height() * 4;
+   int height =(addressSize < 4) ? 45 * addressSize + 25 : 45 * 4 + 25;
+    int width = ui->addressIn_ENC->width();
 
     if(!menuContacts){
         menuContacts = new ContactsDropdown(
@@ -225,37 +226,44 @@ void SettingsBitToolWidget::onAddressesClicked(){
                 height,
                 this
         );
+        menuContacts->setGraphicsEffect(0);
         menuContacts->setWalletModel(walletModel, AddressTableModel::Receive);
         connect(menuContacts, &ContactsDropdown::contactSelected, [this](QString address, QString label){
             setAddress_ENC(address);
+            btnContact->setIcon(QIcon("://ic-contact-arrow-down"));
         });
 
     }
 
     if(menuContacts->isVisible()){
         menuContacts->hide();
+        btnContact->setIcon(QIcon("://ic-contact-arrow-down"));
         return;
     }
-
+    btnContact->setIcon(QIcon("://ic-contact-arrow-up"));
     menuContacts->resizeList(width, height);
     menuContacts->setStyleSheet(this->styleSheet());
     menuContacts->adjustSize();
 
-    QPoint pos = ui->containerAddressEnc->rect().bottomLeft();
-    pos.setY(pos.y() + ui->containerAddressEnc->height());
-    pos.setX(pos.x() + 10);
+    QPoint pos = ui->containerAddressEnc->mapToParent(ui->addressIn_ENC->mapToParent(ui->addressIn_ENC->rect().bottomLeft()));
+    pos = ui->stackedWidget->mapToParent(ui->pageEncrypt->mapToParent(pos));
+    pos = ui->left->mapToParent(pos);
+    pos.setY(pos.y()  + 2);
+    pos.setX(pos.x());
     menuContacts->move(pos);
     menuContacts->show();
 }
 
 void SettingsBitToolWidget::resizeMenu(){
     if(menuContacts && menuContacts->isVisible()){
-        int width = ui->containerAddress->width();
+        int width = ui->addressIn_ENC->width() ;
         menuContacts->resizeList(width, menuContacts->height());
         menuContacts->resize(width, menuContacts->height());
-        QPoint pos = ui->containerAddressEnc->rect().bottomLeft();
-        pos.setY(pos.y() + ui->containerAddressEnc->height());
-        pos.setX(pos.x() + 10);
+       QPoint pos = ui->containerAddressEnc->mapToParent(ui->addressIn_ENC->mapToParent(ui->addressIn_ENC->rect().bottomLeft()));
+       pos = ui->stackedWidget->mapToParent(ui->pageEncrypt->mapToParent(pos));
+       pos = ui->left->mapToParent(pos);
+       pos.setY(pos.y()  + 2);
+       pos.setX(pos.x());
         menuContacts->move(pos);
     }
 }
@@ -294,6 +302,12 @@ void SettingsBitToolWidget::importAddressFromDecKey(){
     }
 
     CBTCUAddress address(ui->lineEditDecryptResult->text().toStdString());
+    if(!key.IsValid())
+       {
+          ui->statusLabel_DEC->setStyleSheet("QLabel { color: red; }");
+          ui->statusLabel_DEC->setText(tr("Data Not Valid.") + QString(" ") + tr("Please try again."));
+          return;
+       }
     CPubKey pubkey = key.GetPubKey();
 
     if (!address.IsValid() || !key.IsValid() || CBTCUAddress(pubkey.GetID()).ToString() != address.ToString()) {

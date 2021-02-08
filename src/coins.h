@@ -368,6 +368,8 @@ public:
     virtual std::unique_ptr<CCoinsViewIterator> SeekToFirst() const;
     std::unique_ptr<CCoinsViewIterator> SeekToEnd() const { return std::unique_ptr<CCoinsViewIterator>(); }
 
+    virtual int64_t GetBTCAirdroppedSupply() const;
+
     //! As we use CCoinsViews polymorphically, have a virtual destructor
     virtual ~CCoinsView() {}
 };
@@ -388,6 +390,7 @@ public:
     bool BatchWrite(CCoinsMap& mapCoins, const uint256& hashBlock);
     bool GetStats(CCoinsStats& stats) const;
     std::unique_ptr<CCoinsViewIterator> SeekToFirst() const;
+    int64_t GetBTCAirdroppedSupply() const;
 };
 
 class CCoinsViewCache;
@@ -439,6 +442,7 @@ public:
     uint256 GetBestBlock() const;
     void SetBestBlock(const uint256& hashBlock);
     bool BatchWrite(CCoinsMap& mapCoins, const uint256& hashBlock);
+    int64_t GetBTCAirdroppedSupply() const;
 
     /**
      * Return a pointer to CCoins in the cache, or NULL if not found. This is

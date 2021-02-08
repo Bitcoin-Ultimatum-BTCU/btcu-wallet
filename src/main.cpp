@@ -1261,8 +1261,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
                 }
             }
 
-            // Reject legacy zBTCU mints
-            if (!Params().IsRegTestNet() && tx.HasZerocoinMintOutputs())
+            if (sporkManager.IsSporkActive(SPORK_16_ZEROCOIN_MAINTENANCE_MODE) && tx.HasZerocoinMintOutputs())
                 return state.Invalid(error("%s : tried to include zBTCU mint output in tx %s",
                         __func__, tx.GetHash().GetHex()), REJECT_INVALID, "bad-txns-invalid-outputs");
 
@@ -2786,8 +2785,6 @@ bool RecalculateBTCUSupply(int nHeightStart)
 
     CBlockIndex* pindex = chainActive[nHeightStart];
     CAmount nSupplyPrev = pindex->pprev->nMoneySupply;
-    if (nHeightStart == Params().Zerocoin_StartHeight())
-        nSupplyPrev = CAmount(5449796547496199);
 
     uiInterface.ShowProgress(_("Recalculating BTCU supply..."), 0);
     while (true) {
@@ -2816,7 +2813,8 @@ bool RecalculateBTCUSupply(int nHeightStart)
                 CTransaction txPrev;
                 uint256 hashBlock;
                 assert(GetTransaction(prevout.hash, txPrev, hashBlock, true));
-                nValueIn += txPrev.vout[prevout.n].nValue;
+                if(hashBlock != Params().HashGenesisBlock())
+                   nValueIn += txPrev.vout[prevout.n].nValue;
             }
 
             for (unsigned int i = 0; i < tx.vout.size(); i++) {
@@ -2948,7 +2946,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
        uint256 hashPrevBlock = pindex->pprev == NULL ? uint256(0): pindex->pprev->GetBlockHash();
        if (hashPrevBlock != view.GetBestBlock())
           LogPrintf("%s: hashPrev=%s view=%s\n", __func__, hashPrevBlock.GetHex(), view.GetBestBlock().GetHex());
-       assert(hashPrevBlock == view.GetBestBlock());
+       //assert(hashPrevBlock == view.GetBestBlock());
     }
 
     // Special case for the genesis block, skipping connection of its transactions
@@ -2956,10 +2954,14 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     if (block.GetHash() == Params().HashGenesisBlock()) {
 
         //for the first block check hash of chainstate db
-        if(block.hashChainstate != g_hashChainstate)
-           LogPrintf("%s: block.hashChainstate=%s HashDir=%s\n", __func__, block.hashChainstate.GetHex(), g_hashChainstate.GetHex());
-        //This check commented until official bitcoin chainstate fork day
-        //assert(block.hashChainstate == g_hashChainstate);
+
+        //Check hash genesis state for MAINNET only
+       if (Params().NetworkID() == CBaseChainParams::MAIN)
+       {
+          if(block.hashChainstate != g_hashChainstate)
+             LogPrintf("%s: block.hashChainstate=%s HashDir=%s\n", __func__, block.hashChainstate.GetHex(), g_hashChainstate.GetHex());
+          assert(block.hashChainstate == g_hashChainstate);
+       }
 
         view.SetBestBlock(pindex->GetBlockHash());
         return true;
@@ -3038,7 +3040,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         }
 
         if (tx.HasZerocoinMintOutputs()) {
-            if (pindex->nHeight >= Params().Zerocoin_Block_Public_Spend_Enabled())
+
+           if (sporkManager.IsSporkActive(SPORK_16_ZEROCOIN_MAINTENANCE_MODE))
                 return state.DoS(100, error("%s: Mints no longer accepted at height %d", __func__, pindex->nHeight));
             // parse minted coins
             for (auto& out : tx.vout) {
@@ -3137,16 +3140,18 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             if(tx.IsValidatorRegister() || tx.IsValidatorVote()){
                //check leased to validator candidate
 #ifdef ENABLE_LEASING_MANAGER
-               if (pleasingManagerMain && !CheckLeasedToValidatorTransaction(tx, state, *pleasingManagerMain))
-                  return false;
+               if (pindex->nHeight > 0 && pindex->pprev != nullptr && pleasingManagerMain)
+                  if (!CheckLeasedToValidatorTransaction(pindex->pprev->GetBlockHash(), tx, state, *pleasingManagerMain))
+                     return false;
 #endif //ENABLE_LEASING_MANAGER
                 validatorTransactions.push_back(tx);
             }
         }
         if (tx.IsLeasingReward()) {
 #ifdef ENABLE_LEASING_MANAGER
-            if (pleasingManagerMain && !CheckLeasingRewardTransaction(tx, state, *pleasingManagerMain))
-                return false;
+            if (pindex->nHeight > 0 && pindex->pprev != nullptr && pleasingManagerMain)
+                if (!CheckLeasingRewardTransaction(pindex->pprev->GetBlockHash(), tx, state, *pleasingManagerMain))
+                    return false;
 #endif //ENABLE_LEASING_MANAGER
             nLeasingOut += tx.GetValueOut();
         } else
@@ -3160,13 +3165,6 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         
         vPos.emplace_back(tx.GetHash(), pos);
         pos.nTxOffset += ::GetSerializeSize(tx, SER_DISK, CLIENT_VERSION);
-    }
-
-    //A one-time event where money supply counts were off and recalculated on a certain block.
-    if (pindex->nHeight == Params().Zerocoin_Block_RecalculateAccumulators() + 1) {
-        RecalculateZBTCUMinted();
-        RecalculateZBTCUSpent();
-        RecalculateBTCUSupply(Params().Zerocoin_StartHeight());
     }
 
     //Track zBTCU money supply in the block index
@@ -3344,7 +3342,12 @@ bool static FlushStateToDisk(CValidationState& state, FlushStateMode mode)
                 std::vector<const CBlockIndex*> vBlocks;
                 vBlocks.reserve(setDirtyBlockIndex.size());
                 for (std::set<CBlockIndex*>::iterator it = setDirtyBlockIndex.begin(); it != setDirtyBlockIndex.end(); ) {
-                    vBlocks.push_back(*it);
+
+                   //put airdroped bitcoin supply in genesis block index
+                   if(((CBlockIndex*)*it)->nHeight == 0)
+                      ((CBlockIndex*)*it)->nMoneySupply = pcoinsTip->GetBTCAirdroppedSupply();
+
+                   vBlocks.push_back(*it);
                     setDirtyBlockIndex.erase(it++);
                 }
                 if (!pblocktree->WriteBatchSync(vFiles, nLastBlockFile, vBlocks)) {
@@ -4177,6 +4180,25 @@ bool CheckColdStakeFreeOutput(const CTransaction& tx, const int nHeight)
         // TODO: double check this if/when MN rewards change
         if (lastOut.nValue == 3 * COIN)
             return true;
+
+        // This could be a budget block.
+        if (Params().IsRegTestNet() && lastOut.nValue == 50 * COIN)
+            return true;
+
+        // if mnsync is incomplete, we cannot verify if this is a budget block.
+        // so we check that the staker is not transferring value to the free output
+        if (!masternodeSync.IsSynced()) {
+            // First try finding the previous transaction in database
+            CTransaction txPrev; uint256 hashBlock;
+            if (!GetTransaction(tx.vin[0].prevout.hash, txPrev, hashBlock, true))
+                return error("%s : read txPrev failed: %s",  __func__, tx.vin[0].prevout.hash.GetHex());
+            CAmount amtIn = txPrev.vout[tx.vin[0].prevout.n].nValue + GetBlockValue(nHeight);
+            CAmount amtOut = 0;
+            for (unsigned int i = 1; i < outs-1; i++) amtOut += tx.vout[i].nValue;
+            if (amtOut != amtIn)
+                return error("%s: non-free outputs value %d less than required %d", __func__, amtOut, amtIn);
+            return true;
+        }
 
         if (budget.IsBudgetPaymentBlock(nHeight)) {
             // if this is a budget payment, check that SPORK_9 and SPORK_13 are active (if spork list synced)

@@ -92,7 +92,7 @@ if [[ "$?" -ne "0" ]]; then
 else
 	rm -f *.o benchmarks.html benchmarks-562.html &>/dev/null
 
-	CXXFLAGS="-DNDEBUG $OPT" make
+	CXXFLAGS="$OPT" make
 	if [[ "$?" -eq "0" ]]; then
 		echo "Running benchmarks for Crypto++ 5.6.2"
 		./cryptest.exe b 3 "$CPU_FREQ" > benchmarks-562.html
@@ -118,7 +118,7 @@ if [[ "$?" -ne "0" ]]; then
 else
 	rm -f *.o benchmarks.html benchmarks-564.html &>/dev/null
 
-	CXXFLAGS="-DNDEBUG $OPT" make
+	CXXFLAGS="$OPT" make
 	if [[ "$?" -eq "0" ]]; then
 		echo "Running benchmarks for Crypto++ 5.6.4"
 		./cryptest.exe b 3 "$CPU_FREQ" > benchmarks-564.html
@@ -144,7 +144,7 @@ if [[ "$?" -ne "0" ]]; then
 else
 	rm -f *.o benchmarks.html benchmarks-master.html &>/dev/null
 
-	CXXFLAGS="-DNDEBUG $OPT" make
+	CXXFLAGS="$OPT" make
 	if [[ "$?" -eq "0" ]]; then
 		echo "Running benchmarks for Crypto++ Master"
 		./cryptest.exe b 3 "$CPU_FREQ" > benchmarks-master.html

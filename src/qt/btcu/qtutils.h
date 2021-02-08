@@ -32,10 +32,13 @@ const QString RESYNC("-resync");
 extern Qt::Modifier SHORT_KEY;
 
 bool openDialog(QDialog *widget, QWidget *gui);
+bool openDialogDropRight(QDialog *widget, QWidget *gui);
 void closeDialog(QDialog *widget, BTCUGUI *gui);
+void closeDialogDropRight(QDialog *widget, BTCUGUI *gui);
 void openDialogFullScreen(QWidget *parent, QWidget * dialog);
 bool openDialogWithOpaqueBackgroundY(QDialog *widget, BTCUGUI *gui, double posX = 3, int posY = 5);
-bool openDialogWithOpaqueBackground(QDialog *widget, BTCUGUI *gui, double posX = 3);
+bool openDialogWithOpaqueBackground(QDialog *widget, BTCUGUI *gui, double posX);
+bool openDialogWithOpaqueBackground(QDialog *widget, BTCUGUI *gui);
 bool openDialogWithOpaqueBackgroundFullScreen(QDialog *widget, BTCUGUI *gui);
 
 //
@@ -57,6 +60,11 @@ void initComboBox(QComboBox* combo, QLineEdit* lineEdit = nullptr);
 void initCssEditLine(QLineEdit *edit, bool isDialog = false);
 void setCssEditLine(QLineEdit *edit, bool isValid, bool forceUpdate = false);
 void setCssEditLineDialog(QLineEdit *edit, bool isValid, bool forceUpdate = false);
+
+void initCssEditLine(QWidget *edit, bool isDialog = false);
+void setCssEditLine(QWidget *edit, bool isValid, bool forceUpdate = false);
+void setCssEditLineDialog(QWidget *edit, bool isValid, bool forceUpdate = false);
+
 void setShadow(QWidget *edit);
 
 void setCssBtnPrimary(QPushButton *btn, bool forceUpdate = false);

@@ -45,6 +45,19 @@ add_executable(
     test_loader.cpp
 )
 
-target_link_libraries(evmc-test PRIVATE evmc-example-vm instructions loader GTest::gtest GTest::main)
+target_link_libraries(evmc-test PRIVATE evmc-example-vm instructions loader)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    target_link_libraries(evmc-test
+        PRIVATE 
+            GTest::GTest 
+            GTest::Main
+            )
+else()
+    target_link_libraries(evmc-test
+        PRIVATE 
+            GTest::gtest 
+            GTest::gtest_main
+            )
+endif()
 set_target_properties(evmc-test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ..)
 add_dependencies(evmc-test vm-mock)

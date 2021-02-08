@@ -21,8 +21,9 @@ public:
     ~DefaultDialog();
 
     void setText(QString title = "", QString message = "", QString okBtnText = "", QString cancelBtnText = "");
-
+    void setSizeButtons(int WidthSave, int WidthCancel);
     bool isOk = false;
+    void setType(int type = 0);
 private:
     Ui::DefaultDialog *ui;
 };

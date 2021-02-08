@@ -69,7 +69,7 @@ apps:
     plugs: [home]
 parts:
   btcu-core:
-    source: https://github.com/bitcoin-ultimatum/btcu
+    source: https://github.com/bitcoin-ultimatum/orion
     source-type: git
     source-tag: master
     plugin: nil

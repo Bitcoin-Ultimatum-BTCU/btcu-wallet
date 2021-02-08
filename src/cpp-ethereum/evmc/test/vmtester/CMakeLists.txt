@@ -4,12 +4,22 @@
 
 include(GNUInstallDirs)
 
-hunter_add_package(CLI11)
 find_package(CLI11)
 
 add_executable(evmc-vmtester vmtester.hpp vmtester.cpp tests.cpp)
 set_target_properties(evmc-vmtester PROPERTIES RUNTIME_OUTPUT_DIRECTORY ..)
-target_link_libraries(evmc-vmtester PRIVATE evmc loader evmc-example-host GTest::gtest CLI11::CLI11)
+target_link_libraries(evmc-vmtester PRIVATE evmc loader evmc-example-host CLI11::CLI11)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    target_link_libraries(evmc-vmtester
+        PRIVATE 
+            GTest::GTest 
+            )
+else()
+    target_link_libraries(evmc-vmtester
+        PRIVATE 
+            GTest::gtest 
+            )
+endif()
 
 install(TARGETS evmc-vmtester RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 

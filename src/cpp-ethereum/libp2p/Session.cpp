@@ -103,7 +103,9 @@ int Session::rating() const
 bool Session::readPacket(uint16_t _capId, PacketType _packetType, RLP const& _r)
 {
     m_lastReceived = chrono::steady_clock::now();
+#ifndef WIN32
     clog(VerbosityTrace, "net") << "-> " << _packetType << " " << _r;
+#endif
     try // Generic try-catch block designed to capture RLP format errors - TODO: give decent diagnostics, make a bit more specific over what is caught.
     {
         // v4 frame headers are useless, offset packet type used
@@ -213,7 +215,9 @@ bool Session::checkPacket(bytesConstRef _msg)
 void Session::send(bytes&& _msg)
 {
     bytesConstRef msg(&_msg);
+#ifndef WIN32
     clog(VerbosityTrace, "net") << "<- " << RLP(msg.cropped(1));
+#endif
     if (!checkPacket(msg))
         cnetlog << "INVALID PACKET CONSTRUCTED!";
 

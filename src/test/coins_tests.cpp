@@ -88,6 +88,8 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
     bool found_an_entry = false;
     bool missed_an_entry = false;
 
+    SelectParams(CBaseChainParams::REGTEST);
+
     // A simple map to track what we expect the cache stack to represent.
     std::map<uint256, CCoins> result;
 

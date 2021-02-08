@@ -29,8 +29,8 @@ Build-Depends: debhelper,
  dh-systemd
 Standards-Version: 3.9.2
 Homepage: http://www.btcu.io/
-Vcs-Git: git://github.com/bitcoin-ultimatum/btcu.git
-Vcs-Browser: http://github.com/bitcoin-ultimatum/btcu
+Vcs-Git: git://github.com/bitcoin-ultimatum/orion.git
+Vcs-Browser: http://github.com/bitcoin-ultimatum/orion
 
 Package: btcud
 Architecture: any

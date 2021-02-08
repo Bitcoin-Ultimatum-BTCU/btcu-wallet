@@ -24,7 +24,7 @@ packages:
 - "python3"
 - "rename"
 remotes:
-- "url": "https://github.com/bitcoin-ultimatum/btcu.git"
+- "url": "https://github.com/bitcoin-ultimatum/orion.git"
   "dir": "btcu"
 files: []
 script: |

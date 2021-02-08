@@ -1,0 +1,15 @@
+*.o
+*.so
+*.so.0
+*.a
+*.marks
+*.check_cache
+*.make
+*.bin
+cmake_install.cmake
+/**/*/CMakeFiles/**/*
+CMakeFiles/**/*
+Testing/**/*
+!CMakeLists.txt
+CTestTestfile.cmake
+*_test

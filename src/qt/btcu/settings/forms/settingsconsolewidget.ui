@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>418</width>
+    <width>522</width>
     <height>434</height>
    </rect>
   </property>
@@ -78,8 +78,14 @@
            <widget class="QPushButton" name="pushButtonOpenDebug">
             <property name="minimumSize">
              <size>
-              <width>0</width>
-              <height>40</height>
+              <width>200</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>30</height>
              </size>
             </property>
             <property name="focusPolicy">
@@ -94,14 +100,14 @@
            <widget class="QPushButton" name="pushButtonCommandOptions">
             <property name="minimumSize">
              <size>
-              <width>0</width>
-              <height>40</height>
+              <width>200</width>
+              <height>30</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>40</height>
+              <height>30</height>
              </size>
             </property>
             <property name="focusPolicy">
@@ -171,14 +177,17 @@
             <property name="minimumSize">
              <size>
               <width>45</width>
-              <height>45</height>
+              <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>45</width>
-              <height>45</height>
+              <height>50</height>
              </size>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
             </property>
             <property name="text">
              <string/>
@@ -206,13 +215,13 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>45</height>
+              <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>45</height>
+              <height>50</height>
              </size>
             </property>
            </widget>

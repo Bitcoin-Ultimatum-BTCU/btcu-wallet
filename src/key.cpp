@@ -198,6 +198,7 @@ CPrivKey CKey::GetPrivKey() const
 
 CPubKey CKey::GetPubKey() const
 {
+    if (!secp256k1_context_sign) ECC_Start();
     assert(fValid);
     secp256k1_pubkey pubkey;
     CPubKey result;

@@ -20,6 +20,114 @@
 #include <boost/tokenizer.hpp>
 #include <fstream>
 
+UniValue mnping(const UniValue& params, bool fHelp)
+{
+    if (fHelp || !params.empty()) {
+        throw std::runtime_error(
+            "mnping \n"
+            "\nSend masternode ping. Only for remote masternodes on Regtest\n"
+
+            "\nResult:\n"
+            "{\n"
+            "  \"sent\":           (string YES|NO) Whether the ping was sent and, if not, the error.\n"
+            "}\n"
+
+            "\nExamples:\n" +
+            HelpExampleCli("mnping", "") + HelpExampleRpc("mnping", ""));
+    }
+
+    if (!Params().IsRegTestNet()) {
+        throw JSONRPCError(RPC_MISC_ERROR, "command available only for RegTest network");
+    }
+
+    if (!fMasterNode) {
+        throw JSONRPCError(RPC_MISC_ERROR, "this is not a masternode");
+    }
+
+    UniValue ret(UniValue::VOBJ);
+    std::string strError;
+    ret.pushKV("sent", activeMasternode.SendMasternodePing(strError) ?
+                       "YES" : strprintf("NO (%s)", strError));
+    return ret;
+}
+
+UniValue initmasternode(const UniValue& params, bool fHelp)
+{
+    if (fHelp || (params.empty() || params.size() > 2)) {
+        throw std::runtime_error(
+            "initmasternode ( \"masternodePrivKey\" \"masternodeAddr\" )\n"
+            "\nInitialize masternode on demand if it's not already initialized.\n"
+            "\nArguments:\n"
+            "1. masternodePrivKey          (string, required) The masternode private key.\n"
+            "2. masternodeAddr             (string, required) The IP:Port of this masternode.\n"
+
+            "\nResult:\n"
+            " success                      (string) if the masternode initialization succeeded.\n"
+
+            "\nExamples:\n" +
+            HelpExampleCli("initmasternode", "\"9247iC59poZmqBYt9iDh9wDam6v9S1rW5XekjLGyPnDhrDkP4AK\" \"187.24.32.124:51472\"") +
+            HelpExampleRpc("initmasternode", "\"9247iC59poZmqBYt9iDh9wDam6v9S1rW5XekjLGyPnDhrDkP4AK\" \"187.24.32.124:51472\""));
+    }
+
+    std::string _strMasterNodePrivKey = params[0].get_str();
+    std::string _strMasterNodeAddr = params[1].get_str();
+
+    if (fMasterNode) {
+        throw std::runtime_error( "Masternode already initialized.\n");
+    }
+
+    LOCK(cs_main); // Lock cs_main so the node doesn't perform any action while we setup the Masternode
+    LogPrintf("Initializing masternode, addr %s..\n", _strMasterNodeAddr.c_str());
+
+    if (_strMasterNodePrivKey.empty()) {
+        throw std::runtime_error("Masternode priv key cannot be empty.\n");
+    }
+
+    if (_strMasterNodeAddr.empty()) {
+        throw std::runtime_error("Empty masternodeaddr\n");
+    }
+
+    // Global params set
+    strMasterNodeAddr = _strMasterNodeAddr;
+
+    // Address parsing.
+    const CChainParams& chainParams = Params();
+    int nPort = 0;
+    int nDefaultPort = chainParams.GetDefaultPort();
+    std::string strHost;
+    SplitHostPort(strMasterNodeAddr, nPort, strHost);
+
+    // Allow for the port number to be omitted here and just double check
+    // that if a port is supplied, it matches the required default port.
+    if (nPort == 0) nPort = nDefaultPort;
+    if (nPort != nDefaultPort && !chainParams.IsRegTestNet()) {
+        throw std::runtime_error(strprintf(_("Invalid -masternodeaddr port %d, only %d is supported on %s-net."),
+                                  nPort, nDefaultPort, Params().NetworkIDString()));
+    }
+    CService addrTest;
+    if (!LookupNumeric(strHost.c_str(), addrTest, nPort)) {
+        throw std::runtime_error(strprintf(_("Invalid -masternodeaddr address: %s"), strMasterNodeAddr));
+    }
+
+    // Peer port needs to match the masternode public one for IPv4 and IPv6.
+    // Onion can run in other ports because those are behind a hidden service which has the public port fixed to the default port.
+    if (!chainParams.IsRegTestNet() && nPort != GetListenPort() && !addrTest.IsTor()) {
+        throw std::runtime_error(strprintf(_("Invalid -masternodeaddr port %d, isn't the same as the peer port %d"),
+                                  nPort, GetListenPort()));
+    }
+
+    CKey key;
+    CPubKey pubkey;
+    if (!CMessageSigner::GetKeysFromSecret(_strMasterNodePrivKey, key, pubkey)) {
+        throw std::runtime_error(_("Invalid masternodeprivkey. Please see the documentation."));
+    }
+
+    activeMasternode.pubKeyMasternode = pubkey;
+    strMasterNodePrivKey = _strMasterNodePrivKey;
+    fMasterNode = true;
+    return NullUniValue;
+}
+
 UniValue getpoolinfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
@@ -328,17 +436,18 @@ UniValue startmasternode (const UniValue& params, bool fHelp)
         if (strCommand == "start-disabled") strCommand = "disabled";
     }
 
-    if (fHelp || params.size() < 2 || params.size() > 3 ||
+    if (fHelp || params.size() < 2 || params.size() > 4 ||
         (params.size() == 2 && (strCommand != "local" && strCommand != "all" && strCommand != "many" && strCommand != "missing" && strCommand != "disabled")) ||
-        (params.size() == 3 && strCommand != "alias"))
+        ( (params.size() == 3 || params.size() == 4) && strCommand != "alias"))
         throw std::runtime_error(
-            "startmasternode \"local|all|many|missing|disabled|alias\" lockwallet ( \"alias\" )\n"
+            "startmasternode \"local|all|many|missing|disabled|alias\" lockwallet ( \"alias\" reload_conf )\n"
             "\nAttempts to start one or more masternode(s)\n"
 
             "\nArguments:\n"
             "1. set         (string, required) Specify which set of masternode(s) to start.\n"
             "2. lockwallet  (boolean, required) Lock wallet after completion.\n"
             "3. alias       (string) Masternode alias. Required if using 'alias' as the set.\n"
+            "4. reload_conf (boolean) if true and \"alias\" was selected, reload the masternodes.conf data from disk"
 
             "\nResult: (for 'local' set):\n"
             "\"status\"     (string) Masternode status message\n"
@@ -413,6 +522,14 @@ UniValue startmasternode (const UniValue& params, bool fHelp)
 
     if (strCommand == "alias") {
         std::string alias = params[2].get_str();
+
+        if(params[3].getBool()) {
+            masternodeConfig.clear();
+            std::string error;
+            if (!masternodeConfig.read(error)) {
+                throw std::runtime_error("Error reloading masternode.conf, " + error);
+            }
+        }
 
         bool found = false;
 

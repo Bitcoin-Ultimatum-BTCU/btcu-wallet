@@ -19,20 +19,23 @@ SnackBar::SnackBar(BTCUGUI* _window, QWidget *parent) :
     this->setStyleSheet(parent->styleSheet());
     ui->snackContainer->setProperty("cssClass", "container-snackbar");
     ui->label->setProperty("cssClass", "text-snackbar");
-    ui->pushButton->setProperty("cssClass", "ic-close");
+    ui->label->setAlignment(Qt::AlignVCenter);
+    ui->pushButton->setProperty("cssClass", "ic-close-snackbar");
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(close()));
     if (window)
         connect(window, SIGNAL(windowResizeEvent(QResizeEvent*)), this, SLOT(windowResizeEvent(QResizeEvent*)));
     else {
-        ui->horizontalLayout->setContentsMargins(0,0,0,0);
-        ui->label->setStyleSheet("font-size: 15px; color:white;");
+        //ui->horizontalLayout->setContentsMargins(0,0,0,0);
+        //ui->label->setStyleSheet("font-size: 15px; color:white;");
     }
+    ui->pbnBorder->setMinimumSize(8, this->height());
+    ui->pbnBorder->setProperty("cssClass", "pbn-snackbar");
 }
 
 void SnackBar::windowResizeEvent(QResizeEvent* event){
-    this->resize(qobject_cast<QWidget*>(parent())->width(), this->height());
-    this->move(QPoint(0, window->height() - this->height() ));
+    //this->resize(qobject_cast<QWidget*>(parent())->width(), this->height());
+    this->move(QPoint(window->width() - this->width(), this->height() ));
 }
 
 void SnackBar::showEvent(QShowEvent *event){
@@ -40,11 +43,36 @@ void SnackBar::showEvent(QShowEvent *event){
 }
 
 void SnackBar::hideAnim(){
-    if (window) closeDialog(this, window);
+    if (window) closeDialogDropRight(this, window);
     QTimer::singleShot(310, this, SLOT(hide()));
 }
 
-
+void SnackBar::setType(int Type)
+{
+   switch (Type)
+   {
+      case CClientUIInterface::MSG_WARNING_SNACK:
+      {
+         ui->label->setProperty("cssClass", "text-snackbar-green");
+         ui->pbnBorder->setProperty("cssClass", "pbn-snackbar-green");
+         break;
+      }
+      case CClientUIInterface::MSG_ERROR_SNACK:
+      {
+         ui->label->setProperty("cssClass", "text-snackbar-red");
+         ui->pbnBorder->setProperty("cssClass", "pbn-snackbar-red");
+         break;
+      }
+      default:
+      {
+         ui->label->setProperty("cssClass", "text-snackbar");
+         ui->pbnBorder->setProperty("cssClass", "pbn-snackbar");
+         break;
+      }
+   }
+   updateStyle(ui->label);
+   updateStyle(ui->pbnBorder);
+}
 
 void SnackBar::sizeTo(QWidget* widget){
 

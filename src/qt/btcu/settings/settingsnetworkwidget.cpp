@@ -17,7 +17,7 @@ SettingsNetworkWidget::SettingsNetworkWidget(BTCUGUI* _window, QWidget *parent) 
     this->setStyleSheet(parent->styleSheet());
 
     // Containers
-    ui->left->setProperty("cssClass", "container");
+    ui->left->setProperty("cssClass", "container-border");
     ui->left->setContentsMargins(10,10,10,10);
 
     // Buttons

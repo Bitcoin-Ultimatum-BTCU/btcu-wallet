@@ -52,7 +52,9 @@ public:
 		double const totalElapsed = m_totalTimer.elapsed();
 		if (totalElapsed > 0.5)
 		{
+#ifndef WIN32
             cdebug << "SLOW IMPORT: { " << constructReport(totalElapsed, _additionalValues) << " }";
+#endif
         }
 	}
 

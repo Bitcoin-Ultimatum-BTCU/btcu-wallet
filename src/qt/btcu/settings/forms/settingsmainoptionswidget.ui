@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
+    <width>630</width>
     <height>434</height>
    </rect>
   </property>
@@ -111,6 +111,9 @@
               <width>16777215</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
             </property>
             <property name="text">
              <string/>
@@ -325,6 +328,9 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBoxMinTaskbar">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>CheckBox</string>
           </property>
@@ -348,6 +354,9 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBoxMinClose">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>CheckBox</string>
           </property>
@@ -375,7 +384,7 @@
            <widget class="QPushButton" name="pushButtonReset">
             <property name="minimumSize">
              <size>
-              <width>160</width>
+              <width>240</width>
               <height>50</height>
              </size>
             </property>
@@ -397,7 +406,7 @@
            <widget class="QPushButton" name="pushButtonClean">
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>200</width>
               <height>50</height>
              </size>
             </property>
@@ -429,13 +438,13 @@
            <widget class="QPushButton" name="pushButtonSave">
             <property name="minimumSize">
              <size>
-              <width>200</width>
+              <width>150</width>
               <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>200</width>
+              <width>150</width>
               <height>50</height>
              </size>
             </property>

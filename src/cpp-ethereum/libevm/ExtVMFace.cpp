@@ -213,7 +213,9 @@ evmc_result create(ExtVMFace& _env, evmc_message const* _msg) noexcept
 
         // Place a new vector of bytes containing output in result's reserved memory.
         auto* data = evmc_get_optional_storage(&evmcResult);
+#ifndef _MSC_VER
         static_assert(sizeof(bytes) <= sizeof(*data), "Vector is too big");
+#endif  // _MSC_VER
         new(data) bytes(result.output.takeBytes());
         // Set the destructor to delete the vector.
         evmcResult.release = [](evmc_result const* _result)
@@ -265,7 +267,9 @@ evmc_result call(evmc_context* _context, evmc_message const* _msg) noexcept
 
     // Place a new vector of bytes containing output in result's reserved memory.
     auto* data = evmc_get_optional_storage(&evmcResult);
+#ifndef _MSC_VER
     static_assert(sizeof(bytes) <= sizeof(*data), "Vector is too big");
+#endif  // _MSC_VER
     new(data) bytes(result.output.takeBytes());
     // Set the destructor to delete the vector.
     evmcResult.release = [](evmc_result const* _result)

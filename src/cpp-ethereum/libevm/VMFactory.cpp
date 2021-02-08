@@ -106,9 +106,10 @@ void setVMKind(const std::string& _name)
     }
 
     g_evmcDll.reset(new EVMC{instance});
-
+#ifndef WIN32
     cnote << "Loaded EVMC module: " << g_evmcDll->name() << " " << g_evmcDll->version() << " ("
           << _name << ")";
+#endif
 #else
     BOOST_THROW_EXCEPTION(VMKindNotSupported() << errinfo_comment("VM " + _name + "not supported"));
 #endif

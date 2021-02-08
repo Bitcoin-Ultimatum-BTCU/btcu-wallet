@@ -71,7 +71,7 @@ uint256 CCoinsView::GetBestBlock() const { return uint256(0); }
 bool CCoinsView::BatchWrite(CCoinsMap& mapCoins, const uint256& hashBlock) { return false; }
 bool CCoinsView::GetStats(CCoinsStats& stats) const { return false; }
 std::unique_ptr<CCoinsViewIterator> CCoinsView::SeekToFirst() const { return std::unique_ptr<CCoinsViewIterator>(new CCoinsViewIterator()); }
-
+int64_t CCoinsView::GetBTCAirdroppedSupply() const { return 0;}
 
 CCoinsViewBacked::CCoinsViewBacked(CCoinsView* viewIn) : base(viewIn) {}
 bool CCoinsViewBacked::GetCoins(const uint256& txid, CCoins& coins) const { return base->GetCoins(txid, coins); }
@@ -81,6 +81,7 @@ void CCoinsViewBacked::SetBackend(CCoinsView& viewIn) { base = &viewIn; }
 bool CCoinsViewBacked::BatchWrite(CCoinsMap& mapCoins, const uint256& hashBlock) { return base->BatchWrite(mapCoins, hashBlock); }
 bool CCoinsViewBacked::GetStats(CCoinsStats& stats) const { return base->GetStats(stats); }
 std::unique_ptr<CCoinsViewIterator> CCoinsViewBacked::SeekToFirst() const { return base->SeekToFirst(); }
+int64_t CCoinsViewBacked::GetBTCAirdroppedSupply() const { return base->GetBTCAirdroppedSupply();}
 
 CCoinsKeyHasher::CCoinsKeyHasher() : salt(GetRandHash()) {}
 
@@ -164,6 +165,8 @@ uint256 CCoinsViewCache::GetBestBlock() const
         hashBlock = base->GetBestBlock();
     return hashBlock;
 }
+
+int64_t CCoinsViewCache::GetBTCAirdroppedSupply() const { return base->GetBTCAirdroppedSupply();}
 
 void CCoinsViewCache::SetBestBlock(const uint256& hashBlockIn)
 {

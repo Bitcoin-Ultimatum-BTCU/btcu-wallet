@@ -112,7 +112,7 @@ gpg --output ${VERSION}-win-unsigned/$NAME/btcu-win-${VERSION%\.*}-build.assert.
 Uploading Signatures
 --------------------
 Make a Pull Request (both the `.assert` and `.assert.sig` files) to the
-[gitian.sigs](https://github.com/btcu-project/gitian.sigs/) repository:
+[gitian.sigs](https://github.com/bitcoin-ultimatum/gitian.sigs/) repository:
 
 ```bash
 git checkout -b ${VERSION}-not-codesigned
@@ -120,7 +120,6 @@ git commit -S -a -m "Add $NAME $VERSION non-code signed signatures"
 git push --set-upstream $NAME $VERSION-not-codesigned
 ```
 
-You can also mail the files to Fuzzbawls (fuzzbawls@btcu.io) and he will commit them.
 
 ```bash
 gpg --detach-sign ${VERSION}-linux/${NAME}/btcu-linux-*-build.assert

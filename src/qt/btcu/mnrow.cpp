@@ -12,21 +12,31 @@ MNRow::MNRow(QWidget *parent) :
     ui(new Ui::MNRow)
 {
     ui->setupUi(this);
-    setCssProperty(ui->labelAddress, "text-list-body2");
-    setCssProperty(ui->labelName, "text-list-title1");
-    setCssProperty(ui->labelDate, "text-list-caption-medium");
-    ui->lblDivisory->setStyleSheet("background-color:#bababa;");
+
+   setCssProperty(ui->Contener, "container-border");
+   setCssSubtitleScreen(ui->label);
+   ui->label_2->setProperty("cssClass","text-list-amount-send");
+   setCssSubtitleScreen(ui->label_3);
+   setCssSubtitleScreen(ui->label_4);
+   setCssSubtitleScreen(ui->label_5);
+   setCssSubtitleScreen(ui->label_6);
+   connect(ui->pushButtonMenu, SIGNAL(clicked()), this, SLOT(onPbnMenuClicked()));
+
 }
 
 void MNRow::updateView(QString address, QString label, QString status, bool wasCollateralAccepted){
-    ui->labelName->setText(label);
+    /*ui->labelName->setText(label);
     ui->labelAddress->setText(address);
     ui->labelDate->setText("Status: " + status);
     if (!wasCollateralAccepted){
         ui->labelDate->setText("Status: Collateral tx not found");
-    } else {
+    } else {Q_EMIT
         ui->labelDate->setText("Status: " + status);
-    }
+    }*/
+}
+void MNRow::onPbnMenuClicked()
+{
+   Q_EMIT onMenuClicked();
 }
 
 MNRow::~MNRow(){

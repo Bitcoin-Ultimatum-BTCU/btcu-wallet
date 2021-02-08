@@ -19,4 +19,7 @@ peers.dat           | peer IP address database (custom format); since 0.7.0
 wallet.dat          | personal wallet (BDB) with keys and transactions; moved to wallets/ directory on new installs since 0.16.0
 .cookie             | session RPC authentication cookie (written at start when cookie authentication is used, deleted on shutdown): since 0.12.0
 onion_private_key   | cached Tor hidden service private key for `-listenonion`: since 0.12.0
+validators/*        | stores validators state, binary files
+leasing/*           | leasing outputs, payments database (LevelDB)
+qtumDB/*            | smartcontracts database (LevelDB)
 

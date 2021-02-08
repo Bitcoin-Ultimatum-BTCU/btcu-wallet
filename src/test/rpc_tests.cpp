@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(rpc_rawparams)
 {
     // Test raw transaction API argument handling
     UniValue r;
-
+    SelectParams(CBaseChainParams::REGTEST);
     BOOST_CHECK_THROW(CallRPC("getrawtransaction"), std::runtime_error);
     BOOST_CHECK_THROW(CallRPC("getrawtransaction not_hex"), std::runtime_error);
     BOOST_CHECK_THROW(CallRPC("getrawtransaction a3b807410df0b60fcb9736768df5823938b2f838694939ba45f3c0a1bff150ed not_int"), std::runtime_error);
@@ -95,6 +95,7 @@ BOOST_AUTO_TEST_CASE(rpc_rawparams)
 
 BOOST_AUTO_TEST_CASE(rpc_rawsign)
 {
+    SelectParams(CBaseChainParams::REGTEST);
     UniValue r;
     // input is a 1-of-2 multisig (so is output):
     std::string prevout =
@@ -168,6 +169,7 @@ BOOST_AUTO_TEST_CASE(rpc_parse_monetary_values)
 
 BOOST_AUTO_TEST_CASE(json_parse_errors)
 {
+    SelectParams(CBaseChainParams::REGTEST);
     // Valid
     BOOST_CHECK_EQUAL(ParseNonRFCJSONValue("1.0").get_real(), 1.0);
     // Valid, with leading or trailing whitespace
@@ -201,14 +203,14 @@ BOOST_AUTO_TEST_CASE(rpc_ban)
     ar = r.get_array();
     BOOST_CHECK_EQUAL(ar.size(), 0);
 
-    BOOST_CHECK_NO_THROW(r = CallRPC(std::string("setban 127.0.0.0/24 add 1607731200 true")));
+    BOOST_CHECK_NO_THROW(r = CallRPC(std::string("setban 127.0.0.0/24 add 1757831200 true")));
     BOOST_CHECK_NO_THROW(r = CallRPC(std::string("listbanned")));
     ar = r.get_array();
     o1 = ar[0].get_obj();
     adr = find_value(o1, "address");
     UniValue banned_until = find_value(o1, "banned_until");
     BOOST_CHECK_EQUAL(adr.get_str(), "127.0.0.0/24");
-    BOOST_CHECK_EQUAL(banned_until.get_int64(), 1607731200); // absolute time check
+    BOOST_CHECK_EQUAL(banned_until.get_int64(), 1757831200); // absolute time check
 
     BOOST_CHECK_NO_THROW(CallRPC(std::string("clearbanned")));
 

@@ -24,6 +24,9 @@ public:
 
 Q_SIGNALS:
     void onMenuClicked();
+
+private Q_SLOTS:
+   void onPbnMenuClicked();
 private:
     Ui::MNRow *ui;
 };

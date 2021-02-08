@@ -181,25 +181,26 @@ inline int HashChainstate(std::string &strHash)
    int bytesRead = 0;
    if(!buffer) return ENOMEM;
 
-   //Iterate files in directory
-   for(auto & p : boost::filesystem::recursive_directory_iterator( path ))
-   {
-      //Perform single file
-      const boost::filesystem::path cp = (p);
-      //if(cp.string().find("LOCK") != std::string::npos || cp.string().find("LOG") != std::string::npos || cp.string().find("MANIFEST") != std::string::npos)
-      if(cp.string().find(".ldb") == std::string::npos)
-         continue;
+   std::vector<boost::filesystem::path> vPathes;
+   boost::filesystem::recursive_directory_iterator dir_itr { path };
+   std::copy_if(begin(dir_itr), end(dir_itr), std::back_inserter(vPathes),
+                [](const boost::filesystem::directory_entry& entry) {
+                   return (entry.path().string().find(".ldb") != std::string::npos);
+                });
 
-      FILE *file = fopen(cp.string().c_str(), "rb");
+   std::sort(begin(vPathes), end(vPathes));
+
+   //Iterate files in directory
+   for(auto & p : vPathes)
+   {
+      FILE* file = fopen(p.string().c_str(), "rb");
       if(!file) return -534;
       while((bytesRead = fread(buffer, 1, bufSize, file)))
       {
          SHA256_Update(&sha256, buffer, bytesRead);
       }
       fclose(file);
-
    }
-
    free(buffer);
    SHA256_Final(hash, &sha256);
    std::string input (reinterpret_cast<const char *> (hash),sizeof (hash) / sizeof (hash[0]));

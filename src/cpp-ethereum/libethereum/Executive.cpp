@@ -26,7 +26,7 @@
 #include <libevm/VMFactory.h>
 
 #ifndef QTUM_BUILD
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #endif
 #include <boost/timer.hpp>
 
@@ -137,8 +137,10 @@ void StandardTrace::operator()(uint64_t _steps, uint64_t PC, Instruction inst, b
     }
     else
     {
+#ifndef WIN32
         cwarn << "GAA!!! Tracing VM and more than one new/deleted stack frame between steps!";
         cwarn << "Attmepting naive recovery...";
+#endif
         m_lastInst.resize(ext.depth + 1);
     }
 
@@ -515,31 +517,41 @@ bool Executive::go(OnOpFunc const& _onOp)
         }
         catch (VMException const& _e)
         {
+#ifndef WIN32
             LOG(m_detailsLogger) << "Safe VM Exception. " << diagnostic_information(_e);
+#endif
             m_gas = 0;
             m_excepted = toTransactionException(_e);
             revert();
         }
         catch (InternalVMError const& _e)
         {
+#ifndef WIN32
             cerror << "Internal VM Error (EVMC status code: "
-                 << *boost::get_error_info<errinfo_evmcStatusCode>(_e) << ")";
+                   << *boost::get_error_info<errinfo_evmcStatusCode>(_e) << ")";
+#endif
             revert();
             throw;
         }
         catch (Exception const& _e)
         {
-            // TODO: AUDIT: check that this can never reasonably happen. Consider what to do if it does.
+#ifndef WIN32
+            // TODO: AUDIT: check that this can never reasonably happen. Consider what to do if it
+            // does.
             cerror << "Unexpected exception in VM. There may be a bug in this implementation. "
-                 << diagnostic_information(_e);
+                   << diagnostic_information(_e);
+#endif
             exit(1);
             // Another solution would be to reject this transaction, but that also
             // has drawbacks. Essentially, the amount of ram has to be increased here.
         }
         catch (std::exception const& _e)
         {
-            // TODO: AUDIT: check that this can never reasonably happen. Consider what to do if it does.
+#ifndef WIN32
+            // TODO: AUDIT: check that this can never reasonably happen. Consider what to do if it
+            // does.
             cerror << "Unexpected std::exception in VM. Not enough RAM? " << _e.what();
+#endif
             exit(1);
             // Another solution would be to reject this transaction, but that also
             // has drawbacks. Essentially, the amount of ram has to be increased here.

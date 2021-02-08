@@ -177,6 +177,38 @@
        </spacer>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="leftMargin">
+         <number>16</number>
+        </property>
+        <property name="rightMargin">
+         <number>16</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="labelDivider">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>1</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>1</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color:#bababa;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QWidget" name="layoutScroll" native="true">
         <property name="minimumSize">
          <size>
@@ -197,9 +229,7 @@
          <item>
           <widget class="QScrollArea" name="scrollArea">
            <property name="styleSheet">
-            <string notr="true">#scrollArea {
-background:transparent;
-}</string>
+            <string notr="true"/>
            </property>
            <property name="horizontalScrollBarPolicy">
             <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -223,12 +253,10 @@ background:transparent;
              </rect>
             </property>
             <property name="autoFillBackground">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
-             <string notr="true">#scrollAreaWidgetContents {
-background:transparent;
-}</string>
+             <string notr="true"/>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <property name="spacing">
@@ -338,7 +366,7 @@ background:transparent;
                  <widget class="QWidget" name="contentOutputs" native="true">
                   <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,3,0">
                    <property name="spacing">
-                    <number>0</number>
+                    <number>6</number>
                    </property>
                    <property name="leftMargin">
                     <number>0</number>
@@ -402,11 +430,6 @@ background:transparent;
                     <height>50</height>
                    </size>
                   </property>
-                  <property name="styleSheet">
-                   <string notr="true">#outputsScrollArea {
-background:transparent;
-}</string>
-                  </property>
                   <property name="widgetResizable">
                    <bool>true</bool>
                   </property>
@@ -418,11 +441,6 @@ background:transparent;
                      <width>522</width>
                      <height>48</height>
                     </rect>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">#container_outputs_base {
-background:transparent;
-}</string>
                    </property>
                   </widget>
                  </widget>
@@ -446,6 +464,9 @@ background:transparent;
                 <item>
                  <widget class="QWidget" name="contentAmount" native="true">
                   <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
+                   <property name="spacing">
+                    <number>10</number>
+                   </property>
                    <property name="leftMargin">
                     <number>0</number>
                    </property>

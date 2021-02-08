@@ -47,7 +47,8 @@ ReceiveDialog::ReceiveDialog(QWidget *parent) :
 
     ui->btnCancel->setProperty("cssClass", "btn-dialog-cancel");
     ui->btnSave->setText("COPY");
-    ui->btnSave->setProperty("cssClass", "btn-primary");
+   //setCssBtnSecondary(ui->btnSave);
+    ui->btnSave->setProperty("cssClass", "btn-secundary");
     ui->btnCancel->setVisible(false);
 
 

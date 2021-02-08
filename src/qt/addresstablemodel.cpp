@@ -343,6 +343,16 @@ int AddressTableModel::sizeLeasingSend() const {
     return priv->SizeLeasingSend();
 }
 
+void AddressTableModel::refreshAddressTable()
+{
+   if(priv)
+   {
+      delete priv;
+   }
+   priv = new AddressTablePriv(wallet, this);
+   priv->refreshAddressTable();
+}
+
 QVariant AddressTableModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())

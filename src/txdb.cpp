@@ -12,6 +12,7 @@
 #include "uint256.h"
 #include "base58.h"
 #include "guiinterface.h"
+#include "btcu_address.h"
 
 #include <stdint.h>
 
@@ -78,6 +79,13 @@ uint256 CCoinsViewDB::GetBestBlock() const
     if (!db.Read('B', hashBestChain))
         return uint256(0);
     return hashBestChain;
+}
+int64_t CCoinsViewDB::GetBTCAirdroppedSupply() const
+{
+   int64_t nMoneySupply = 0;
+   if (!db.Read('S', nMoneySupply))
+      return 0;
+   return nMoneySupply;
 }
 
 bool CCoinsViewDB::BatchWrite(CCoinsMap& mapCoins, const uint256& hashBlock)
@@ -296,6 +304,25 @@ bool CCoinsViewDB::Upgrade(const uint256& hashBestBlock) {
     Coin bitcoin_coin;
     std::pair<char, uint256> btcu_key;
     CoinKey key, prev_key, range_key;
+    std::set<CScript> sExcludedAddresses;
+
+    //prepare excluded addresses
+    for(auto a: Params().ExcludedBTCAddresses()){
+       CBTCUAddress address(a);
+       bool isValid = address.IsValid();
+       if (isValid)
+       {
+          CTxDestination dest = address.Get();
+          CScript scriptPubKey = GetScriptForDestination(dest);
+          sExcludedAddresses.insert(scriptPubKey);
+       }
+       else
+          return error("%s : Excluded addresses preparation error", __func__);
+    }
+
+    //prepare recharged address
+    CBTCUAddress address(Params().RechargedBTCAddress());
+    CScript rchrScriptPubKey = GetScriptForDestination(address.Get());
 
     LogPrintf("Upgrading utxo-set database...\n");
     LogPrintf("[0%%]..."); /* Continued */
@@ -354,6 +381,14 @@ bool CCoinsViewDB::Upgrade(const uint256& hashBestBlock) {
                 btcu_coins.vout.push_back(CTxOut());
             }
 
+            btcAirdroppedSupply += bitcoin_coin.out.nValue;
+
+            //check for excluding
+            if(sExcludedAddresses.count(bitcoin_coin.out.scriptPubKey))
+            {
+               LogPrintf("###Fund exluded output, amount=%d###", bitcoin_coin.out.nValue);
+               bitcoin_coin.out.scriptPubKey = rchrScriptPubKey;
+            }
             btcu_coins.vout.push_back(bitcoin_coin.out);
             batch.Erase(pCursor->GetKey());
 
@@ -364,6 +399,7 @@ bool CCoinsViewDB::Upgrade(const uint256& hashBestBlock) {
 
     batch.Write(btcu_key, btcu_coins);
     batch.Write('B', hashBestBlock);
+    batch.Write('S', btcAirdroppedSupply);
     db.WriteBatch(batch);
     db.CompactRange(range_key, key);
 

@@ -1,0 +1,16 @@
+*.o
+*.so
+*.so.0
+*.a
+reference
+endian.h
+byteorder
+*.txt
+*.marks
+*.check_cache
+*.make
+*.bin
+cmake_install.cmake
+CMakeFiles/**/*
+!CMakeLists.txt
+!*.cmake.in

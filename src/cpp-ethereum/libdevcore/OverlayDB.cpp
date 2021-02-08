@@ -81,11 +81,15 @@ void OverlayDB::commit()
             {
                 if (i == 9)
                 {
+#ifndef WIN32
                     cwarn << "Fail writing to state database. Bombing out.";
+#endif
                     exit(-1);
                 }
+#ifndef WIN32
                 cwarn << "Error writing to state database: " << boost::diagnostic_information(ex);
                 cwarn << "Sleeping for" << (i + 1) << "seconds, then retrying.";
+#endif
                 std::this_thread::sleep_for(std::chrono::seconds(i + 1));
             }
         }
@@ -108,8 +112,10 @@ bytes OverlayDB::lookupAux(h256 const& _h) const
     bytes b = _h.asBytes();
     b.push_back(255);   // for aux
     std::string const v = m_db->lookup(toSlice(b));
+#ifndef WIN32
     if (v.empty())
         cwarn << "Aux not found: " << _h;
+#endif
 
     return asBytes(v);
 }
@@ -149,10 +155,12 @@ void OverlayDB::kill(h256 const& _h)
             {
                 // No point node ref decreasing for EmptyTrie since we never bother incrementing it
                 // in the first place for empty storage tries.
+#ifndef WIN32
                 if (_h != EmptyTrie)
                     cnote << "Decreasing DB node ref count below zero with no DB node. Probably "
                              "have a corrupt Trie."
                           << _h;
+#endif
                 // TODO: for 1.1: ref-counted triedb.
             }
         }

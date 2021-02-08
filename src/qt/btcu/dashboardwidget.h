@@ -12,12 +12,15 @@
 #include "transactiontablemodel.h"
 #include "qt/btcu/txviewholder.h"
 #include "transactionfilterproxy.h"
+#include "qt/btcu/receivedialog.h"
 
 #include <atomic>
 #include <cstdlib>
 #include <QWidget>
 #include <QLineEdit>
 #include <QMap>
+#include <QListView>
+#include <QAction>
 
 #if defined(HAVE_CONFIG_H)
 #include "config/btcu-config.h" /* for USE_QTCHARTS */
@@ -124,6 +127,10 @@ private Q_SLOTS:
     void updateDisplayUnit();
     void showList();
     void onTxArrived(const QString& hash, const bool& isCoinStake, const bool& isCSAnyType, const bool& isLAnyType);
+    void onBoxSortClicked();
+    void onBoxSortTypeClicked();
+    void BoxSortClick(const QModelIndex &index);
+    void BoxSortTypeClick(const QModelIndex &index);
 
 #ifdef USE_QTCHARTS
     void windowResizeEvent(QResizeEvent *event);
@@ -141,6 +148,7 @@ private:
     TransactionTableModel* txModel;
     int nDisplayUnit = -1;
     bool isSync = false;
+    ReceiveDialog *receiveDialog = nullptr;
 
 #ifdef USE_QTCHARTS
 
@@ -169,6 +177,13 @@ private:
     ChartData* chartData = nullptr;
     bool hasStakes = false;
 
+   QAction *btnBoxSort = nullptr;
+   QAction *btnBoxSortType = nullptr;
+   QWidget * widgetBoxSort = nullptr;
+   QListView *listViewBoxSort = nullptr;
+   QWidget * widgetBoxSortType = nullptr;
+   QListView *listViewBoxSortType = nullptr;
+
     void initChart();
     void showHideEmptyChart(bool show, bool loading, bool forceView = false);
     bool refreshChart();
@@ -182,6 +197,7 @@ private:
 
 private Q_SLOTS:
     void onChartRefreshed();
+   void onBtnReceiveClicked();
 
 #endif
 

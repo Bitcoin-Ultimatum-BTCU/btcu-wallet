@@ -1,4 +1,6 @@
-<TS language="ru" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ru">
 <context>
     <name>AddNewAddressDialog</name>
     <message>
@@ -288,15 +290,13 @@
     </message>
     <message>
         <source>You are just about to remove the contact:
-
 %1
-
-Are you sure?</source>
+Are you sure?
+</source>
         <translation>Вы собираетесь удалить контакт:
-
 %1
-
-Вы уверены?</translation>
+Вы уверены?
+</translation>
     </message>
     <message>
         <source>Contact Deleted</source>
@@ -662,8 +662,8 @@ for staking</source>
         <translation>Снять все</translation>
     </message>
     <message>
-        <source>Please switch to "List mode" to use this function.</source>
-        <translation>Для использования этой функции перейдите в "Режим списка"</translation>
+        <source>Please switch to &quot;List mode&quot; to use this function.</source>
+        <translation>Для использования этой функции перейдите в &quot;Режим списка&quot;</translation>
     </message>
     <message>
         <source>highest</source>
@@ -734,8 +734,8 @@ for staking</source>
         <translation>Транзакции с высоким приоритетом с большей вероятностью будут включены в блок.</translation>
     </message>
     <message>
-        <source>This label turns red, if the priority is smaller than "medium".</source>
-        <translation>Этот маркер становится красным если приоритет ниже, чем "средний".</translation>
+        <source>This label turns red, if the priority is smaller than &quot;medium&quot;.</source>
+        <translation>Этот маркер становится красным если приоритет ниже, чем &quot;средний&quot;.</translation>
     </message>
     <message>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
@@ -985,7 +985,7 @@ Do you wish to proceed?</source>
         <translation>Монеты делегированы</translation>
     </message>
     <message>
-        <source>You don't have any BTCU to select.</source>
+        <source>You don&apos;t have any BTCU to select.</source>
         <translation>У вас нет BTCU.</translation>
     </message>
     <message>
@@ -1149,7 +1149,7 @@ address</source>
         <translation>Текст ярлыка</translation>
     </message>
     <message>
-        <source>You can view your account's history</source>
+        <source>You can view your account&apos;s history</source>
         <translation>Вы можете просмотреть историю вашего аккаунта</translation>
     </message>
     <message>
@@ -1368,12 +1368,12 @@ It will start automatically as soon as the wallet has enough confirmations on an
         <translation>Изменить адрес отправки</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid BTCU address.</source>
-        <translation>Введенный адрес "%1" не является BTCU адресом.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid BTCU address.</source>
+        <translation>Введенный адрес &quot;%1&quot; не является BTCU адресом.</translation>
     </message>
     <message>
-        <source>The entered address "%1" is already in the address book.</source>
-        <translation>Введенный адрес "%1" уже находится в записной книге.</translation>
+        <source>The entered address &quot;%1&quot; is already in the address book.</source>
+        <translation>Введенный адрес &quot;%1&quot; уже находится в записной книге.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -1500,8 +1500,8 @@ It will start automatically as soon as the wallet has enough confirmations on an
         <translation>Показывать загрузочную заставку при запуске (по умолчанию: %u)</translation>
     </message>
     <message>
-        <source>Set language, for example "de_DE" (default: system locale)</source>
-        <translation>Задайте язык, например "de_DE"(по умолчанию: язык системы)</translation>
+        <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
+        <translation>Задайте язык, например &quot;de_DE&quot;(по умолчанию: язык системы)</translation>
     </message>
     <message>
         <source>Start minimized</source>
@@ -1555,8 +1555,8 @@ It will start automatically as soon as the wallet has enough confirmations on an
         <translation>BTCU Core</translation>
     </message>
     <message>
-        <source>Error: Specified data directory "%1" cannot be created.</source>
-        <translation>Ошибка: Невозможно создать указанный каталог данных "%1" </translation>
+        <source>Error: Specified data directory &quot;%1&quot; cannot be created.</source>
+        <translation>Ошибка: Невозможно создать указанный каталог данных &quot;%1&quot; </translation>
     </message>
     <message>
         <source>Error</source>
@@ -1675,7 +1675,7 @@ It will start automatically as soon as the wallet has enough confirmations on an
         <translation>Установить имя мастерноды</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A transaction of 10,000 BTCU will be made&lt;/p&gt;&lt;p&gt;to a new empty address in your wallet.&lt;/p&gt;&lt;p&gt;The Address is labeled under the master node's name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A transaction of 10,000 BTCU will be made&lt;/p&gt;&lt;p&gt;to a new empty address in your wallet.&lt;/p&gt;&lt;p&gt;The Address is labeled under the master node&apos;s name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;На новый пустой адрес в вашем кошельке&lt;/p&gt;&lt;p&gt; будет сделана транзакция в 10 000 BTCU. &lt;/p&gt;&lt;p&gt;Адрес отмечен под именем мастерноды.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -1747,7 +1747,7 @@ It will start automatically as soon as the wallet has enough confirmations on an
         <translation>Мастернода успешно создана!</translation>
     </message>
     <message>
-        <source>masternode.conf file doesn't exists</source>
+        <source>masternode.conf file doesn&apos;t exists</source>
         <translation>Файла masternode.cong не существует</translation>
     </message>
     <message>
@@ -1866,7 +1866,7 @@ on a remote server to your clipboard.
 
 You will only have to paste the data in the btcu.conf file
 of your remote server and start it, then start the Masternode using
-this controller wallet (select the Masternode in the list and press "start").
+this controller wallet (select the Masternode in the list and press &quot;start&quot;).
 </source>
         <translation>Вы собираетесь экспортировать необходимые данные для запуска мастерноды
 на удаленном сервере в буфер обмена.
@@ -1904,7 +1904,7 @@ Are you sure?</source>
         <translation>Ошибка разбора файла masternode.conf</translation>
     </message>
     <message>
-        <source>masternode.conf file doesn't exists</source>
+        <source>masternode.conf file doesn&apos;t exists</source>
         <translation>Файла masternode.cong не существует</translation>
     </message>
     <message>
@@ -2040,8 +2040,8 @@ Are you sure?</source>
         <translation>Проанализированные данные слишком большие</translation>
     </message>
     <message>
-        <source>Invalid URI, not starting with "btcu" prefix</source>
-        <translation>Неверный URI, не начинается с префикса "btcu"</translation>
+        <source>Invalid URI, not starting with &quot;btcu&quot; prefix</source>
+        <translation>Неверный URI, не начинается с префикса &quot;btcu&quot;</translation>
     </message>
 </context>
 <context>
@@ -2269,7 +2269,7 @@ https://www.transifex.com/btcu-project/btcu-project-translations</translation>
     </message>
     <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>Сторониие ссылки (такие как block exporer), которые отображаются в закладке "транзакции" как контекстное меню. %s в ссыле будет замещено хэшем транзакции. Ссылки отделяются друг от друга вертикальной чертой |.</translation>
+        <translation>Сторониие ссылки (такие как block exporer), которые отображаются в закладке &quot;транзакции&quot; как контекстное меню. %s в ссыле будет замещено хэшем транзакции. Ссылки отделяются друг от друга вертикальной чертой |.</translation>
     </message>
     <message>
         <source>Third party transaction URLs</source>
@@ -2461,7 +2461,7 @@ Address: %4
         <translation>Запрос на оплату отклонен</translation>
     </message>
     <message>
-        <source>Payment request network doesn't match client network.</source>
+        <source>Payment request network doesn&apos;t match client network.</source>
         <translation>Сеть запроса на оплату отличается от сети клиента.</translation>
     </message>
     <message>
@@ -2628,7 +2628,7 @@ transaction history, making transactions untraceable </source>
         <translation>ZBTCU конвертированы обратно в BTCU</translation>
     </message>
     <message>
-        <source>You don't have any BTCU to select.</source>
+        <source>You don&apos;t have any BTCU to select.</source>
         <translation>У вас нет BTCU.</translation>
     </message>
     <message>
@@ -2780,8 +2780,8 @@ transaction history, making transactions untraceable </source>
         <translation>BTCU Core</translation>
     </message>
     <message>
-        <source>Error: Specified data directory "%1" does not exist.</source>
-        <translation>Ошибка: указанного каталогп данных "%1" не существует.</translation>
+        <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
+        <translation>Ошибка: указанного каталогп данных &quot;%1&quot; не существует.</translation>
     </message>
     <message>
         <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
@@ -2796,7 +2796,7 @@ transaction history, making transactions untraceable </source>
         <translation>Ошибка чтения файла конфигурации мастерноды: %1</translation>
     </message>
     <message>
-        <source>BTCU Core didn't yet exit safely...</source>
+        <source>BTCU Core didn&apos;t yet exit safely...</source>
         <translation>BTCU Core еще не вышел безопасно...</translation>
     </message>
 </context>
@@ -3463,7 +3463,7 @@ transaction history, making transactions untraceable </source>
         <translation>Смена адреса</translation>
     </message>
     <message>
-        <source>The remainder of the value resultant from the inputs minus the outputs value goes to the "change" BTCU address</source>
+        <source>The remainder of the value resultant from the inputs minus the outputs value goes to the &quot;change&quot; BTCU address</source>
         <translation>Остаточная часть значения, полученного от значения входов минус выходов, идет на «изменение» адреса BTCU</translation>
     </message>
 </context>
@@ -3716,11 +3716,11 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Сбор по выбору %1</translation>
     </message>
     <message>
-        <source>You don't have any BTCU to select.</source>
+        <source>You don&apos;t have any BTCU to select.</source>
         <translation>У вас нет BTCU.</translation>
     </message>
     <message>
-        <source>You don't have any zBTCU in your balance to select.</source>
+        <source>You don&apos;t have any zBTCU in your balance to select.</source>
         <translation>На вашем балансе нет zBTCU для выбора.</translation>
     </message>
     <message>
@@ -4058,7 +4058,7 @@ Verify that you have installed a predetermined text editor.</source>
     </message>
     <message>
         <source>Reset to default</source>
-        <translation>Сбросить настройки по умолчанию</translation>
+        <translation>настройки по умолчанию</translation>
     </message>
     <message>
         <source>Discard changes</source>
@@ -4171,13 +4171,13 @@ Verify that you have installed a predetermined text editor.</source>
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            BTCU is a form of digital online money using blockchain technology
                            that can be easily transferred globally, instantly, and with near
                            zero fees.  BTCU incorporates market leading security &amp;
                            privacy and is also the first PoS (Proof of Stake) Cryptocurrency
                            to implement ZeroCoin(zBTCU) and Zerocoin staking.
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            BTCU utilizes a Proof of Stake (PoS) consensus system algorithm,
                            allowing all owners of BTCU to participate in earning block rewards
                            while securing the network with full node wallets, as well as to
@@ -4185,13 +4185,13 @@ Verify that you have installed a predetermined text editor.</source>
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </source>
         <translation>
-&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
 BTCU - это форма цифровых онлайн-денег, использующая технологию блокчейн,
 которая может быть легко переведена по всему миру, мгновенно и с практически
 нулевой комиссией. BTCU включает в себя лидирующую на рынке защиту и
 «конфиденциальность», а также является первой PoS криптовалютой (Proof of Stake),
 в которой реализована система стекинга ZeroCoin (zBTCU) и Zerocoin.
-&lt;/p&gt;&lt;p align="justify"&gt;
+&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
 BTCU использует консенсус PoS (Proof of Stake), позволяя всем владельцам BTCU участвовать в заработке вознаграждений
 при этом обеспечивая безопасность сети с помощью кошельков с полными узлами, а также позволяет
 запускать мастерноды для создания предложений и голосования по ним.
@@ -4207,19 +4207,19 @@ BTCU использует консенсус PoS (Proof of Stake), позвол�
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            Newly received BTCU requires 6 confirmations on the network
                            to become eligible for spending which can take ~6 minutes.
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            Your BTCU wallet also needs to be completely synchronized
                            to see and spend balances on the network.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </source>
         <translation>
-&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
 Недавно полученным BTCU требуется 6 подтверждений в сети,
 чтобы получить право быть расходуемыми. Это может занять примерно 6 минут.
-&lt;/p&gt;&lt;p align="justify"&gt;
+&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
 Ваш кошелек BTCU также должен быть полностью синхронизирован,
 чтобы видеть баланс и расходовать его в сети.
  &lt;/p&gt;&lt;/body&gt;&lt;/html&gt; </translation>
@@ -4234,21 +4234,21 @@ BTCU использует консенсус PoS (Proof of Stake), позвол�
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            zBTCU is an optional privacy-centric method of coin mixing on the
                            BTCU blockchain. Basically all your transactions cannot be tracked
                            on to any block explorer. You can read more about the technicals in the
-                           &lt;a style='color: #b088ff' href='https://btcu.io/zbtcu/'&gt;
-                           "BTCU Zerocoin (zBTCU) Technical Paper"&lt;/a&gt;.
+                           &lt;a style=&apos;color: #b088ff&apos; href=&apos;https://btcu.io/zbtcu/&apos;&gt;
+                           &quot;BTCU Zerocoin (zBTCU) Technical Paper&quot;&lt;/a&gt;.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </source>
         <translation>
-&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
 zBTCU - это необязательная конфиденциальность, которая возможна при микшировании монет
 в блокчейне BTCU. По сути,ни одна транзакция не может быть отслежена
 ни в одном из обозревателей блоков. Вы можете прочитать больше о технических характеристиках в
-&lt;a style='color: #b088ff' href='https://btcu.io/zbtcu/'&gt;
-"Техническом документе BTCU Zerocoin (zBTCU)"&lt;/a&gt;.
+&lt;a style=&apos;color: #b088ff&apos; href=&apos;https://btcu.io/zbtcu/&apos;&gt;
+&quot;Техническом документе BTCU Zerocoin (zBTCU)&quot;&lt;/a&gt;.
  &lt;/p&gt;&lt;/body&gt;&lt;/html&gt; </translation>
     </message>
     <message>
@@ -4261,14 +4261,14 @@ zBTCU - это необязательная конфиденциальность
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            After minting, zBTCU will require 20 confirmations as well as 1
                            additional mint of the same denomination on the network to
                            become eligible for spending.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </source>
         <translation>
-&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
 После чеканки zBTCU потребуется 20 подтверждений, а также 1
 дополнительная чеканка того же номинала в сети,
 чтобы получить право быть расходуемым.
@@ -4284,7 +4284,7 @@ zBTCU - это необязательная конфиденциальность
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            By default the BTCU wallet will convert 10% of your entire BTCU
                            balance to zBTCU to assist the network. If you do not wish to
                            stake zBTCU or take advantage of the privacy benefit it brings,
@@ -4293,15 +4293,15 @@ zBTCU - это необязательная конфиденциальность
                            If you are not making use of the BTCU-QT or GUI you can simply open
                            your btcu.conf file and add &lt;i&gt;enablezeromint=0&lt;/i&gt; Without the quotation
                            marks and restart your wallet to disable automint.&lt;/p&gt;
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            You can read more about zBTCU in the
-                           &lt;a style='color: #b088ff' href='https://btcu.io/zbtcu/'&gt; "BTCU Zerocoin (zBTCU) Technical Paper"&lt;/a&gt;.
-                           If you would like to keep and stake your zBTCU, please read the "How do I stake"
+                           &lt;a style=&apos;color: #b088ff&apos; href=&apos;https://btcu.io/zbtcu/&apos;&gt; &quot;BTCU Zerocoin (zBTCU) Technical Paper&quot;&lt;/a&gt;.
+                           If you would like to keep and stake your zBTCU, please read the &quot;How do I stake&quot;
                            section of the FAQ below.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </source>
         <translation>
-&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
 По умолчанию кошелек BTCU преобразует 10% всего вашего баланса BTCU
 в zBTCU для помощи сети. Если вы не хотите
 запускать стекинг zBTCU или пользоваться преимуществами конфиденциальности, которые она приносит,
@@ -4309,10 +4309,10 @@ zBTCU - это необязательная конфиденциальность
 перейдя в «Настройки-&gt; Параметры» и отменив выбор «Включить авточекунку zBTCU».
 Если вы не используете BTCU-QT или GUI, вы можете просто открыть
 свой файл btcu.conf и добавить &lt;i&gt;enablezeromint=0&lt;/i&gt; без кавычек и
-перезапустите свой кошелек для отключения  автоматической чеканки. &lt;/p&gt; &lt;/p&gt;&lt;p align="justify"&gt; Вы можете прочитать больше о zBTCU в
-&lt;a style='color: #b088ff' href='https://btcu.io/zbtcu/'&gt;
- "Технический документ BTCU Zerocoin (zBTCU)"&lt;/a&gt;.
-Если вы хотите продолжать стекинг zBTCU, ознакомьтесь с разделом" Как осуществить стекинг"
+перезапустите свой кошелек для отключения  автоматической чеканки. &lt;/p&gt; &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt; Вы можете прочитать больше о zBTCU в
+&lt;a style=&apos;color: #b088ff&apos; href=&apos;https://btcu.io/zbtcu/&apos;&gt;
+ &quot;Технический документ BTCU Zerocoin (zBTCU)&quot;&lt;/a&gt;.
+Если вы хотите продолжать стекинг zBTCU, ознакомьтесь с разделом&quot; Как осуществить стекинг&quot;
 в разделе часто задаваемых вопросов ниже.
  &lt;/p&gt;&lt;/body&gt;&lt;/html&gt; </translation>
     </message>
@@ -4326,18 +4326,18 @@ zBTCU - это необязательная конфиденциальность
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            zBTCU can be spent and sent to any BTCU address. The receiver will
                            receive standard BTCU but the origin of the BTCU is anonymized by the zBTCU Protocol.
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            If you want more zBTCU you will need to mint your balance in the “Privacy” tab.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </source>
         <translation>
-&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
 zBTCU можно потратить и отправить на любой адрес BTCU. Получатель получит
 стандартный BTCU, но оригинальное происхождение BTCU анонимизируется протоколом zBTCU.
-&lt;/p&gt;&lt;p align="justify"&gt;
+&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
 Если вы хотите больше zBTCU, вам нужно будет чеканить свой баланс на вкладке «Конфиденциальность».
 &lt;/p&gt;&lt;/body&gt;&lt;/html&gt; </translation>
     </message>
@@ -4351,9 +4351,9 @@ zBTCU можно потратить и отправить на любой адр
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            To Stake BTCU:
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            &lt;ol&gt;&lt;li&gt;
                            Make sure your wallet is completely synchronized and you are using the latest release.
                            &lt;li&gt;
@@ -4363,11 +4363,11 @@ zBTCU можно потратить и отправить на любой адр
                            &lt;li&gt;
                            Once all those steps are followed staking should be enabled.
                            &lt;li&gt;
-                           You can see the status of staking in the wallet by mousing over the package icon in the row on the top left of the wallet interface. There package will be lit up and will state "Staking Enabled" to indicate it is staking.  Using the command line interface (btcu-cli); the command &lt;i&gt;getstakingstatus&lt;/i&gt; will confirm that staking is active.
+                           You can see the status of staking in the wallet by mousing over the package icon in the row on the top left of the wallet interface. There package will be lit up and will state &quot;Staking Enabled&quot; to indicate it is staking.  Using the command line interface (btcu-cli); the command &lt;i&gt;getstakingstatus&lt;/i&gt; will confirm that staking is active.
                            &lt;/li&gt;&lt;/ol&gt;
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            To Stake zBTCU:
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            &lt;ol&gt;&lt;li&gt;
                            Make sure your wallet is completely synchronized and you are using the latest release.
                            &lt;li&gt;
@@ -4379,8 +4379,8 @@ zBTCU можно потратить и отправить на любой адр
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </source>
         <translation>
-&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;Чтобы запустить стекинг BTCU:
-&lt;/p&gt;&lt;p align="justify"&gt;
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Чтобы запустить стекинг BTCU:
+&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
  &lt;ol&gt;&lt;li&gt;убедитесь, что ваш кошелек полностью синхронизирован и вы используете последнюю версию.
 &lt;li&gt;
 Вы должны иметь баланс BTCU с минимумом в 101 подтверждение
@@ -4401,22 +4401,22 @@ zBTCU можно потратить и отправить на любой адр
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            We have support channels in most of our official chat groups, for example
-                           &lt;a style='color: #b088ff' href='https://Discord.BTCU.com'&gt;
+                           &lt;a style=&apos;color: #b088ff&apos; href=&apos;https://Discord.BTCU.com&apos;&gt;
                            #support in our Discord&lt;/a&gt;.
                            If you prefer to submit a ticket, One can be
-                           &lt;a style='color: #b088ff' href='https://BTCU.FreshDesk.com'&gt;
+                           &lt;a style=&apos;color: #b088ff&apos; href=&apos;https://BTCU.FreshDesk.com&apos;&gt;
                            our Freshdesk support site&lt;/a&gt;.
                            &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
                          </source>
         <translation>
-&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
 У нас есть каналы поддержки в большинстве наших официальных групп, например
-&lt;a style='color: #b088ff' href='https://Discord.BTCU.com'&gt;
+&lt;a style=&apos;color: #b088ff&apos; href=&apos;https://Discord.BTCU.com&apos;&gt;
 #support в нашем Discord&lt;/a&gt;.
 Если вы хотите задать вопрос, одним из способов это сделать может послужить
-&lt;a style='color: #b088ff' href='https://BTCU.FreshDesk.com'&gt;
+&lt;a style=&apos;color: #b088ff&apos; href=&apos;https://BTCU.FreshDesk.com&apos;&gt;
 наш сайт поддержки Freshdesk&lt;/a&gt;.
 &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -4430,12 +4430,12 @@ zBTCU можно потратить и отправить на любой адр
     </message>
     <message>
         <source>
-                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;
+                           &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;
                            A masternode is a computer running a full node BTCU core wallet with a
                            requirement of 10,000 BTCU secured collateral to provide extra services
                            to the network and in return, receive a portion of the block reward
                            regularly.  These services include:
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
 
                            &lt;ul&gt;
                            &lt;li&gt;Instant transactions (SwiftX)&lt;/li&gt;
@@ -4445,24 +4445,24 @@ zBTCU можно потратить и отправить на любой адр
                            &lt;li&gt;Act as an additional full node in the network&lt;/li&gt;
                            &lt;/ul&gt;
 
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            For providing such services, masternodes are also paid a certain portion
                            of reward for each block. This can serve as a passive income to the
                            masternode owners minus their running cost.
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
 
                            Masternode Perks:
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            &lt;ul&gt;
                            &lt;li&gt;Participate in BTCU Governance&lt;/li&gt;
                            &lt;li&gt;Earn Masternode Rewards&lt;/li&gt;
                            &lt;li&gt;Commodity option for future sale&lt;/li&gt;
                            &lt;li&gt;Help secure the BTCU network&lt;/li&gt;
                            &lt;/ul&gt;
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
 
                            Requirements:
-                           &lt;/p&gt;&lt;p align="justify"&gt;
+                           &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;
                            &lt;ul&gt;
                            &lt;li&gt;10,000 BTCU per single Masternode instance&lt;/li&gt;
                            &lt;li&gt;Must be stored in a core wallet&lt;/li&gt;
@@ -4505,8 +4505,8 @@ zBTCU можно потратить и отправить на любой адр
         <translation>Что такое контролер мастерноды?</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;A Masternode Controller wallet is where the 10,000 BTCU collateral can reside during a Controller-Remote masternode setup. It is a wallet that can activate the remote masternode wallet/s and allows you to keep your collateral coins offline while the remote masternode remains online. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="justify"&gt;Кошелек контролера мастерноды - это то место, где может находиться залог в 10 000 BTCU во время настройки удаленного контролера мастерноды. Это кошелек, который может активировать удаленный кошелек / кошельки мастерноды и позволит вам сохранять ваши сопутствующие монеты в автономном режиме, пока удаленная мастернода остается в сети.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;A Masternode Controller wallet is where the 10,000 BTCU collateral can reside during a Controller-Remote masternode setup. It is a wallet that can activate the remote masternode wallet/s and allows you to keep your collateral coins offline while the remote masternode remains online. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Кошелек контролера мастерноды - это то место, где может находиться залог в 10 000 BTCU во время настройки удаленного контролера мастерноды. Это кошелек, который может активировать удаленный кошелек / кошельки мастерноды и позволит вам сохранять ваши сопутствующие монеты в автономном режиме, пока удаленная мастернода остается в сети.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Frequently Asked Questions</source>
@@ -4652,7 +4652,7 @@ zBTCU можно потратить и отправить на любой адр
     </message>
     <message>
         <source>Reset to default</source>
-        <translation>Сбросить настройки по умолчанию</translation>
+        <translation>Настройки по умолчанию</translation>
     </message>
     <message>
         <source>Discard changes</source>
@@ -4691,12 +4691,11 @@ zBTCU можно потратить и отправить на любой адр
         <translation>Сбросить параметры</translation>
     </message>
     <message>
-        <source>You are just about to reset the app's options to the default values.
+        <source>You are just about to reset the app&apos;s options to the default values.
 
 Are you sure?
 </source>
         <translation>Вы собираетесь сбросить параметры приложения
-
 к настройкам по умолчанию. Вы уверены?
 </translation>
     </message>
@@ -4871,7 +4870,7 @@ Check one or both of the check boxes to send on stake and/or masternode rewards<
     </message>
     <message>
         <source>Sign/Verify Message</source>
-        <translation>Подписать/верифицировать сообщение</translation>
+        <translation>Подпись / верификация</translation>
     </message>
     <message>
         <source>Enter a BTCU address or contact label</source>
@@ -4998,7 +4997,7 @@ Check one or both of the check boxes to send on stake and/or masternode rewards<
     </message>
     <message>
         <source>Reset to default</source>
-        <translation>Сбросить настройки по умолчанию</translation>
+        <translation>настройки по умолчанию</translation>
     </message>
     <message>
         <source>Discard changes</source>
@@ -5192,7 +5191,7 @@ Check one or both of the check boxes to send on stake and/or masternode rewards<
     </message>
     <message>
         <source>Sign/Verify Message</source>
-        <translation>Подписать/верифицировать сообщение</translation>
+        <translation>Подпись / верификация</translation>
     </message>
     <message>
         <source>BIP38 Tool</source>
@@ -5402,7 +5401,7 @@ Are you sure?
     </message>
     <message>
         <source>Available</source>
-        <translation>Доступный</translation>
+        <translation type="unfinished">Доступно</translation>
     </message>
     <message>
         <source>Pending</source>
@@ -5462,13 +5461,17 @@ Are you sure?
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation><numerusform>%n час</numerusform><numerusform>%n часа</numerusform><numerusform>%n часов</numerusform><numerusform>%n часов</numerusform></translation>
+        <translation>
+            <numerusform>%n час</numerusform>
+            <numerusform>%n часа</numerusform>
+            <numerusform>%n часов</numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 and %2</source>
         <translation>%1 и %2</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>TrafficGraphWidget</name>
     <message>
@@ -5979,7 +5982,7 @@ Are you sure?
         <translation>Отправить Монеты</translation>
     </message>
     <message>
-        <source>SwiftX doesn't support sending values that high yet. Transactions are currently limited to %1 BTCU.</source>
+        <source>SwiftX doesn&apos;t support sending values that high yet. Transactions are currently limited to %1 BTCU.</source>
         <translation>SwiftX не поддерживает отправку значений, которые еще высоки. В настоящее время транзакции ограничены %1 BTCU.</translation>
     </message>
 </context>
@@ -6067,7 +6070,7 @@ BTCU Core Wallet</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Как говорится в нашем манифесте: конфиденциальность является не подлежащим обсуждению основным правом человека; это дает пользователям свободу делиться своими данными в любое время и с кем угодно, ведь BTCU верит в собственный суверенитет.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>The masternode network is BTCU's second layer network on top of the blockchain that enables our DAO to provide decentralized governance and a treasury.</source>
+        <source>The masternode network is BTCU&apos;s second layer network on top of the blockchain that enables our DAO to provide decentralized governance and a treasury.</source>
         <translation>Сеть мастернод - это сеть второго уровня BTCU поверх блокчейна, которая позволяет нашему ДАО обеспечивать децентрализованное управление и казначейство.</translation>
     </message>
     <message>
@@ -6217,7 +6220,7 @@ BTCU Core Wallet</source>
         <translation>Ошибка: транзакция больше максимально допустимого размера транзакции!</translation>
     </message>
     <message>
-        <source>Error: Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
+        <source>Error: Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</source>
         <translation>Ошибка: обнаружен неподдерживаемый аргумент -socks. Настройка версии SOCKS больше невозможна, поддерживаются только прокси SOCKS5.</translation>
     </message>
     <message>
@@ -6257,8 +6260,8 @@ BTCU Core Wallet</source>
         <translation>Недостаточно или недостаточно подтвержденных средств, вам может потребоваться несколько минут и повторите попытку.</translation>
     </message>
     <message>
-        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
-        <translation>Недопустимая сумма для -maxtxfee =&lt;amount&gt;: '%s' (должна быть минимальная плата %s для предотвращения застревания транзакций)</translation>
+        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
+        <translation>Недопустимая сумма для -maxtxfee =&lt;amount&gt;: &apos;%s&apos; (должна быть минимальная плата %s для предотвращения застревания транзакций)</translation>
     </message>
     <message>
         <source>Keep the specified amount available for spending at all times (default: 0)</source>
@@ -6341,7 +6344,7 @@ BTCU Core Wallet</source>
         <translation>Поддержка фильтрации блоков и транзакций с фильтрами цветения (по умолчанию: %u)</translation>
     </message>
     <message>
-        <source>The block database contains a block which appears to be from the future. This may be due to your computer's date and time being set incorrectly. Only rebuild the block database if you are sure that your computer's date and time are correct</source>
+        <source>The block database contains a block which appears to be from the future. This may be due to your computer&apos;s date and time being set incorrectly. Only rebuild the block database if you are sure that your computer&apos;s date and time are correct</source>
         <translation>База данных блоков содержит блок, который показывается, как из будущего. Это может быть связано с неправильной настройкой даты и времени на вашем компьютере. Перестройте базу данных блоков только в том случае, если вы уверены, что дата и время вашего компьютера указаны верно</translation>
     </message>
     <message>
@@ -6381,11 +6384,11 @@ BTCU Core Wallet</source>
         <translation>Предупреждение: -paytxfee установлен очень высоко! Это комиссия за транзакцию, которую вы заплатите, если вы отправляете транзакцию.</translation>
     </message>
     <message>
-        <source>Warning: Peers are being disconnected due time differences. Please check that your computer's date and time are correct! If your clock is wrong BTCU Core will not work properly.</source>
+        <source>Warning: Peers are being disconnected due time differences. Please check that your computer&apos;s date and time are correct! If your clock is wrong BTCU Core will not work properly.</source>
         <translation>Предупреждение: пиры отключаются из-за разницы во времени. Пожалуйста, проверьте правильность даты и времени на вашем компьютере! Если ваши часы настроены не правильно, BTCU Core не будет работать должным образом.</translation>
     </message>
     <message>
-        <source>Warning: Please check that your computer's date and time are correct! If your clock is wrong BTCU Core will not work properly.</source>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong BTCU Core will not work properly.</source>
         <translation>Внимание: проверьте правильность даты и времени вашего компьютера! Если ваши часы ошибочны, BTCU Core не будет работать должным образом.</translation>
     </message>
     <message>
@@ -6485,16 +6488,16 @@ BTCU Core Wallet</source>
         <translation>Нельзя понизить кошелек</translation>
     </message>
     <message>
-        <source>Cannot resolve -bind address: '%s'</source>
-        <translation>Не удается разрешить -включить адрес: '%s'</translation>
+        <source>Cannot resolve -bind address: &apos;%s&apos;</source>
+        <translation>Не удается разрешить -включить адрес: &apos;%s&apos;</translation>
     </message>
     <message>
-        <source>Cannot resolve -externalip address: '%s'</source>
-        <translation>Не удается разрешить -externalip адрес: '%s'</translation>
+        <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
+        <translation>Не удается разрешить -externalip адрес: &apos;%s&apos;</translation>
     </message>
     <message>
-        <source>Cannot resolve -whitebind address: '%s'</source>
-        <translation>Не удается разрешить -whitebind адрес: '%s'</translation>
+        <source>Cannot resolve -whitebind address: &apos;%s&apos;</source>
+        <translation>Не удается разрешить -whitebind адрес: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>CoinSpend: failed check</source>
@@ -6537,7 +6540,7 @@ BTCU Core Wallet</source>
         <translation>Не удалось разобрать masternode.conf</translation>
     </message>
     <message>
-        <source>Couldn't generate the accumulator witness</source>
+        <source>Couldn&apos;t generate the accumulator witness</source>
         <translation>Не удалось сгенерировать witness аккумулятор</translation>
     </message>
     <message>
@@ -6717,28 +6720,28 @@ BTCU Core Wallet</source>
         <translation>Недостаточно средств.</translation>
     </message>
     <message>
-        <source>Invalid -onion address or hostname: '%s'</source>
-        <translation>Недопустимый -онионный адрес или имя хоста: '%s'</translation>
+        <source>Invalid -onion address or hostname: &apos;%s&apos;</source>
+        <translation>Недопустимый -онионный адрес или имя хоста: &apos;%s&apos;</translation>
     </message>
     <message>
-        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Недопустимая сумма для -maxtxfee =&lt;amount&gt;: '%s'</translation>
+        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Недопустимая сумма для -maxtxfee =&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
-        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Недопустимая сумма для -minrelaytxfee&lt;amount&gt;: '%s'</translation>
+        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Недопустимая сумма для -minrelaytxfee&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
-        <source>Invalid amount for -mintxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Недопустимая сумма для -mintxfee =&lt;amount&gt;: '%s'</translation>
+        <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Недопустимая сумма для -mintxfee =&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
-        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s' (must be at least %s)</source>
-        <translation>Invalid amount for -paytxfee=&lt;amount&gt;: '%s' (должен быть не менее%s)</translation>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least %s)</source>
+        <translation>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos; (должен быть не менее%s)</translation>
     </message>
     <message>
-        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Недопустимая сумма для -paytxfee =&lt;amount&gt;: '%s'</translation>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Недопустимая сумма для -paytxfee =&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Invalid amount for -reservebalance=&lt;amount&gt;</source>
@@ -6753,8 +6756,8 @@ BTCU Core Wallet</source>
         <translation>Недопустимый секретный ключ. См. Документацию.</translation>
     </message>
     <message>
-        <source>Invalid netmask specified in -whitelist: '%s'</source>
-        <translation>Недопустимая сетевая маска, указанная в -whitelist: '%s'</translation>
+        <source>Invalid netmask specified in -whitelist: &apos;%s&apos;</source>
+        <translation>Недопустимая сетевая маска, указанная в -whitelist: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Invalid port detected in masternode.conf</source>
@@ -7005,8 +7008,8 @@ BTCU Core Wallet</source>
         <translation>Блокировка masternodes из файла конфигурации masternode (по умолчанию: %u)</translation>
     </message>
     <message>
-        <source>Lookup(): Invalid -proxy address or hostname: '%s'</source>
-        <translation>Lookup (): Invalid -proxy адрес или имя хоста: '%s'</translation>
+        <source>Lookup(): Invalid -proxy address or hostname: &apos;%s&apos;</source>
+        <translation>Lookup (): Invalid -proxy адрес или имя хоста: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Maintain at most &lt;n&gt; connections to peers (default: %u)</source>
@@ -7029,8 +7032,8 @@ BTCU Core Wallet</source>
         <translation>чеканка не превратила его в блокчейн</translation>
     </message>
     <message>
-        <source>Need to specify a port with -whitebind: '%s'</source>
-        <translation>Необходимо указать порт с -whitebind: '%s'</translation>
+        <source>Need to specify a port with -whitebind: &apos;%s&apos;</source>
+        <translation>Необходимо указать порт с -whitebind: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Node relay options:</source>
@@ -7081,8 +7084,8 @@ BTCU Core Wallet</source>
         <translation>не удалось получить блокировку на cs_spendcache</translation>
     </message>
     <message>
-        <source>isValid(): Invalid -proxy address or hostname: '%s'</source>
-        <translation>isValid (): Invalid -proxy адрес или имя хоста: '%s'</translation>
+        <source>isValid(): Invalid -proxy address or hostname: &apos;%s&apos;</source>
+        <translation>isValid (): Invalid -proxy адрес или имя хоста: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Preparing for resync...</source>
@@ -7377,8 +7380,8 @@ BTCU Core Wallet</source>
         <translation>Не удалось запустить HTTP-сервер. Подробнее см. Журнал отладки.</translation>
     </message>
     <message>
-        <source>Unknown network specified in -onlynet: '%s'</source>
-        <translation>Неизвестная сеть, указанная в -onlynet: '%s'</translation>
+        <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
+        <translation>Неизвестная сеть, указанная в -onlynet: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Upgrade wallet to latest format</source>
@@ -7453,7 +7456,7 @@ BTCU Core Wallet</source>
         <translation>Предупреждение. Неподдерживаемый аргумент -debugnet игнорируется, используйте -debug = net.</translation>
     </message>
     <message>
-        <source>You don't have enough Zerocoins in your wallet</source>
+        <source>You don&apos;t have enough Zerocoins in your wallet</source>
         <translation>У вас недостаточно Zerocoins в вашем кошельке</translation>
     </message>
     <message>

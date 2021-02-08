@@ -42,9 +42,9 @@ SettingsMainOptionsWidget::SettingsMainOptionsWidget(BTCUGUI* _window, QWidget *
     this->setStyleSheet(parent->styleSheet());
 
     // Containers
-    ui->left->setProperty("cssClass", "container");
+    ui->left->setProperty("cssClass", "container-border");
     ui->left->setContentsMargins(10,10,10,10);
-    ui->labelDivider->setProperty("cssClass", "container-divider");
+    ui->labelDivider->setProperty("cssClass", "container-border");
 
     // Title
     ui->labelTitle->setText(tr("Main"));
@@ -56,11 +56,11 @@ SettingsMainOptionsWidget::SettingsMainOptionsWidget(BTCUGUI* _window, QWidget *
     setCssSubtitleScreen(ui->labelSubtitleDown);
 
     ui->labelTitleSizeDb->setText(tr("Size of database cache"));
-    ui->labelTitleSizeDb->setProperty("cssClass", "text-main-settings");
-
+    //ui->labelTitleSizeDb->setProperty("cssClass", "text-main-settings");
+    setCssSubtitleScreen(ui->labelTitleSizeDb);
     ui->labelTitleThreads->setText(tr("Number of script verification threads"));
-    ui->labelTitleThreads->setProperty("cssClass", "text-main-settings");
-
+    //ui->labelTitleThreads->setProperty("cssClass", "text-main-settings");
+    setCssSubtitleScreen(ui->labelTitleThreads);
     // Switch
     ui->pushSwitchStart->setText(tr("Start BTCU on system login"));
     ui->pushSwitchStart->setProperty("cssClass", "btn-switch");
@@ -80,9 +80,9 @@ SettingsMainOptionsWidget::SettingsMainOptionsWidget(BTCUGUI* _window, QWidget *
     // Buttons
     ui->pushButtonSave->setText(tr("SAVE"));
     ui->pushButtonReset->setText(tr("Reset to default"));
-    setCssBtnPrimary(ui->pushButtonSave);
-    setCssBtnSecondary(ui->pushButtonReset);
-    setCssBtnSecondary(ui->pushButtonClean);
+   setCssBtnSecondary(ui->pushButtonSave);
+   setCssBtnPrimary(ui->pushButtonReset);
+   setCssBtnPrimary(ui->pushButtonClean);
 
     /* Main elements init */
     ui->databaseCache->setMinimum(nMinDbCache);
@@ -106,7 +106,7 @@ void SettingsMainOptionsWidget::onResetClicked(){
             GUIUtil::SetStartOnSystemStartup(false);
         optionsModel->setMainDefaultOptions(settings, true);
         optionsModel->setWindowDefaultOptions(settings, true);
-        inform(tr("Options reset succeed"));
+        informWarning(tr("Options reset succeed"));
     }
 }
 

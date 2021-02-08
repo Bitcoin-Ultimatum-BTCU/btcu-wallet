@@ -24,19 +24,30 @@ TxDetailDialog::TxDetailDialog(QWidget *parent, bool isConfirmDialog, QString wa
     this->setStyleSheet(parent->styleSheet());
 
     // Container
-    setCssProperty(ui->frame, "container-dialog");
-    setCssProperty(ui->labelTitle, "text-title-dialog");
+    setCssProperty(ui->frame, "container-border");
+   //setCssTitleScreen(ui->labelTitle);
+    ui->labelTitle->setProperty("cssClass", "text-title-screen");
 
+
+
+    setCssProperty(ui->scrollArea, "container");
+    setCssProperty(ui->scrollAreaWidgetContents, "container");
     // Labels
     setCssProperty(ui->labelWarning, "text-title2-dialog");
-    setCssTextBodyDialog({ui->labelAmount, ui->labelSend, ui->labelInputs, ui->labelFee, ui->labelChange, ui->labelId, ui->labelSize, ui->labelStatus, ui->labelConfirmations, ui->labelDate});
-    setCssProperty({ui->labelDivider1, ui->labelDivider2, ui->labelDivider3, ui->labelDivider4, ui->labelDivider5, ui->labelDivider6, ui->labelDivider7, ui->labelDivider8, ui->labelDivider9}, "container-divider");
-    setCssTextBodyDialog({ui->textAmount, ui->textSend, ui->textInputs, ui->textFee, ui->textChange, ui->textId, ui->textSize, ui->textStatus, ui->textConfirmations, ui->textDate});
+    setCssProperty(ui->labelSend, "text-body1-dialog-uncheck");
+    setCssProperty(ui->textSend, "text-body1-dialog-uncheck");
+    setCssProperty(ui->labelInputs, "text-body1-dialog-uncheck");
+    setCssProperty(ui->textInputs, "text-body1-dialog-uncheck");
+    setCssTextBodyDialog({ui->labelAmount, /*ui->labelSend, ui->labelInputs,*/ ui->labelFee, ui->labelChange, ui->labelId, ui->labelSize, ui->labelStatus, ui->labelConfirmations, ui->labelDate});
+    setCssProperty({ui->labelDivider, ui->labelDivider1, ui->labelDivider2, ui->labelDivider3, ui->labelDivider4, ui->labelDivider5, ui->labelDivider6, ui->labelDivider7, ui->labelDivider8, ui->labelDivider9}, "container-divider");
+    setCssTextBodyDialog({ui->textAmount, /*ui->textSend, ui->textInputs,*/ ui->textFee, ui->textChange, ui->textId, ui->textSize, ui->textStatus, ui->textConfirmations, ui->textDate});
 
     setCssProperty(ui->pushCopy, "ic-copy-big");
     setCssProperty({ui->pushInputs, ui->pushOutputs}, "ic-arrow-down");
     setCssProperty(ui->btnEsc, "ic-close");
 
+    setCssProperty(ui->outputsScrollArea, "container");
+    setCssProperty(ui->container_outputs_base, "container");
     ui->labelWarning->setVisible(false);
     ui->gridInputs->setVisible(false);
     ui->outputsScrollArea->setVisible(false);
@@ -117,10 +128,11 @@ void TxDetailDialog::setData(WalletModel *model, const QModelIndex &index){
 
         connect(ui->pushCopy, &QPushButton::clicked, [this](){
             GUIUtil::setClipboard(QString::fromStdString(this->txHash.GetHex()));
-            if (!snackBar) snackBar = new SnackBar(nullptr, this);
+            Q_EMIT messageInfo(tr("ID copied"), CClientUIInterface::MSG_WARNING_SNACK);
+            /*if (!snackBar) snackBar = new SnackBar(nullptr, this);
             snackBar->setText(tr("ID copied"));
-            snackBar->resize(this->width(), snackBar->height());
-            openDialog(snackBar, this);
+            openDialogDropRight(this->snackBar, this);*/
+
         });
     }
 
@@ -153,9 +165,21 @@ void TxDetailDialog::onInputsClicked() {
     if (ui->gridInputs->isVisible()) {
         ui->gridInputs->setVisible(false);
         ui->contentInputs->layout()->setContentsMargins(0,9,12,9);
+        setCssProperty(ui->pushInputs, "ic-arrow-down");
+        setCssProperty(ui->labelInputs, "text-body1-dialog-uncheck");
+        setCssProperty(ui->textInputs, "text-body1-dialog-uncheck");
+        updateStyle(ui->pushInputs);
+        updateStyle(ui->labelInputs);
+        updateStyle(ui->textInputs);
     } else {
         ui->gridInputs->setVisible(true);
         ui->contentInputs->layout()->setContentsMargins(0,9,12,0);
+        setCssProperty(ui->pushInputs, "ic-arrow-up");
+        setCssProperty(ui->labelInputs, "text-body1-dialog-check");
+        setCssProperty(ui->textInputs, "text-body1-dialog-check");
+        updateStyle(ui->labelInputs);
+        updateStyle(ui->textInputs);
+        updateStyle(ui->pushInputs);
         if (!inputsLoaded) {
             inputsLoaded = true;
             const CWalletTx* tx = (this->tx) ? this->tx->getTransaction() : model->getTx(this->txHash);
@@ -195,12 +219,24 @@ void TxDetailDialog::onInputsClicked() {
 void TxDetailDialog::onOutputsClicked() {
     if (ui->outputsScrollArea->isVisible()) {
         ui->outputsScrollArea->setVisible(false);
+        setCssProperty(ui->pushOutputs, "ic-arrow-down");
+        setCssProperty(ui->labelSend, "text-body1-dialog-uncheck");
+        setCssProperty(ui->textSend, "text-body1-dialog-uncheck");
+        updateStyle(ui->pushOutputs);
+        updateStyle(ui->labelSend);
+        updateStyle(ui->textSend);
     } else {
         ui->outputsScrollArea->setVisible(true);
+        setCssProperty(ui->pushOutputs, "ic-arrow-up");
+        setCssProperty(ui->labelSend, "text-body1-dialog-check");
+        setCssProperty(ui->textSend, "text-body1-dialog-check");
+        updateStyle(ui->pushOutputs);
+        updateStyle(ui->labelSend);
+        updateStyle(ui->textSend);
         if (!outputsLoaded) {
             outputsLoaded = true;
             QVBoxLayout* layoutVertical = new QVBoxLayout();
-            layoutVertical->setContentsMargins(0,0,12,0);
+            layoutVertical->setContentsMargins(10,0,42,0);
             layoutVertical->setSpacing(6);
             ui->container_outputs_base->setLayout(layoutVertical);
 

@@ -85,7 +85,7 @@ bool CheckDataDirOption();
 void ClearDatadirCache();
 fs::path GetConfigFile(const std::string& confPath);
 #ifdef WIN32
-fs::path GetSpecialFolderPath(int nFolder, bool fCreate = true);
+fs::path FSGetSpecialFolderPath(int nFolder, bool fCreate = true);
 #endif
 #if HAVE_SYSTEM
 void runCommand(const std::string& strCommand);
@@ -167,7 +167,7 @@ protected:
     mutable CCriticalSection cs_args;
     std::map<std::string, std::vector<std::string>> m_override_args GUARDED_BY(cs_args);
     std::map<std::string, std::vector<std::string>> m_config_args GUARDED_BY(cs_args);
-    CBaseChainParams::Network m_network GUARDED_BY(cs_args);
+    std::set<std::string> m_network GUARDED_BY(cs_args);
     std::set<std::string> m_network_only_args GUARDED_BY(cs_args);
     std::map<OptionsCategory, std::map<std::string, Arg>> m_available_args GUARDED_BY(cs_args);
     std::list<SectionInfo> m_config_sections GUARDED_BY(cs_args);

@@ -11,8 +11,9 @@ ContactDropdownRow::ContactDropdownRow(QWidget *parent) :
     ui(new Ui::ContactDropdownRow)
 {
     ui->setupUi(this);
-    ui->lblAddress->setProperty("cssClass", "text-list-contact-body1");
-    ui->lblLabel->setProperty("cssClass", "text-list-contact-title1");
+   ui->lblAddress->setProperty("cssClass", "btn-subtitle-grey");
+   ui->lblDivisory->setStyleSheet("background: #BDBDC7");
+    ui->lblLabel->setProperty("cssClass", "text-subtitle");
 }
 
 void ContactDropdownRow::init(bool isLightTheme, bool isHover) {
@@ -20,12 +21,16 @@ void ContactDropdownRow::init(bool isLightTheme, bool isHover) {
 }
 
 void ContactDropdownRow::update(bool isLightTheme, bool isHover, bool isSelected){
-    ui->lblDivisory->setStyleSheet("background-color:#bababa");
+    //ui->lblDivisory->setStyleSheet("background-color:#bababa");
 }
 
 void ContactDropdownRow::setData(QString address, QString label){
     ui->lblAddress->setText(address);
     ui->lblLabel->setText(label);
+}
+void ContactDropdownRow::setVisibleDivisory(bool isVisible)
+{
+   ui->lblDivisory->setVisible(isVisible);
 }
 
 ContactDropdownRow::~ContactDropdownRow()

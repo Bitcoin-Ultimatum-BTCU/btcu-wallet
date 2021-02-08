@@ -42,6 +42,9 @@ public Q_SLOTS:
     void onOutputsClicked();
     void closeDialog();
 
+Q_SIGNALS:
+   void messageInfo(const QString& message, int Type);
+
 private:
     Ui::TxDetailDialog *ui;
     SnackBar *snackBar = nullptr;

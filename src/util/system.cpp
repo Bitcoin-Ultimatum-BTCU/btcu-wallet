@@ -703,7 +703,7 @@ fs::path GetDefaultDataDir()
     // Unix: ~/.qtum
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Qtum";
+    return FSGetSpecialFolderPath(CSIDL_APPDATA) / "Qtum";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -1124,7 +1124,7 @@ void AllocateFileRange(FILE *file, unsigned int offset, unsigned int length) {
 }
 
 #ifdef WIN32
-fs::path GetSpecialFolderPath(int nFolder, bool fCreate)
+fs::path FSGetSpecialFolderPath(int nFolder, bool fCreate)
 {
     WCHAR pszPath[MAX_PATH] = L"";
 

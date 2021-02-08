@@ -115,8 +115,10 @@ void BlockQueue::verifierBody()
             unique_lock<Mutex> l(m_verification);
             m_readySet.erase(work.hash);
             m_knownBad.insert(work.hash);
+#ifndef WIN32
             if (!m_verifying.remove(work.hash))
                 cwarn << "Unexpected exception when verifying block: " << _ex.what();
+#endif
             drainVerified_WITH_BOTH_LOCKS();
             continue;
         }
@@ -142,8 +144,10 @@ void BlockQueue::verifierBody()
             }
             else
             {
+#ifndef WIN32
                 if (!m_verifying.replace(work.hash, move(res)))
                     cwarn << "BlockQueue missing our job: was there a GM?";
+#endif
             }
         }
         if (ready)
@@ -192,7 +196,9 @@ ImportResult BlockQueue::import(bytesConstRef _block, bool _isOurs)
     }
     catch (Exception const& _e)
     {
+#ifndef WIN32
         cwarn << "Ignoring malformed block: " << diagnostic_information(_e);
+#endif
         return ImportResult::Malformed;
     }
 

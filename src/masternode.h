@@ -287,6 +287,7 @@ public:
         if (activeState == CMasternode::MASTERNODE_REMOVE) strStatus = "REMOVE";
         if (activeState == CMasternode::MASTERNODE_POS_ERROR) strStatus = "POS_ERROR";
         if (activeState == CMasternode::MASTERNODE_MISSING) strStatus = "MISSING";
+        if (activeState == CMasternode::MASTERNODE_PRE_ENABLED) strStatus = "PRE_ENABLED";
 
         return strStatus;
     }

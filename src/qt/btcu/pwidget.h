@@ -42,6 +42,8 @@ public:
     void onError(QString error, int type) override;
 
     void inform(const QString& message);
+    void informWarning(const QString& message);
+    void informError(const QString& message);
     void emitMessage(const QString& title, const QString& message, unsigned int style, bool* ret = nullptr);
 
     QString translate(const char *msg) override { return tr(msg); }

@@ -24,18 +24,18 @@ URL:		https://btcu.io/
 Source0:	https://btcu.io/bin/btcu-core-%{version}/btcu-%{version}.tar.gz
 Source1:	http://download.oracle.com/berkeley-db/db-%{bdbv}.NC.tar.gz
 
-Source10:	https://raw.githubusercontent.com/btcu-project/btcu/v%{version}/contrib/debian/examples/btcu.conf
+Source10:	https://raw.githubusercontent.com/bitcoin-ultimatum/orion/v%{version}/contrib/debian/examples/btcu.conf
 
 #man pages
-Source20:	https://raw.githubusercontent.com/btcu-project/btcu/v%{version}/doc/man/btcud.1
-Source21:	https://raw.githubusercontent.com/btcu-project/btcu/v%{version}/doc/man/btcu-cli.1
-Source22:	https://raw.githubusercontent.com/btcu-project/btcu/v%{version}/doc/man/btcu-qt.1
+Source20:	https://raw.githubusercontent.com/bitcoin-ultimatum/orion/v%{version}/doc/man/btcud.1
+Source21:	https://raw.githubusercontent.com/bitcoin-ultimatum/orion/v%{version}/doc/man/btcu-cli.1
+Source22:	https://raw.githubusercontent.com/bitcoin-ultimatum/orion/v%{version}/doc/man/btcu-qt.1
 
 #selinux
-Source30:	https://raw.githubusercontent.com/btcu-project/btcu/v%{version}/contrib/rpm/btcu.te
+Source30:	https://raw.githubusercontent.com/bitcoin-ultimatum/orion/v%{version}/contrib/rpm/btcu.te
 # Source31 - what about btcu-tx and bench_btcu ???
-Source31:	https://raw.githubusercontent.com/btcu-project/btcu/v%{version}/contrib/rpm/btcu.fc
-Source32:	https://raw.githubusercontent.com/btcu-project/btcu/v%{version}/contrib/rpm/btcu.if
+Source31:	https://raw.githubusercontent.com/bitcoin-ultimatum/orion/v%{version}/contrib/rpm/btcu.fc
+Source32:	https://raw.githubusercontent.com/bitcoin-ultimatum/orion/v%{version}/contrib/rpm/btcu.if
 
 Source100:	https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg
 

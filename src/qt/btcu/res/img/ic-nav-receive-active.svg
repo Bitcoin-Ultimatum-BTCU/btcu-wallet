@@ -1,17 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="40px" viewBox="0 0 24 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
-    <title>Receive off</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Receive-off" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="ic-receive-on" transform="translate(-1.000000, 11.000000)">
-            <polygon id="Rectangle_4413" points="0 0 26 0 26 26 0 26"></polygon>
-            <g id="Group_8987" transform="translate(2.000000, 2.000000)" fill="#B088FF">
-                <g id="Group_8986">
-                    <polygon id="Path_18953" points="18.178 10.734 16.822 9.265 12 13.716 12 0 10 0 10 13.716 5.178 9.266 3.822 10.734 11 17.361"></polygon>
-                    <polygon id="Path_18954" points="20 15 20 20 2 20 2 15 0 15 0 22 22 22 22 15"></polygon>
-                </g>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="32"
+   viewBox="0 0 24 32"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="ic-nav-receive-active.svg"
+   style="fill:none"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1024"
+     inkscape:window-height="703"
+     id="namedview6"
+     showgrid="false"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     d="M 24,20 C 24,26.6274 18.6274,32 12,32 5.37258,32 0,26.6274 0,20 0,13.37258 5.37258,8 12,8 18.6274,8 24,13.37258 24,20 Z M 11.7625,12.84474 c -0.094,-9e-5 -0.187,0.01835 -0.2739,0.05427 -0.0868,0.03592 -0.1657,0.08861 -0.2322,0.15506 -0.0664,0.06646 -0.1191,0.14536 -0.1551,0.23221 -0.0359,0.08684 -0.0543,0.17992 -0.0542,0.2739 L 11.042,21.736 8.20564,18.8996 c -0.27907,-0.2791 -0.73573,-0.2791 -1.0148,0 -0.27907,0.2791 -0.27907,0.7357 0,1.0148 L 11.25,23.9736 c 0.2791,0.2791 0.7358,0.2791 1.0148,0 l 4.0592,-4.0592 c 0.2791,-0.2791 0.2791,-0.7357 0,-1.0148 -0.279,-0.2791 -0.7357,-0.2791 -1.0148,0 l -2.8363,2.8364 v -8.1809 c 0,-0.38562 -0.3248,-0.71036 -0.7104,-0.71036 z M 7.67781,24.0944 c 0,-0.433 -0.32936,-0.784 -0.73564,-0.784 -0.40627,0 -0.73563,0.351 -0.73563,0.784 v 2.1561 c 0,0.433 0.32936,0.784 0.73563,0.784 H 17.0571 c 0.4063,0 0.7356,-0.351 0.7356,-0.784 v -2.1561 c 0,-0.433 -0.3293,-0.784 -0.7356,-0.784 -0.4063,0 -0.7356,0.351 -0.7356,0.784 v 1.372 H 7.67781 Z"
+     id="path2"
+     inkscape:connector-curvature="0"
+     style="clip-rule:evenodd;fill:#ffffff;fill-rule:evenodd" />
 </svg>

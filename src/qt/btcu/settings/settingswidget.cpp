@@ -22,23 +22,36 @@
 #include "wallet/wallet.h"
 #include <QScrollBar>
 #include <QDataWidgetMapper>
+#include <QGraphicsDropShadowEffect>
 
 SettingsWidget::SettingsWidget(BTCUGUI* parent) :
     PWidget(parent),
     ui(new Ui::SettingsWidget)
 {
     ui->setupUi(this);
+   QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
+   effect->setBlurRadius(6);
+   effect->setOffset(0,2);
+   effect->setColor(QColor(0,0,0,45));
 
     this->setStyleSheet(parent->styleSheet());
-
+   this->setGraphicsEffect(0);
+   //ui->left->setGraphicsEffect(effect);
+   ui->right->setGraphicsEffect(effect);
     /* Containers */
-    setCssProperty(ui->scrollArea, "container");
+    //setCssProperty(ui->scrollArea, "container");
     setCssProperty(ui->left, "container");
     ui->left->setContentsMargins(0,20,0,20);
-    setCssProperty(ui->right, "container-right");
+    setCssProperty(ui->right, "container");
     ui->right->setContentsMargins(20,10,20,20);
 
     ui->verticalLayout->setAlignment(Qt::AlignTop);
+
+   setCssProperty(ui->helpButtonsWidget, "container");
+   setCssProperty(ui->toolsButtonsWidget, "container");
+   setCssProperty(ui->optionsButtonsWidget, "container");
+   setCssProperty(ui->fileButtonsWidget, "container");
+   setCssProperty(ui->configurationButtonsWidget, "container");
 
     /* Light Font */
     QFont fontLight;
@@ -209,7 +222,7 @@ void SettingsWidget::onSaveOptionsClicked(){
     if(mapper->submit()) {
         pwalletMain->MarkDirty();
         if (this->clientModel->getOptionsModel()->isRestartRequired()) {
-            bool fAcceptRestart = openStandardDialog(tr("Restart required"), tr("Your wallet needs to be restarted to apply the changes\n"), tr("Restart Now"), tr("Restart Later"));
+            bool fAcceptRestart = openStandardDialog(tr("Restart required"), tr("Your wallet needs to be restarted to apply the changes\n"), tr("Restart Now"), tr("Restart Later"), 200, 200);
 
             if (fAcceptRestart) {
                 // Get command-line arguments and remove the application name
@@ -226,13 +239,13 @@ void SettingsWidget::onSaveOptionsClicked(){
 
                 Q_EMIT handleRestart(args);
             } else {
-                inform(tr("Options will be applied on next wallet restart"));
+                informWarning(tr("Options will be applied on next wallet restart"));
             }
         } else {
-            inform(tr("Options stored"));
+            informWarning(tr("Options stored"));
         }
     } else {
-        inform(tr("Options store failed"));
+        informError(tr("Options store failed"));
     }
 }
 
@@ -422,7 +435,17 @@ bool SettingsWidget::openStandardDialog(QString title, QString body, QString okB
     confirmDialog->deleteLater();
     return confirmDialog->isOk;
 }
-
+bool SettingsWidget::openStandardDialog(QString title, QString body, QString okBtn, QString cancelBtn, int WidthSave, int WidthCancel )
+{
+   showHideOp(true);
+   DefaultDialog* confirmDialog = new DefaultDialog(window);
+   confirmDialog->setText(title, body, okBtn, cancelBtn);
+   confirmDialog->setSizeButtons(WidthSave, WidthCancel);
+   confirmDialog->adjustSize();
+   openDialogWithOpaqueBackground(confirmDialog, window);
+   confirmDialog->deleteLater();
+   return confirmDialog->isOk;
+}
 SettingsWidget::~SettingsWidget(){
     delete ui;
 }
